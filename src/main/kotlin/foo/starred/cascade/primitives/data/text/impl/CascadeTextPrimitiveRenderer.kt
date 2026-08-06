@@ -39,7 +39,7 @@ object CascadeTextPrimitiveRenderer : ITextPrimitiveRenderer {
             var y = y
 
             for (line in texts) {
-                font.extract(graphics, line, if (center) x + (width / 2f) - (font.width(line, size) / 2f) else x, y, primitive.color, primitive.shadow, size)
+                font.extract(graphics, line, if (center) x + (width / 2f) - (font.width(line, size, primitive.cached) / 2f) else x, y, primitive.color, primitive.shadow, size, primitive.cached)
                 y += height + 2f
             }
 
@@ -47,7 +47,7 @@ object CascadeTextPrimitiveRenderer : ITextPrimitiveRenderer {
             return
         }
 
-        font.extract(graphics, text, if (center) x + (width / 2f) - (font.width(text, size) / 2f) else x, y, primitive.color, primitive.shadow, size)
+        font.extract(graphics, text, if (center) x + (width / 2f) - (font.width(text, size, primitive.cached) / 2f) else x, y, primitive.color, primitive.shadow, size, primitive.cached)
         super.render(graphics, primitive)
     }
 }

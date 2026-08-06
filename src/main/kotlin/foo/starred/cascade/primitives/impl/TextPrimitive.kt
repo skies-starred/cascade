@@ -1,4 +1,4 @@
-﻿@file:Suppress("Unused")
+@file:Suppress("Unused")
 
 package foo.starred.cascade.primitives.impl
 
@@ -25,6 +25,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
     override var interact: Boolean = false
     var shadow: Boolean = true
     var center: Boolean = false
+    var cached: Boolean = true
 
     var type: ITextPrimitiveRenderer = VanillaTextPrimitiveRenderer
         set(value) {
