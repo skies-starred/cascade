@@ -1,0 +1,9 @@
+{
+  "required": false,
+  "package": "foo.starred.cascade.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
