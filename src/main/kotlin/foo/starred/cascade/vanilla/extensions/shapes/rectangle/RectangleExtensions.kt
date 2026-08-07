@@ -1,6 +1,9 @@
 ﻿package foo.starred.cascade.vanilla.extensions.shapes.rectangle
 
+import foo.starred.cascade.primitives.states.FloatRectangleRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor
+import net.minecraft.client.gui.navigation.ScreenRectangle
+import org.joml.Matrix3x2f
 import java.awt.Color
 
 @JvmOverloads
@@ -13,4 +16,14 @@ fun GuiGraphicsExtractor.rectangle(x: Int, y: Int, width: Int, height: Int, colo
 @JvmName("drawRectangle_int")
 fun GuiGraphicsExtractor.rectangle(x: Int, y: Int, width: Int, height: Int, color: Int = -1) {
     fill(x, y, x + width, y + height, color)
+}
+
+@JvmOverloads
+@JvmName("drawRectangle_float_int")
+fun GuiGraphicsExtractor.rectangle(x: Float, y: Float, width: Float, height: Float, color: Int = -1, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null) {
+    val pose = pose ?: Matrix3x2f(pose())
+    val scissor = scissor ?: scissorStack.peek()
+
+    //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
+    guiRenderState.addGuiElement(FloatRectangleRenderState(pose, x, y, x + width, y + height, color, scissor))
 }
