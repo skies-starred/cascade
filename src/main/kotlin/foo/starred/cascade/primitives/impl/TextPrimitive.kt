@@ -87,6 +87,8 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
 
     override fun render(graphics: GuiGraphicsExtractor) {
         if (!visible) return
+        if (color ushr 24 == 0) return
+
         type.render(graphics, this)
     }
 
