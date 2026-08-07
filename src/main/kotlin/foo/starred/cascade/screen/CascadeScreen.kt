@@ -18,7 +18,7 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]") : Screen(Comp
     override fun init() {
         scene.width = width.toFloat()
         scene.height = height.toFloat()
-        scene.layout0()
+        scene.layout()
     }
 
     //? if >= 26.1 {
