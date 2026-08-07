@@ -1,4 +1,4 @@
-@file:Suppress("ConstPropertyName")
+@file:Suppress("ConstPropertyName", "Unused")
 
 package foo.starred.cascade
 
@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 object Cascade : ClientModInitializer {
-    const val version: String = /*$ mod_version*/ "003"
+    const val version: String = /*$ mod_version*/ "004"
     const val id: String = /*$ mod_id*/ "cascade"
     const val name: String = /*$ mod_name*/ "Cascade"
 
