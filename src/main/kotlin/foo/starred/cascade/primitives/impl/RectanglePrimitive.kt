@@ -26,8 +26,16 @@ open class RectanglePrimitive : IPrimitiveElement<RectanglePrimitive>() {
         val height = height.toInt()
         val borderWidth = borderWidth.toInt()
 
-        graphics.rectangle(x, y, width, height, color)
-        if (border) graphics.outline(x, y, width, height, borderWidth, borderColor, borderInset)
+        val b0 = color ushr 24 == 0
+        val b1 = borderColor ushr 24 == 0
+
+        if (b0 && b1) {
+            super.render(graphics)
+            return
+        }
+
+        if (!b0) graphics.rectangle(x, y, width, height, color)
+        if (border && !b1) graphics.outline(x, y, width, height, borderWidth, borderColor, borderInset)
 
         super.render(graphics)
     }
