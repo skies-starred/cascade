@@ -1,7 +1,8 @@
-﻿package foo.starred.cascade.primitives.impl
+package foo.starred.cascade.primitives.impl
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.vanilla.extensions.shapes.rectangle.blit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.resources.Identifier
@@ -31,19 +32,19 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
         if (!visible) return
         val location = location ?: return
 
-        val x = x.toInt()
-        val y = y.toInt()
-        val width = width.toInt()
-        val height = height.toInt()
-
         if (sprite) {
-            graphics.blitSprite(pipeline, location, x, y, width, height, color)
+            graphics.blitSprite(pipeline, location, x.toInt(), y.toInt(), width.toInt(), height.toInt(), color)
             super.render(graphics)
 
             return
         }
 
-        graphics.blit(pipeline, location, x, y, u0, v0, width, height, u1 ?: width, v1 ?: height, textureWidth, textureHeight, color)
+        val u00 = u0 / textureWidth.toFloat()
+        val v00 = v0 / textureHeight.toFloat()
+        val u01 = (u0 + (u1 ?: width.toInt()).toFloat()) / textureWidth.toFloat()
+        val v01 = (v0 + (v1 ?: height.toInt()).toFloat()) / textureHeight.toFloat()
+
+        graphics.blit(pipeline, location, x, y, width, height, u00, v00, u01, v01, color)
         super.render(graphics)
     }
 
