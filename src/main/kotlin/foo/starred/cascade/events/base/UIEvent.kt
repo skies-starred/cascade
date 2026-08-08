@@ -1,4 +1,4 @@
-﻿@file:Suppress("Unused")
+@file:Suppress("Unused")
 
 package foo.starred.cascade.events.base
 

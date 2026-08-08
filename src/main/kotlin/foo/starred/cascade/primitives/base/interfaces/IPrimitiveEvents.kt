@@ -1,4 +1,4 @@
-﻿@file:Suppress("Unchecked_Cast", "Unused")
+@file:Suppress("Unchecked_Cast", "Unused")
 
 package foo.starred.cascade.primitives.base.interfaces
 

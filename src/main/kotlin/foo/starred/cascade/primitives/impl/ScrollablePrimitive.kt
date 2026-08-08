@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.primitives.impl
+package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.events.impl.MouseEvent
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement

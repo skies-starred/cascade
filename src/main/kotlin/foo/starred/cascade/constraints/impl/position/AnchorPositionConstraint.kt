@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.constraints.impl.position
+package foo.starred.cascade.constraints.impl.position
 
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.impl.data.PositionAnchor

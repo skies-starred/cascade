@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.vanilla.extensions.shapes.rectangle
+package foo.starred.cascade.vanilla.extensions.shapes.rectangle
 
 import foo.starred.cascade.primitives.states.FloatRectangleRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor

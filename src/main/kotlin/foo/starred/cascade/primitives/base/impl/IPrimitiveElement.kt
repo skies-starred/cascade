@@ -1,4 +1,4 @@
-﻿@file:Suppress("Unused", "Unchecked_cast")
+@file:Suppress("Unused", "Unchecked_cast")
 
 package foo.starred.cascade.primitives.base.impl
 

@@ -1,3 +1,3 @@
-﻿package foo.starred.cascade.primitives.base.interfaces
+package foo.starred.cascade.primitives.base.interfaces
 
 interface IPrimitiveScrollable

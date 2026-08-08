@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.vanilla.extensions.shapes.line
+package foo.starred.cascade.vanilla.extensions.shapes.line
 
 import foo.starred.cascade.primitives.states.FloatLineRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor

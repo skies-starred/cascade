@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.constraints.impl.size
+package foo.starred.cascade.constraints.impl.size
 
 import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.constraints.impl.data.FillAxis

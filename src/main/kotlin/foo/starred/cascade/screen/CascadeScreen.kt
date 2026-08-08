@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.screen
+package foo.starred.cascade.screen
 
 import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.primitives.impl.ContainerPrimitive

@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.primitives.base.interfaces
+package foo.starred.cascade.primitives.base.interfaces
 
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 
