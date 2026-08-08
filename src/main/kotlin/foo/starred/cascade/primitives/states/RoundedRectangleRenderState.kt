@@ -30,12 +30,12 @@ class RoundedRectangleRenderState(
     val color: Int,
     val radius: RoundedRectangleRadius,
     val outline: Float = 0f,
-    val scissorArea: ScreenRectangle? = null,
-    val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissorArea)
+    val scissor: ScreenRectangle? = null,
+    val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : GuiElementRenderState {
     override fun pipeline(): RenderPipeline = PIPELINE
     override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissorArea
+    override fun scissorArea(): ScreenRectangle? = scissor
     override fun bounds(): ScreenRectangle? = bounds
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {
@@ -93,19 +93,19 @@ class RoundedRectangleRenderState(
                 .build()
         )
 
-        fun extract(graphics: GuiGraphicsExtractor, x: Float, y: Float, width: Float, height: Float, color: Int, radius: RoundedRectangleRadius, outline: Float = 0f, scissor: ScreenRectangle? = null, bounds: ScreenRectangle? = null) {
+        fun extract(graphics: GuiGraphicsExtractor, x: Float, y: Float, width: Float, height: Float, color: Int, radius: RoundedRectangleRadius, outline: Float = 0f, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null, bounds: ScreenRectangle? = null) {
             val x1 = x + width
             val y1 = y + height
-            val pose = Matrix3x2f(graphics.pose())
+            val pose = pose ?: Matrix3x2f(graphics.pose())
             val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
             //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
             graphics.guiRenderState.addGuiElement(RoundedRectangleRenderState(pose, x, y, x1, y1, color, radius, outline, scissor, bounds))
         }
 
-        private fun bounds(x0: Float, y0: Float, x1: Float, y1: Float, pose: Matrix3x2fc, scissorArea: ScreenRectangle?): ScreenRectangle? {
+        private fun bounds(x0: Float, y0: Float, x1: Float, y1: Float, pose: Matrix3x2fc, scissor: ScreenRectangle?): ScreenRectangle? {
             val bounds = ScreenRectangle(floor(x0.toDouble()).toInt(), floor(y0.toDouble()).toInt(), ceil((x1 - x0).toDouble()).toInt(), ceil((y1 - y0).toDouble()).toInt()).transformMaxBounds(pose)
-            return if (scissorArea != null) scissorArea.intersection(bounds) else bounds
+            return if (scissor != null) scissor.intersection(bounds) else bounds
         }
     }
 }

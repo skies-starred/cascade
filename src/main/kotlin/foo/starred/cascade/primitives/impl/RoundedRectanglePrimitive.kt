@@ -26,19 +26,16 @@ open class RoundedRectanglePrimitive : IPrimitiveElement<RoundedRectanglePrimiti
         val pose = Matrix3x2f(graphics.pose())
         val scissor = graphics.scissorStack.peek()
 
-        //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement' {
         if (color ushr 24 != 0) {
-            val state = RoundedRectangleRenderState(pose, x, y, x + width, y + height, color, radius, 0f, scissor)
-            graphics.guiRenderState.addGuiElement(state)
+            RoundedRectangleRenderState.extract(graphics, x, y, width, height, color, radius, 0f, pose, scissor)
         }
 
         if (border && borderColor ushr 24 != 0 && borderWidth > 0f) {
             val i0 = if (borderInset) 0f else -borderWidth
             val i1 = if (borderInset) 0f else borderWidth
-            val state = RoundedRectangleRenderState(pose, x + i0, y + i0, x + width - i0, y + height - i0, borderColor, radius + i1, borderWidth, scissor)
-            graphics.guiRenderState.addGuiElement(state)
+
+            RoundedRectangleRenderState.extract(graphics, x + i0, y + i0, width - i0 * 2, height - i0 * 2, borderColor, radius + i1, borderWidth, pose, scissor)
         }
-        //~}
 
         super.render(graphics)
     }
