@@ -2,6 +2,9 @@
 
 package foo.starred.cascade.primitives.base.impl
 
+import foo.starred.cascade.animation.Animation
+import foo.starred.cascade.animation.data.AnimatableColor
+import foo.starred.cascade.animation.data.AnimatableFloat
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.events.base.UIEvent
@@ -9,7 +12,7 @@ import foo.starred.cascade.primitives.base.interfaces.*
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import java.util.concurrent.CopyOnWriteArrayList
 
-abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
+abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
     private var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
@@ -56,6 +59,10 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveChildren<
     override var interact: Boolean = true
     override var hovered: Boolean = false
     override var unfocus: Boolean = true
+
+    override var animations: Animation? = null
+    override var `animation$float`: AnimatableFloat? = null
+    override var `animation$color`: AnimatableColor? = null
 
     open fun render(graphics: GuiGraphicsExtractor) {
         if (!visible) return
