@@ -18,7 +18,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
-class FloatLineRenderState(
+class LineRenderState(
     val pose: Matrix3x2fc,
     x1: Float,
     y1: Float,
@@ -112,9 +112,9 @@ class FloatLineRenderState(
             RenderPipeline.builder(RenderPipelines.GUI_SNIPPET)
                 //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
-                .withLocation(Identifier.fromNamespaceAndPath("cascade", "smooth_line"))
-                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/smooth_line"))
-                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/smooth_line"))
+                .withLocation(Identifier.fromNamespaceAndPath("cascade", "line"))
+                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/line"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/line"))
                 .build()
         )
 

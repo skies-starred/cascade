@@ -1,6 +1,6 @@
-package foo.starred.cascade.vanilla.extensions.shapes.rectangle
+package foo.starred.cascade.extensions.rectangle
 
-import foo.starred.cascade.primitives.states.FloatRectangleRenderState
+import foo.starred.cascade.primitives.states.RectangleRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
@@ -25,5 +25,5 @@ fun GuiGraphicsExtractor.rectangle(x: Float, y: Float, width: Float, height: Flo
     val scissor = scissor ?: scissorStack.peek()
 
     //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-    guiRenderState.addGuiElement(FloatRectangleRenderState(pose, x, y, x + width, y + height, color, scissor))
+    guiRenderState.addGuiElement(RectangleRenderState(pose, x, y, x + width, y + height, color, scissor))
 }

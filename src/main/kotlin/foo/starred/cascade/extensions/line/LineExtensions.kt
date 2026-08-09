@@ -1,6 +1,6 @@
-package foo.starred.cascade.vanilla.extensions.shapes.line
+package foo.starred.cascade.extensions.line
 
-import foo.starred.cascade.primitives.states.FloatLineRenderState
+import foo.starred.cascade.primitives.states.LineRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
@@ -45,5 +45,5 @@ fun GuiGraphicsExtractor.line(x1: Float, y1: Float, x2: Float, y2: Float, color:
     val scissor = scissor ?: scissorStack.peek()
 
     //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-    guiRenderState.addGuiElement(FloatLineRenderState(pose, x1, y1, x2, y2, thickness, color, scissor))
+    guiRenderState.addGuiElement(LineRenderState(pose, x1, y1, x2, y2, thickness, color, scissor))
 }

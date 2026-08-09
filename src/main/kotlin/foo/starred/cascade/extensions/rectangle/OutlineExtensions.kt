@@ -1,6 +1,6 @@
-package foo.starred.cascade.vanilla.extensions.shapes.rectangle
+package foo.starred.cascade.extensions.rectangle
 
-import foo.starred.cascade.primitives.states.FloatRectangleRenderState
+import foo.starred.cascade.primitives.states.RectangleRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
@@ -23,9 +23,9 @@ fun GuiGraphicsExtractor.outline(x: Float, y: Float, width: Float, height: Float
     val scissor = scissor ?: scissorStack.peek()
 
     //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement' {
-    guiRenderState.addGuiElement(FloatRectangleRenderState(pose, x - border, y - border, x + width + border, y, color, scissor))
-    guiRenderState.addGuiElement(FloatRectangleRenderState(pose, x - border, y + height, x + width + border, y + height + border, color, scissor))
-    guiRenderState.addGuiElement(FloatRectangleRenderState(pose, x - border, y, x, y + height, color, scissor))
-    guiRenderState.addGuiElement(FloatRectangleRenderState(pose, x + width, y, x + width + border, y + height, color, scissor))
+    guiRenderState.addGuiElement(RectangleRenderState(pose, x - border, y - border, x + width + border, y, color, scissor))
+    guiRenderState.addGuiElement(RectangleRenderState(pose, x - border, y + height, x + width + border, y + height + border, color, scissor))
+    guiRenderState.addGuiElement(RectangleRenderState(pose, x - border, y, x, y + height, color, scissor))
+    guiRenderState.addGuiElement(RectangleRenderState(pose, x + width, y, x + width + border, y + height, color, scissor))
     //~ }
 }

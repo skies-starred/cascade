@@ -1,7 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
-import foo.starred.cascade.vanilla.extensions.shapes.line.line
+import foo.starred.cascade.extensions.line.line
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.abs
 

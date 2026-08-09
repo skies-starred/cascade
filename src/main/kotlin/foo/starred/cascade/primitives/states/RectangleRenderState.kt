@@ -13,7 +13,7 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
-class FloatRectangleRenderState(
+class RectangleRenderState(
     val pose: Matrix3x2fc,
     x0: Float,
     y0: Float,

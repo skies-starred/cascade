@@ -1,6 +1,6 @@
 @file:Suppress("Unused")
 
-package foo.starred.cascade.vanilla.extensions.vanilla
+package foo.starred.cascade.extensions.text
 
 import foo.starred.cascade.Cascade.client
 import net.minecraft.client.gui.GuiGraphicsExtractor

@@ -2,7 +2,7 @@ package foo.starred.cascade.primitives.impl
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
-import foo.starred.cascade.vanilla.extensions.shapes.rectangle.blit
+import foo.starred.cascade.extensions.rectangle.blit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.resources.Identifier

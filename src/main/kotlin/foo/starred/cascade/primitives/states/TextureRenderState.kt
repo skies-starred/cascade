@@ -12,7 +12,7 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
-class FloatTextureRenderState(
+class TextureRenderState(
     val pipeline: RenderPipeline,
     val textureSetup: TextureSetup,
     val pose: Matrix3x2fc,
