@@ -2,7 +2,7 @@ package foo.starred.cascade.screen
 
 import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.animation.Animation
-import foo.starred.cascade.primitives.impl.ContainerPrimitive.Companion.container
+import foo.starred.cascade.primitives.impl.ContainerPrimitive
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.input.CharacterEvent
@@ -11,13 +11,21 @@ import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 
 open class CascadeScreen(title: String = "Cascade Screen [Athen]") : Screen(Component.literal(title)) {
-    val scene = container {
+    private var bool = false
+
+    val scene = object : ContainerPrimitive() {
+        override fun layout() {
+            if (!bool) return
+            super.layout()
+        }
+    }.apply {
         width = this@CascadeScreen.width.toFloat()
         height = this@CascadeScreen.height.toFloat()
         animations = Animation(this)
     }
 
     override fun init() {
+        bool = true
         scene.width = width.toFloat()
         scene.height = height.toFloat()
         scene.layout()
