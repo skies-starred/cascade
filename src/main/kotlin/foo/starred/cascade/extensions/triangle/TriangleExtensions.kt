@@ -1,6 +1,7 @@
 package foo.starred.cascade.extensions.triangle
 
 import foo.starred.cascade.primitives.states.TriangleRenderState
+import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
@@ -12,6 +13,5 @@ fun GuiGraphicsExtractor.triangle(x0: Float, y0: Float, x1: Float, y1: Float, x2
     val pose = pose ?: Matrix3x2f(pose())
     val scissor = scissor ?: scissorStack.peek()
 
-    //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-    guiRenderState.addGuiElement(TriangleRenderState(pose, x0, y0, x1, y1, x2, y2, color, scissor))
+    TriangleRenderState(pose, x0, y0, x1, y1, x2, y2, color, scissor).submit(this)
 }

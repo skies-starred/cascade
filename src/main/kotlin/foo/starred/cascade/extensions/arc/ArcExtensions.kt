@@ -1,6 +1,7 @@
 package foo.starred.cascade.extensions.arc
 
 import foo.starred.cascade.primitives.states.ArcRenderState
+import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
@@ -14,8 +15,7 @@ fun GuiGraphicsExtractor.arc(x: Float, y: Float, radius0: Float, radius1: Float,
     val pose = pose ?: Matrix3x2f(pose())
     val scissor = scissor ?: scissorStack.peek()
 
-    //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-    guiRenderState.addGuiElement(ArcRenderState(pose, x, y, radius0, radius1, angle0, angle1, rounded, color, scissor))
+    ArcRenderState(pose, x, y, radius0, radius1, angle0, angle1, rounded, color, scissor).submit(this)
 }
 
 @JvmOverloads

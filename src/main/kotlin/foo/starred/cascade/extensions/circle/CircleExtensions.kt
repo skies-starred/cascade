@@ -1,6 +1,7 @@
 package foo.starred.cascade.extensions.circle
 
 import foo.starred.cascade.primitives.states.CircleRenderState
+import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
@@ -13,6 +14,5 @@ fun GuiGraphicsExtractor.circle(x: Float, y: Float, radius: Float, color: Int, p
     val pose = pose ?: Matrix3x2f(pose())
     val scissor = scissor ?: scissorStack.peek()
 
-    //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-    guiRenderState.addGuiElement(CircleRenderState(pose, x, y, radius, color, scissor))
+    CircleRenderState(pose, x, y, radius, color, scissor).submit(this)
 }

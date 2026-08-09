@@ -3,6 +3,7 @@ package foo.starred.cascade.extensions.rectangle
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.primitives.states.TextureRenderState
+import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
@@ -15,8 +16,7 @@ fun GuiGraphicsExtractor.blit(pipeline: RenderPipeline, textureSetup: TextureSet
     val pose = pose ?: Matrix3x2f(pose())
     val scissor = scissor ?: scissorStack.peek()
 
-    //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-    guiRenderState.addGuiElement(TextureRenderState(pipeline, textureSetup, pose, x, y, x + width, y + height, u0, u1, v0, v1, color, scissor))
+    TextureRenderState(pipeline, textureSetup, pose, x, y, x + width, y + height, u0, u1, v0, v1, color, scissor).submit(this)
 }
 
 @JvmOverloads

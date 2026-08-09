@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
@@ -21,8 +22,7 @@ open class RenderStatePrimitive : IPrimitiveElement<RenderStatePrimitive>() {
 
         val s = state ?: provider?.invoke(graphics)
         if (s != null) {
-            //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-            graphics.guiRenderState.addGuiElement(s)
+            s.submit(graphics)
             if (ascend) graphics.guiRenderState.nextStratum()
         }
 

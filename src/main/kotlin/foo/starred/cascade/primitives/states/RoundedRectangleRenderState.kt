@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
 import foo.starred.cascade.primitives.data.roundedrectangle.RoundedRectangleRadius
+import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
@@ -99,8 +100,7 @@ class RoundedRectangleRenderState(
             val pose = pose ?: Matrix3x2f(graphics.pose())
             val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
-            //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
-            graphics.guiRenderState.addGuiElement(RoundedRectangleRenderState(pose, x, y, x1, y1, color, radius, outline, scissor, bounds))
+            RoundedRectangleRenderState(pose, x, y, x1, y1, color, radius, outline, scissor, bounds).submit(graphics)
         }
 
         private fun bounds(x0: Float, y0: Float, x1: Float, y1: Float, pose: Matrix3x2fc, scissor: ScreenRectangle?): ScreenRectangle? {
