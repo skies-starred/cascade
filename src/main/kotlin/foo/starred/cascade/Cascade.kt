@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import foo.starred.cascade.font.CascadeFonts
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.minecraft.client.Minecraft
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -26,5 +27,10 @@ object Cascade : ClientModInitializer {
 
     override fun onInitializeClient() {
         CascadeFonts.init()
+
+        ClientLifecycleEvents.CLIENT_STARTED.register { _ ->
+            CascadeFonts.arial.regular.texture.toString()
+            CascadeFonts.arial.bold.texture.toString()
+        }
     }
 }
