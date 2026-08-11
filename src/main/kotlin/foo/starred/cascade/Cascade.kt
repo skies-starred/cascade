@@ -6,13 +6,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import foo.starred.cascade.font.CascadeFonts
 import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.minecraft.client.Minecraft
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 object Cascade : ClientModInitializer {
-    const val version: String = /*$ mod_version*/ "009"
+    const val version: String = /*$ mod_version*/ "010"
     const val id: String = /*$ mod_id*/ "cascade"
     const val name: String = /*$ mod_name*/ "Cascade"
 
@@ -26,8 +25,6 @@ object Cascade : ClientModInitializer {
     val client: Minecraft = Minecraft.getInstance()
 
     override fun onInitializeClient() {
-        ClientLifecycleEvents.CLIENT_STARTED.register { _ ->
-            CascadeFonts.init()
-        }
+        CascadeFonts.init()
     }
 }
