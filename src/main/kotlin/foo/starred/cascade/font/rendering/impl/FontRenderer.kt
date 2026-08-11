@@ -93,6 +93,33 @@ class FontRenderer(identifier: Identifier) {
         }
     }
 
+    fun truncate(text: String, size: Number, max: Number, suffix: String = "....", bold: Boolean = false): String {
+        val size = size.toFloat()
+        val max = max.toFloat()
+        val font = if (bold) this.bold else regular
+
+        val i0 = width(suffix, size)
+        val i1 = max - i0
+        if (i1 <= 0f) return suffix
+
+        var i2 = 0f
+        var i3 = 0
+
+        while (i3 < text.length) {
+            val c = text.codePointAt(i3)
+            val glyph = font.glyph(c.toChar())
+
+            if (glyph != null) {
+                i2 += glyph.advance * size
+                if (i2 > i1) break
+            }
+
+            i3 += Character.charCount(c)
+        }
+
+        return if (i3 == text.length) text else text.substring(0, i3) + suffix
+    }
+
     private fun extract0(sequence: FormattedCharSequence, size: Float, color: Int, shadow: Boolean): List<GlyphElement> {
         val elements = mutableListOf<GlyphElement>()
         var x = 0f
