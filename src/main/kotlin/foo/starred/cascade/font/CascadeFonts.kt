@@ -12,8 +12,12 @@ object CascadeFonts {
     lateinit var arial: FontRenderer
         private set
 
+    var loaded: Boolean = false
+        private set
+
     fun init() {
         arial = FontRenderer(Identifier.fromNamespaceAndPath("cascade", "msdf/arial"))
+        loaded = true
     }
 
     fun extract(graphics: GuiGraphicsExtractor, text: String, x: Number, y: Number, color: Int = -1, shadow: Boolean = true, size: Number = 12) {
