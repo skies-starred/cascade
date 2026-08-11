@@ -17,7 +17,7 @@ import net.minecraft.util.FormattedCharSequence
 import org.joml.Matrix3x2f
 import java.util.concurrent.TimeUnit
 
-class FontRenderer(identifier: Identifier) {
+class FontRenderer(path: String) {
     private val width: Cache<String, Float> = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(1, TimeUnit.MINUTES).build()
     private val layout: Cache<String, List<GlyphElement>> = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(1, TimeUnit.MINUTES).build()
 
@@ -28,8 +28,8 @@ class FontRenderer(identifier: Identifier) {
             .build()
     )
 
-    val regular: FontData = FontData(identifier.withSuffix("/regular"))
-    val bold: FontData = FontData(identifier.withSuffix("/bold"))
+    val regular: FontData = FontData("$path/regular")
+    val bold: FontData = FontData("$path/bold")
 
     fun extract(graphics: GuiGraphicsExtractor, text: String, x: Number, y: Number, color: Int = -1, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
         extract(graphics, Component.literal(text), x, y, color, shadow, size, cached)

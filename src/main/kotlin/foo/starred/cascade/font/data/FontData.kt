@@ -4,12 +4,14 @@ package foo.starred.cascade.font.data
 
 import com.google.gson.JsonObject
 import foo.starred.cascade.Cascade.GSON
-import foo.starred.cascade.Cascade.client
 import net.minecraft.client.renderer.texture.AbstractTexture
-import net.minecraft.resources.Identifier
+import net.minecraft.client.renderer.texture.DynamicTexture
+import com.mojang.blaze3d.platform.NativeImage
 
-class FontData(identifier: Identifier) {
-    val texture: AbstractTexture = client.textureManager.getTexture(identifier.withSuffix(".png"))
+class FontData(path: String) {
+    val texture: AbstractTexture by lazy {
+        DynamicTexture({ "cascade_font_$path" }, NativeImage.read(FontData::class.java.getResourceAsStream("$path.png") ?: error("Failed to find font png: $path.png")))
+    }
 
     val glyphs: MutableMap<Int, GlyphData> = mutableMapOf()
     val all: MutableList<Int> = mutableListOf()
@@ -19,7 +21,8 @@ class FontData(identifier: Identifier) {
     val height: Float
 
     init {
-        client.resourceManager.getResourceOrThrow(identifier.withSuffix(".json")).openAsReader().use { reader ->
+        val stream = FontData::class.java.getResourceAsStream("$path.json") ?: error("Failed to find font json: $path.json")
+        stream.reader().use { reader ->
             val obj = GSON.fromJson(reader, JsonObject::class.java)
             metrics = GSON.fromJson(obj["metrics"], MetricsData::class.java)
             atlas = GSON.fromJson(obj["atlas"], AtlasData::class.java)

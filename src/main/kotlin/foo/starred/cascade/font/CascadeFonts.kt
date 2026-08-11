@@ -5,7 +5,6 @@ package foo.starred.cascade.font
 import foo.starred.cascade.font.rendering.impl.FontRenderer
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.Identifier
 import net.minecraft.util.FormattedCharSequence
 
 object CascadeFonts {
@@ -16,7 +15,7 @@ object CascadeFonts {
         private set
 
     fun init() {
-        arial = FontRenderer(Identifier.fromNamespaceAndPath("cascade", "msdf/arial"))
+        arial = FontRenderer("/assets/cascade/msdf/arial")
         loaded = true
     }
 
