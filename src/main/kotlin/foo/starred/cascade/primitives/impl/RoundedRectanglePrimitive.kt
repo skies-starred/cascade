@@ -14,6 +14,7 @@ open class RoundedRectanglePrimitive : IPrimitiveElement<RoundedRectanglePrimiti
     override var color: Int = -1
 
     var radius: RoundedRectangleRadius = RoundedRectangleRadius.ZERO
+    var blur: Float = 0f
 
     var border: Boolean = false
     var borderInset: Boolean = true
@@ -26,15 +27,15 @@ open class RoundedRectanglePrimitive : IPrimitiveElement<RoundedRectanglePrimiti
         val pose = Matrix3x2f(graphics.pose())
         val scissor = graphics.scissorStack.peek()
 
-        if (color ushr 24 != 0) {
-            RoundedRectangleRenderState.extract(graphics, x, y, width, height, color, radius, 0f, pose, scissor)
+        if (color ushr 24 != 0 || blur > 0f) {
+            RoundedRectangleRenderState.extract(graphics, x, y, width, height, color, radius, 0f, blur, pose, scissor)
         }
 
         if (border && borderColor ushr 24 != 0 && borderWidth > 0f) {
             val i0 = if (borderInset) 0f else -borderWidth
             val i1 = if (borderInset) 0f else borderWidth
 
-            RoundedRectangleRenderState.extract(graphics, x + i0, y + i0, width - i0 * 2, height - i0 * 2, borderColor, radius + i1, borderWidth, pose, scissor)
+            RoundedRectangleRenderState.extract(graphics, x + i0, y + i0, width - i0 * 2, height - i0 * 2, borderColor, radius + i1, borderWidth, 0f, pose, scissor)
         }
 
         super.render(graphics)

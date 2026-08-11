@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
 import foo.starred.cascade.primitives.data.roundedrectangle.RoundedRectangleRadius
+import foo.starred.cascade.primitives.utils.Blur
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
@@ -31,11 +32,12 @@ class RoundedRectangleRenderState(
     val color: Int,
     val radius: RoundedRectangleRadius,
     val outline: Float = 0f,
+    val blur: Float = 0f,
     val scissor: ScreenRectangle? = null,
     val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : GuiElementRenderState {
-    override fun pipeline(): RenderPipeline = PIPELINE
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
+    override fun pipeline(): RenderPipeline = if (blur > 0f) PIPELINE_BLURRED else PIPELINE
+    override fun textureSetup(): TextureSetup = if (blur > 0f) Blur.setup() else TextureSetup.noTexture()
     override fun scissorArea(): ScreenRectangle? = scissor
     override fun bounds(): ScreenRectangle? = bounds
 
@@ -51,9 +53,10 @@ class RoundedRectangleRenderState(
         val u2x = (tr shl 8) or tl
         val u2y = (bl shl 8) or br
         val line = min(outline, 127f) / 127f
+        val blur = min(blur / 2, 127f) / 127f
 
         fun vertex(x: Float, y: Float, u: Float, v: Float) {
-            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(line, 0f, 0f)
+            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(line, blur, 0f)
         }
 
         vertex(x0, y0, 0f, 0f)
@@ -94,13 +97,23 @@ class RoundedRectangleRenderState(
                 .build()
         )
 
-        fun extract(graphics: GuiGraphicsExtractor, x: Float, y: Float, width: Float, height: Float, color: Int, radius: RoundedRectangleRadius, outline: Float = 0f, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null, bounds: ScreenRectangle? = null) {
+        private val PIPELINE_BLURRED: RenderPipeline = RenderPipelines.register(
+            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
+                //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
+                .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
+                .withLocation(Identifier.fromNamespaceAndPath("cascade", "rounded_rect_blurred"))
+                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/rounded_rect"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/rounded_rect"))
+                .build()
+        )
+
+        fun extract(graphics: GuiGraphicsExtractor, x: Float, y: Float, width: Float, height: Float, color: Int, radius: RoundedRectangleRadius, outline: Float = 0f, blur: Float = 0f, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null, bounds: ScreenRectangle? = null) {
             val x1 = x + width
             val y1 = y + height
             val pose = pose ?: Matrix3x2f(graphics.pose())
             val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
-            RoundedRectangleRenderState(pose, x, y, x1, y1, color, radius, outline, scissor, bounds).submit(graphics)
+            RoundedRectangleRenderState(pose, x, y, x1, y1, color, radius, outline, blur, scissor, bounds).submit(graphics)
         }
 
         private fun bounds(x0: Float, y0: Float, x1: Float, y1: Float, pose: Matrix3x2fc, scissor: ScreenRectangle?): ScreenRectangle? {
