@@ -2,7 +2,9 @@
 
 package foo.starred.cascade.font
 
+import foo.starred.cascade.font.data.font.impl.TtfFontData
 import foo.starred.cascade.font.rendering.impl.FontRenderer
+import foo.starred.cascade.utils.resource
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
 import net.minecraft.util.FormattedCharSequence
@@ -15,7 +17,7 @@ object CascadeFonts {
         private set
 
     fun init() {
-        arial = FontRenderer("/assets/cascade/msdf/arial")
+        arial = FontRenderer(TtfFontData(resource("/assets/cascade/font/arial.ttf")), TtfFontData(resource("/assets/cascade/font/arial_bold.ttf")))
         loaded = true
     }
 
