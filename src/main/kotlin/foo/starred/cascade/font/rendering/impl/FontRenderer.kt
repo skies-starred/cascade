@@ -5,7 +5,10 @@ package foo.starred.cascade.font.rendering.impl
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
 import com.mojang.blaze3d.pipeline.RenderPipeline
-import foo.starred.cascade.font.data.FontData
+import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.textures.FilterMode
+import foo.starred.cascade.font.data.font.base.IFontData
+import foo.starred.cascade.font.data.font.impl.MsdfFontData
 import foo.starred.cascade.font.rendering.cache.GlyphElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.render.TextureSetup
@@ -17,19 +20,11 @@ import net.minecraft.util.FormattedCharSequence
 import org.joml.Matrix3x2f
 import java.util.concurrent.TimeUnit
 
-class FontRenderer(path: String) {
+class FontRenderer(val regular: IFontData, val bold: IFontData) {
+    constructor(path: String) : this(MsdfFontData("$path/regular"), MsdfFontData("$path/bold"))
+
     private val width: Cache<String, Float> = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(1, TimeUnit.MINUTES).build()
     private val layout: Cache<String, List<GlyphElement>> = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(1, TimeUnit.MINUTES).build()
-
-    private val pipeline: RenderPipeline = RenderPipelines.register(
-        RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
-            .withLocation(Identifier.fromNamespaceAndPath("cascade", "msdf"))
-            .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/msdf"))
-            .build()
-    )
-
-    val regular: FontData = FontData("$path/regular")
-    val bold: FontData = FontData("$path/bold")
 
     fun extract(graphics: GuiGraphicsExtractor, text: String, x: Number, y: Number, color: Int = -1, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
         extract(graphics, Component.literal(text), x, y, color, shadow, size, cached)
@@ -153,7 +148,7 @@ class FontRenderer(path: String) {
             val v0 = 1f - (bounds.top / font.atlas.height)
             val v1 = 1f - (bounds.bottom / font.atlas.height)
 
-            elements += GlyphElement(x, style.isItalic, pipeline, TextureSetup.singleTexture(font.texture.textureView, font.texture.sampler), x0, y0, x1, y1, u0, u1, v0, v1, color0, shade, shadow, style.isStrikethrough, style.isUnderlined, advance, size)
+            elements += GlyphElement(x, style.isItalic, if (font.atlas.type == "sdf") PIPELINE_SDF else PIPELINE_MSDF, TextureSetup.singleTexture(font.texture.textureView, RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR)), x0, y0, x1, y1, u0, u1, v0, v1, color0, shade, shadow, style.isStrikethrough, style.isUnderlined, advance, size)
             x += advance
             true
         }
@@ -173,5 +168,21 @@ class FontRenderer(path: String) {
         }
 
         return width
+    }
+
+    companion object {
+        private val PIPELINE_MSDF: RenderPipeline = RenderPipelines.register(
+            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
+                .withLocation(Identifier.fromNamespaceAndPath("cascade", "msdf"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/msdf"))
+                .build()
+        )
+
+        private val PIPELINE_SDF: RenderPipeline = RenderPipelines.register(
+            RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
+                .withLocation(Identifier.fromNamespaceAndPath("cascade", "sdf"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/sdf"))
+                .build()
+        )
     }
 }
