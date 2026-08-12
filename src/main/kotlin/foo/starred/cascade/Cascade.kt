@@ -29,8 +29,9 @@ object Cascade : ClientModInitializer {
         CascadeFonts.init()
 
         ClientLifecycleEvents.CLIENT_STARTED.register { _ ->
-            CascadeFonts.arial.regular.texture.toString()
-            CascadeFonts.arial.bold.texture.toString()
+            val chars = (32..126).map { it.toChar() }
+            CascadeFonts.arial.regular.preload(chars)
+            CascadeFonts.arial.bold.preload(chars)
         }
     }
 }
