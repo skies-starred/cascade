@@ -46,7 +46,7 @@ dependencies {
 }
 ```
 
-Latest cascade version: `012`
+Latest cascade version: `013`
 \
 Minecraft versions: `1.21.11`, `26.1`,  `26.2`
 \
