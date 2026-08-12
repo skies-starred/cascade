@@ -40,8 +40,6 @@ repositories {
 
 dependencies {
     implementation(libs.plugins.kotlin.jvm.provider)
-    implementation(libs.plugins.ksp.provider)
-    implementation(libs.plugins.fletchingTable.provider)
     implementation(libs.plugins.loom.asProvider().provider)
     implementation(libs.plugins.loom.obf.provider)
     implementation("dev.kikugie.stonecutter:dev.kikugie.stonecutter.gradle.plugin:0.9")

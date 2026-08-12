@@ -33,8 +33,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm")
-    id("com.google.devtools.ksp")
-    id("dev.kikugie.fletching-table.fabric")
     `maven-publish`
 }
 
@@ -62,14 +60,6 @@ repositories {
 
     strictMaven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1", "me.djtheredstoner")
     strictMaven("https://maven.parchmentmc.org/", "org.parchmentmc")
-}
-
-fletchingTable {
-    mixins.create("main", Action {
-        mixin("default", "$modId.mixins.json") {
-            env("CLIENT")
-        }
-    })
 }
 
 dependencies {
