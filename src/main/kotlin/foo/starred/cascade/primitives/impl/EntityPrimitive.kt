@@ -4,9 +4,11 @@ import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.entity.state.EntityRenderState
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Pose
+import net.minecraft.world.item.ItemStack
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import kotlin.math.atan
@@ -14,14 +16,16 @@ import kotlin.math.atan
 open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
     override var x: Float = 0f
     override var y: Float = 0f
-    override var width: Float = 50f
-    override var height: Float = 80f
+    override var width: Float = 0f
+    override var height: Float = 0f
     override var color: Int = -1
 
     var entity: LivingEntity? = null
     var scale: Float = 30f
     var factor: Float = 0.529f
     var cursor: Boolean = true
+    var items: Boolean = true
+    var modifications: EntityRenderState.() -> Unit = {}
 
     override fun constrain(parent: IPrimitiveElement<*>) {
         super.constrain(parent)
@@ -42,33 +46,49 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         val x1 = (x + width).toInt()
         val y1 = (y + height).toInt()
 
-        val x2 = (x0 + x1) / 2.0f
-        val y2 = (y0 + y1) / 2.0f
+        val x2 = (x0 + x1) / 2f
+        val y2 = (y0 + y1) / 2f
 
-        val angle0 = if (cursor) atan((x2 - mouseX) / 40.0f) else 0f
-        val angle1 = if (cursor) atan((y2 - mouseY) / 40.0f) else 0f
+        val angle0 = if (cursor) atan((x2 - mouseX) / 40f) else 0f
+        val angle1 = if (cursor) atan((y2 - mouseY) / 40f) else 0f
 
         val rotationZ = Quaternionf().rotateZ(Math.PI.toFloat())
-        val rotationX = Quaternionf().rotateX(angle1 * 20.0f * (Math.PI.toFloat() / 180.0f))
+        val rotationX = Quaternionf().rotateX(angle1 * 20f * (Math.PI.toFloat() / 180f))
 
         rotationZ.mul(rotationX)
         val state = entity.extract()
 
         if (state is LivingEntityRenderState) {
-            state.bodyRot = 180.0f + angle0 * 20.0f
-            state.yRot = angle0 * 20.0f
+            state.bodyRot = 180f + angle0 * 20f
+            state.yRot = angle0 * 20f
             state.xRot = if (state.pose == Pose.FALL_FLYING) 0f else -angle1 * 20f
 
             state.boundingBoxWidth /= state.scale
             state.boundingBoxHeight /= state.scale
-            state.scale = 1.0f
+            state.scale = 1f
+
+            if (!items) {
+                val human = state as? HumanoidRenderState
+                human?.headEquipment = ItemStack.EMPTY
+                human?.chestEquipment = ItemStack.EMPTY
+                human?.legsEquipment = ItemStack.EMPTY
+                human?.feetEquipment = ItemStack.EMPTY
+                human?.rightHandItemState?.clear()
+                human?.leftHandItemState?.clear()
+                human?.wornHeadType = null
+            }
         }
 
-        val translation = Vector3f(0.0f, state.boundingBoxHeight / 2.0f + 0.0625f, 0.0f)
+        modifications(state)
+        val translation = Vector3f(0f, state.boundingBoxHeight / 2f + 0.0625f, 0f)
 
         //~ if >= 26.1 'submitEntityRenderState' -> 'entity'
         graphics.entity(state, scale, translation, rotationZ, rotationX, x0, y0, x1, y1)
         super.render(graphics)
+    }
+
+    fun modifications(block: EntityRenderState.() -> Unit) {
+        modifications = block
     }
 
     private fun LivingEntity.extract(): EntityRenderState {
