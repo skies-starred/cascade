@@ -1,9 +1,9 @@
 package foo.starred.cascade.primitives.data.text.impl
 
 import foo.starred.cascade.Cascade.client
+import foo.starred.cascade.extensions.text.extractText
 import foo.starred.cascade.primitives.data.text.base.ITextPrimitiveRenderer
 import foo.starred.cascade.primitives.impl.TextPrimitive
-import foo.starred.cascade.extensions.text.extractText
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.util.FormattedCharSequence
 

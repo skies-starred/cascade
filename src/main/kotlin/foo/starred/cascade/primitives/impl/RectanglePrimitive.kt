@@ -1,8 +1,8 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.extensions.rectangle.outline
 import foo.starred.cascade.extensions.rectangle.rectangle
+import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Matrix3x2f
 
