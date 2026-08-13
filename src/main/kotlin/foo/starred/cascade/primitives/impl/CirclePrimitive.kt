@@ -1,7 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.extensions.circle.circle
+import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.max
 
