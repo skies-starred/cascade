@@ -20,13 +20,14 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
 
     var entity: LivingEntity? = null
     var scale: Float = 30f
+    var factor: Float = 0.529f
     var cursor: Boolean = true
 
     override fun constrain(parent: IPrimitiveElement<*>) {
         super.constrain(parent)
         if (size == null) return
 
-        scale = height * 0.25f
+        scale = height * factor
     }
 
     override fun render(graphics: GuiGraphicsExtractor) {
