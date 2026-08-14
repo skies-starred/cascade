@@ -20,8 +20,13 @@ interface IPrimitiveInteractable<T> : IPrimitiveSelf<T> where T : IPrimitiveElem
     }
 
     fun mouseRelease(x: Double, y: Double, button: Int): Boolean {
-        val a = self.find(x, y) ?: return false
-        return a.post(MouseEvent.Release(x, y, button, a))
+        val a = self.find(x, y)
+
+        val b = self.root.focused
+        if (b?.unfocus == false) return b.post(MouseEvent.Release(x, y, button, b))
+        if (b != a) b?.post(MouseEvent.Release(x, y, button, b))
+
+        return a?.post(MouseEvent.Release(x, y, button, a)) ?: false
     }
 
     fun mouseScroll(x: Double, y: Double, amount: Double): Boolean {
