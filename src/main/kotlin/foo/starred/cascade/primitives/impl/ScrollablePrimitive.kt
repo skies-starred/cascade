@@ -46,6 +46,11 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
         graphics.disableScissor()
     }
 
+    override fun layout() {
+        super.layout()
+        scroll = scroll.coerceIn(0, maxScroll)
+    }
+
     override fun find(x: Double, y: Double): IPrimitiveElement<*>? {
         if (!contains(x, y)) return null
 
