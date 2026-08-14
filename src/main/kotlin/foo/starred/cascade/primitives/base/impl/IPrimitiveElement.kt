@@ -8,6 +8,7 @@ import foo.starred.cascade.animation.data.AnimatableFloat
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.events.base.UIEvent
+import foo.starred.cascade.events.impl.FocusEvent
 import foo.starred.cascade.primitives.base.interfaces.*
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import java.util.concurrent.CopyOnWriteArrayList
@@ -56,6 +57,15 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
         }
 
     override var focused: IPrimitiveElement<*>? = null
+        set(value) {
+            if (field == value) return
+            val field0 = field
+            field = value
+
+            field0?.post(FocusEvent.Lose(field0))
+            value?.post(FocusEvent.Gain(value))
+        }
+
     override var interact: Boolean = true
     override var hovered: Boolean = false
     override var unfocus: Boolean = true
