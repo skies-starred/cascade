@@ -46,7 +46,7 @@ dependencies {
 }
 ```
 
-Latest cascade version: `016` / Usually updated, check commits for latest ``bump(version): <version>`` commit if not!
+Latest cascade version: `017` / Usually updated, check commits for latest ``bump(version): <version>`` commit if not!
 \
 Minecraft versions: `1.21.11`, `26.1`,  `26.2`
 \
