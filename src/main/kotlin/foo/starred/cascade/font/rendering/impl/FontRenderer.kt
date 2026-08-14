@@ -88,11 +88,12 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
         }
     }
 
-    fun truncate(text: String, size: Number, max: Number, suffix: String = "....", bold: Boolean = false): String {
+    fun truncate(text: String, size: Number, max: Number, suffix: String = "...", bold: Boolean = false, cached: Boolean = false): String {
         val size = size.toFloat()
         val max = max.toFloat()
-        val font = if (bold) this.bold else regular
+        if (width(text, size, cached) <= max) return text
 
+        val font = if (bold) this.bold else regular
         val i0 = width(suffix, size)
         val i1 = max - i0
         if (i1 <= 0f) return suffix
