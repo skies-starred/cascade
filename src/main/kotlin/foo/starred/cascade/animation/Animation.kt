@@ -18,7 +18,7 @@ class Animation(val scene: IPrimitiveElement<*>) {
         tick()
 
         if (!b && !bool) return
-        scene.layout()
+        scene.dirty()
     }
 
     fun track(anim: IAnimatable) {
