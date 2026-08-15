@@ -9,6 +9,8 @@ import foo.starred.cascade.animation.enums.CascadeAnimations
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 
 class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
+    override var function: (() -> Unit)? = null
+
     var value: Int = element.color
         private set
 
@@ -18,7 +20,7 @@ class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
     private var elapsed: Float = 0f
     private var easing: IAnimation = CascadeAnimations.LINEAR
 
-    fun animate(manager: Animation, target: Number, duration0: Number, easing0: IAnimation = CascadeAnimations.LINEAR) {
+    fun animate(manager: Animation, target: Number, duration0: Number, easing0: IAnimation = CascadeAnimations.LINEAR, function0: (() -> Unit)? = null) {
         val t = target.toInt()
         if (t == to && this.easing === easing0) return
 
@@ -27,11 +29,14 @@ class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
         duration = duration0.toFloat()
         easing = easing0
         elapsed = 0f
+        function = function0
 
         if (duration <= 0f) {
             value = to
             element.color = value
             elapsed = duration
+            function?.invoke()
+            function = null
             return
         }
 
@@ -78,15 +83,16 @@ class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
     }
 
     companion object {
-        fun <T : IPrimitiveElement<T>> T.animateColor(color1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR): T {
+        fun <T : IPrimitiveElement<T>> T.animateColor(color1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR, function: (() -> Unit)? = null): T {
             val manager = root.animations
             if (manager == null) {
                 color = color1.toInt()
+                function?.invoke()
                 return self
             }
 
             val current = `animation$color` ?: AnimatableColor(this).also { `animation$color` = it }
-            current.animate(manager, color1, duration, easing)
+            current.animate(manager, color1, duration, easing, function)
             return self
         }
     }

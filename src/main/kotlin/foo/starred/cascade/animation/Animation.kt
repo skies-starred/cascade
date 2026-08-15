@@ -38,6 +38,7 @@ class Animation(val scene: IPrimitiveElement<*>) {
         for (a in active) {
             if (a.advance(delta)) continue
             active.remove(a)
+            a.function?.invoke()
         }
     }
 }
