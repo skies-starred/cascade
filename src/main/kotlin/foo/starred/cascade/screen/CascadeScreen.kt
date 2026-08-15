@@ -11,21 +11,13 @@ import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 
 open class CascadeScreen(title: String = "Cascade Screen [Athen]") : Screen(Component.literal(title)) {
-    private var bool = false
-
-    val scene = object : ContainerPrimitive() {
-        override fun layout() {
-            if (!bool) return
-            super.layout()
-        }
-    }.apply {
+    val scene = ContainerPrimitive().apply {
         width = this@CascadeScreen.width.toFloat()
         height = this@CascadeScreen.height.toFloat()
         animations = Animation(this)
     }
 
     override fun init() {
-        bool = true
         scene.width = width.toFloat()
         scene.height = height.toFloat()
         scene.layout()
@@ -34,6 +26,8 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]") : Screen(Comp
     //~ if >= 26.1 'render(' -> 'extractRenderState('
     final override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
         scene.animations?.animate()
+        if (scene.dirty) scene.layout()
+
         scene.render(graphics)
         //~ if >= 26.1 'render(' -> 'extractRenderState('
         super.extractRenderState(graphics, mouseX, mouseY, delta)
