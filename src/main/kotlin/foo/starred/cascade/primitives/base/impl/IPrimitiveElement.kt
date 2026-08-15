@@ -40,20 +40,20 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     override var size: ISizeConstraint? = null
         set(value) {
             field = value
-            root.layout()
+            root.dirty()
         }
 
     override var position: IPositionConstraint? = null
         set(value) {
             field = value
-            root.layout()
+            root.dirty()
         }
 
     override var visible: Boolean = true
         set(value) {
             if (field == value) return
             field = value
-            root.layout()
+            root.dirty()
         }
 
     override var focused: IPrimitiveElement<*>? = null
@@ -66,6 +66,7 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
             value?.post(FocusEvent.Gain(value))
         }
 
+    override var dirty: Boolean = false
     override var interact: Boolean = true
     override var hovered: Boolean = false
     override var unfocus: Boolean = true

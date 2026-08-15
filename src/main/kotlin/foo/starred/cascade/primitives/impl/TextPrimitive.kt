@@ -33,7 +33,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
             field = value
             width = 0f
             height = 0f
-            root.layout()
+            root.dirty()
         }
 
     var text: Component = EMPTY_COMPONENT
@@ -43,7 +43,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
             text0 = value.visualOrderText
             width = 0f
             height = 0f
-            root.layout()
+            root.dirty()
         }
 
     var texts: List<Component>? = null
@@ -53,7 +53,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
             texts0 = value?.map { it.visualOrderText }
             width = 0f
             height = 0f
-            root.layout()
+            root.dirty()
         }
 
     var textSize: Float = 8f
@@ -62,7 +62,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
             field = value
             width = 0f
             height = 0f
-            root.layout()
+            root.dirty()
         }
 
     override fun constrain(parent: IPrimitiveElement<*>) {

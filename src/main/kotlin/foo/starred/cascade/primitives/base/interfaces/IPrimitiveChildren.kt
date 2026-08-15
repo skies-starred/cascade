@@ -21,7 +21,7 @@ interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<
         a.parent = self
         children.add(a)
 
-        root.layout()
+        root.dirty()
         return self
     }
 
