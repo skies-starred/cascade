@@ -1,5 +1,6 @@
 package foo.starred.cascade.extensions.rectangle
 
+import foo.starred.cascade.primitives.states.ColoredRectangleRenderState
 import foo.starred.cascade.primitives.states.RectangleRenderState
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -26,4 +27,18 @@ fun GuiGraphicsExtractor.rectangle(x: Float, y: Float, width: Float, height: Flo
     val scissor = scissor ?: scissorStack.peek()
 
     RectangleRenderState(pose, x, y, x + width, y + height, color, scissor).submit(this)
+}
+
+@JvmOverloads
+fun GuiGraphicsExtractor.gradientRectangle(x: Float, y: Float, width: Float, height: Float, tl: Int, tr: Int, bl: Int, br: Int, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null) {
+    val pose = pose ?: Matrix3x2f(pose())
+    val scissor = scissor ?: scissorStack.peek()
+
+    ColoredRectangleRenderState(pose, x, y, x + width, y + height, tl, tr, bl, br, scissor).submit(this)
+}
+
+@JvmOverloads
+fun GuiGraphicsExtractor.gradientRectangle(x: Float, y: Float, width: Float, height: Float, from: Int, to: Int, vertical: Boolean = true, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null) {
+    if (vertical) gradientRectangle(x, y, width, height, from, from, to, to, pose, scissor)
+    else gradientRectangle(x, y, width, height, from, to, from, to, pose, scissor)
 }
