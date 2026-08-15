@@ -15,6 +15,7 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
     override var color: Int = -1
 
     var sprite: Boolean = false
+    var rotation: Float = 0f
 
     var location: Identifier? = null
     var pipeline: RenderPipeline = RenderPipelines.GUI_TEXTURED
@@ -44,8 +45,21 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
         val u01 = (u0 + (u1 ?: textureWidth).toFloat()) / textureWidth.toFloat()
         val v01 = (v0 + (v1 ?: textureHeight).toFloat()) / textureHeight.toFloat()
 
+        if (rotation != 0f) {
+            val x = x + width / 2f
+            val y = y + height / 2f
+            graphics.pose().pushMatrix()
+            graphics.pose().translate(x, y)
+            graphics.pose().rotate(rotation * (Math.PI.toFloat() / 180f))
+            graphics.pose().translate(-x, -y)
+        }
+
         graphics.blit(pipeline, location, x, y, width, height, u00, v00, u01, v01, color)
         super.render(graphics)
+
+        if (rotation != 0f) {
+            graphics.pose().popMatrix()
+        }
     }
 
     companion object {
