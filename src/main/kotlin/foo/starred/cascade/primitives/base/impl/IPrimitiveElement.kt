@@ -1,4 +1,4 @@
-@file:Suppress("Unused", "Unchecked_cast")
+@file:Suppress("Unused", "Unchecked_cast", "PropertyName")
 
 package foo.starred.cascade.primitives.base.impl
 
@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor
 import java.util.concurrent.CopyOnWriteArrayList
 
 abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
-    private var _root: IPrimitiveElement<*>? = null
+    internal var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
     abstract var y: Float
@@ -26,7 +26,11 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     override val children: CopyOnWriteArrayList<IPrimitiveElement<*>> = CopyOnWriteArrayList()
 
     override val root: IPrimitiveElement<*>
-        get() = _root ?: generateSequence(this as IPrimitiveElement<*>) { it.parent }.last().also { _root = it }
+        get() {
+            val r = _root
+            if (r != null && r.parent == null) return r
+            return generateSequence(this as IPrimitiveElement<*>) { it.parent }.last().also { _root = it }
+        }
 
     override val self: T
         get() = this as T
@@ -35,6 +39,7 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
         set(value) {
             field = value
             _root = null
+            root.dirty()
         }
 
     override var size: ISizeConstraint? = null

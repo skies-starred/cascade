@@ -17,6 +17,8 @@ interface IPrimitiveLayoutResolver<T> : IPrimitiveSelf<T> where T : IPrimitiveEl
         val self = self
         for (child in self.children) {
             if (!child.visible) continue
+
+            child._root = null
             child.constrain(self)
             child.layout()
         }
