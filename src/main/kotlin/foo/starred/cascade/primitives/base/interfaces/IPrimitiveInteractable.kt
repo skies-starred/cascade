@@ -47,15 +47,20 @@ interface IPrimitiveInteractable<T> : IPrimitiveSelf<T> where T : IPrimitiveElem
         val a = self.find(x, y)
 
         self.forEach {
-            val b = it == a
-            if (it.hovered == b) return@forEach
+            if (!it.hovered) return@forEach
+            if (it == a) return@forEach
 
-            it.hovered = b
-            if (it.hovered) it.post(MouseEvent.Move.Enter(x, y, it))
-            else it.post(MouseEvent.Move.Exit(x, y, it))
+            it.hovered = false
+            it.post(MouseEvent.Move.Exit(x, y, it))
         }
 
-        a?.post(MouseEvent.Move.Any(x, y, a))
+        val b = a ?: return
+        if (!b.hovered) {
+            b.hovered = true
+            b.post(MouseEvent.Move.Enter(x, y, b))
+        }
+
+        b.post(MouseEvent.Move.Any(x, y, b))
     }
 
     fun keyPress(key: Int): Boolean {
