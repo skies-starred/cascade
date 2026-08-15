@@ -12,11 +12,11 @@ class AnimatedPositionConstraint(x: Number, y: Number) : IPositionConstraint {
     private val y = AnimatableFloat(y)
 
     override fun x(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
-        return x.value
+        return parent.x + x.value
     }
 
     override fun y(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
-        return y.value
+        return parent.y + y.value
     }
 
     fun animateTo(manager: Animation, x1: Number, y1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR) {
