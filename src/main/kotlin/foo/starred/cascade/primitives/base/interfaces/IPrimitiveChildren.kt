@@ -30,6 +30,20 @@ interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<
         return self
     }
 
+    fun disown(a: IPrimitiveElement<*>): T {
+        if (a.parent !== self) return self
+
+        children.remove(a)
+        a.parent = null
+        root.dirty()
+        return self
+    }
+
+    fun detach(): T {
+        parent?.disown(self)
+        return self
+    }
+
     fun forEach(reversed: Boolean = false, block: (IPrimitiveElement<*>) -> Unit) {
         block(self)
 
