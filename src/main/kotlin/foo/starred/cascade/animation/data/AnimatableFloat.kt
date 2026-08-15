@@ -8,6 +8,8 @@ import foo.starred.cascade.animation.base.IAnimation
 import foo.starred.cascade.animation.enums.CascadeAnimations
 
 data class AnimatableFloat(private val initial: Number) : IAnimatable {
+    override var function: (() -> Unit)? = null
+
     var value: Float = initial.toFloat()
         private set
 
@@ -17,7 +19,7 @@ data class AnimatableFloat(private val initial: Number) : IAnimatable {
     private var elapsed: Float = 0f
     private var easing: IAnimation = CascadeAnimations.LINEAR
 
-    fun animate(manager: Animation, target: Number, duration0: Number, easing0: IAnimation = CascadeAnimations.LINEAR) {
+    fun animate(manager: Animation, target: Number, duration0: Number, easing0: IAnimation = CascadeAnimations.LINEAR, function0: (() -> Unit)? = null) {
         val t = target.toFloat()
         if (t == to && this.easing === easing0) return
 
@@ -26,10 +28,13 @@ data class AnimatableFloat(private val initial: Number) : IAnimatable {
         duration = duration0.toFloat()
         easing = easing0
         elapsed = 0f
+        function = function0
 
         if (duration <= 0f) {
             value = to
             elapsed = duration
+            function?.invoke()
+            function = null
             return
         }
 

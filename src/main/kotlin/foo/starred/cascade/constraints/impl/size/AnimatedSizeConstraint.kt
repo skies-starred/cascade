@@ -19,21 +19,22 @@ class AnimatedSizeConstraint(width: Number, height: Number) : ISizeConstraint {
         return h.value
     }
 
-    fun animate(manager: Animation, w1: Number, h1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR) {
-        w.animate(manager, w1, duration, easing)
+    fun animate(manager: Animation, w1: Number, h1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR, function: (() -> Unit)? = null) {
+        w.animate(manager, w1, duration, easing, function)
         h.animate(manager, h1, duration, easing)
     }
 
     companion object {
-        fun <T : IPrimitiveElement<T>> T.animateSize(w1: Number, h1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR): T {
+        fun <T : IPrimitiveElement<T>> T.animateSize(w1: Number, h1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR, function: (() -> Unit)? = null): T {
             val manager = root.animations
             if (manager == null) {
                 size = FixedSizeConstraint(w1, h1)
+                function?.invoke()
                 return self
             }
 
             val current = size as? AnimatedSizeConstraint ?: AnimatedSizeConstraint(width, height).also { size = it }
-            current.animate(manager, w1, h1, duration, easing)
+            current.animate(manager, w1, h1, duration, easing, function)
             return self
         }
     }
