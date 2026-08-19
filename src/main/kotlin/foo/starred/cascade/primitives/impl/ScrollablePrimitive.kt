@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.events.impl.MouseEvent
+import foo.starred.cascade.extensions.scissor.scissor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.primitives.base.interfaces.IPrimitiveScrollable
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -31,19 +32,14 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
     override fun render(graphics: GuiGraphicsExtractor) {
         if (!visible) return
 
-        val x = x.toInt()
-        val y = y.toInt()
-        val width = width.toInt()
-        val height = height.toInt()
+        graphics.scissor(x, y, width, height) {
+            graphics.pose().pushMatrix()
+            graphics.pose().translate(0f, -scroll.toFloat())
 
-        graphics.enableScissor(x, y, x + width, y + height)
-        graphics.pose().pushMatrix()
-        graphics.pose().translate(0f, -scroll.toFloat())
+            super.render(graphics)
 
-        super.render(graphics)
-
-        graphics.pose().popMatrix()
-        graphics.disableScissor()
+            graphics.pose().popMatrix()
+        }
     }
 
     override fun layout() {
