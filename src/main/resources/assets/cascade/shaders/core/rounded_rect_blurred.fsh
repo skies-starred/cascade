@@ -1,6 +1,9 @@
 #version 330
 
 #moj_import <minecraft:dynamictransforms.glsl>
+#moj_import <cascade:blur.glsl>
+
+uniform sampler2D Sampler0;
 
 in vec2 localCoord;
 in vec4 vertexColor;
@@ -32,6 +35,12 @@ void main() {
 
     if (alpha < 0.001) discard;
 
-    fragColor = vertexColor * ColorModulator;
+    vec4 color = vertexColor * ColorModulator;
+    vec2 texelSize = 1.0 / vec2(textureSize(Sampler0, 0));
+    vec3 blur = blur(Sampler0, screenUv, texelSize, blurRadius).rgb;
+    color.rgb = mix(blur, color.rgb, color.a);
+    color.a = 1.0;
+
+    fragColor = color;
     fragColor.a *= alpha;
 }
