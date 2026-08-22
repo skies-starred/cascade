@@ -2,7 +2,10 @@
   "required": false,
   "package": "foo.starred.cascade.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "mixins.GuiRendererMixin",
+    "mixins.ScissorStackMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
