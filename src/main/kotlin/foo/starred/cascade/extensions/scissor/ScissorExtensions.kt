@@ -6,12 +6,17 @@ import net.minecraft.client.gui.GuiGraphicsExtractor
 //import foo.starred.cascade.geometry.CascadeScreenRectangle
 
 inline fun GuiGraphicsExtractor.scissor(x: Number, y: Number, width: Number, height: Number, block: () -> Unit) {
+    val x = x.toInt()
+    val y = y.toInt()
+    val width = width.toInt()
+    val height = height.toInt()
+
     //? if >= 26.2 {
-    /*scissorStack.push(CascadeScreenRectangle(x.toInt(), y.toInt(), width.toInt(), height.toInt()).transformAxisAligned(pose()))
+    /*scissorStack.push(CascadeScreenRectangle(x, y, width, height).transformAxisAligned(pose()))
     block()
     scissorStack.pop()
     *///? } else {
-    enableScissor(x.toInt(), y.toInt(), width.toInt(), height.toInt())
+    enableScissor(x, y, x + width, y + height)
     block()
     disableScissor()
     //? }
