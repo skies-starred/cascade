@@ -28,6 +28,6 @@ void main() {
     rectSize = vec2(float(UV1.x), float(UV1.y));
     cornerRadii = vec4(float(UV2.x & 0xFF), float((UV2.x >> 8) & 0xFF), float(UV2.y & 0xFF), float((UV2.y >> 8) & 0xFF)) * 0.1;
 
-    outlineW = Normal.x * 127.0;
+    outlineW = Normal.x * 127.0 + Normal.z;
     blurRadius = max(Normal.y * 127.0, 0.0);
 }

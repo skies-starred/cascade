@@ -52,11 +52,15 @@ class RoundedRectangleRenderState(
 
         val u2x = (tr shl 8) or tl
         val u2y = (bl shl 8) or br
-        val line = min(outline, 127f) / 127f
-        val blur = min(blur / 2, 127f) / 127f
+
+        val outline0 = outline.toInt().coerceIn(0, 127)
+        val outline = ((outline - outline0) * 127f).toInt().coerceIn(0, 127)
+        val line0 = outline0 / 127f
+        val line = outline / 127f
+        val blur = min(blur, 127f) / 127f
 
         fun vertex(x: Float, y: Float, u: Float, v: Float) {
-            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(line, blur, 0f)
+            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(line0, blur, line)
         }
 
         vertex(x0, y0, 0f, 0f)
@@ -103,7 +107,7 @@ class RoundedRectangleRenderState(
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
                 .withLocation(Identifier.fromNamespaceAndPath("cascade", "rounded_rect_blurred"))
                 .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/rounded_rect"))
-                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/rounded_rect"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/rounded_rect_blurred"))
                 .build()
         )
 
