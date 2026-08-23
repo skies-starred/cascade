@@ -26,7 +26,7 @@ object Cascade : ClientModInitializer {
     val client: Minecraft = Minecraft.getInstance()
 
     override fun onInitializeClient() {
-        CascadeFonts.init()
+        CascadeFonts.toString()
 
         ClientLifecycleEvents.CLIENT_STARTED.register { _ ->
             val chars = (32..126).map { it.toChar() }

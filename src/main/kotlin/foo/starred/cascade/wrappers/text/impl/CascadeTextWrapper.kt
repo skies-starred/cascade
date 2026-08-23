@@ -7,7 +7,9 @@ import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.util.FormattedCharSequence
 
 object CascadeTextWrapper : ITextWrapper {
-    private val height = CascadeFonts.arial.regular.height
+    private val height by lazy {
+        CascadeFonts.arial.regular.height
+    }
 
     override fun width(text: FormattedCharSequence, size: Float): Float {
         return CascadeFonts.arial.width(text, size)

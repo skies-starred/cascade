@@ -10,13 +10,13 @@ import net.minecraft.network.chat.Component
 import net.minecraft.util.FormattedCharSequence
 
 object CascadeFonts {
-    lateinit var arial: FontRenderer
+    var arial: FontRenderer
         private set
 
     var loaded: Boolean = false
         private set
 
-    fun init() {
+    init {
         arial = FontRenderer(TtfFontData(resource("/assets/cascade/font/arial.ttf")), TtfFontData(resource("/assets/cascade/font/arial_bold.ttf")))
         loaded = true
     }
