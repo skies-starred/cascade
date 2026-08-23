@@ -1,8 +1,8 @@
-package foo.starred.cascade.states.extensions.shadow
+package foo.starred.cascade.graphics.extensions.shadow
 
-import foo.starred.cascade.geometry.CascadeGeometricOffset
-import foo.starred.cascade.geometry.CascadeGeometricRadius
-import foo.starred.cascade.states.impl.shadow.DropShadowRenderState
+import foo.starred.cascade.graphics.geometry.CascadeGeometricOffset
+import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
+import foo.starred.cascade.graphics.states.shadow.DropShadowRenderState
 import foo.starred.cascade.utils.bounds
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor

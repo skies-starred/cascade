@@ -1,13 +1,13 @@
 @file:Suppress("Unused")
 
-package foo.starred.cascade.states.impl.shadow
+package foo.starred.cascade.graphics.states.shadow
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
-import foo.starred.cascade.geometry.CascadeGeometricRadius
+import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
@@ -88,7 +88,7 @@ class DropShadowRenderState(
                 //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
                 .withLocation(Identifier.fromNamespaceAndPath("cascade", "drop_shadow"))
-                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/rectangle/rounded/rounded_rect"))
+                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/shadow/drop/drop_shadow"))
                 .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/shadow/drop/drop_shadow"))
                 .build()
         )
