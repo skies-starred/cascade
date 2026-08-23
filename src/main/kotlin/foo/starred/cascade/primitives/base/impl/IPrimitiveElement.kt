@@ -13,8 +13,9 @@ import foo.starred.cascade.events.impl.FocusEvent
 import foo.starred.cascade.primitives.base.interfaces.*
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Matrix3x2f
+import java.util.concurrent.CopyOnWriteArrayList
 
-abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffect<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
+abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
     internal var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
@@ -23,8 +24,8 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     abstract var height: Float
     abstract var color: Int
 
-    override val effects: MutableList<IEffect> = mutableListOf()
-    override val children: MutableList<IPrimitiveElement<*>> = mutableListOf()
+    override val effects: CopyOnWriteArrayList<IEffect> = CopyOnWriteArrayList()
+    override val children: CopyOnWriteArrayList<IPrimitiveElement<*>> = CopyOnWriteArrayList()
     override val listeners: MutableMap<Class<out UIEvent>, MutableList<UIEvent.() -> Unit>> = mutableMapOf()
 
     override val root: IPrimitiveElement<*>
