@@ -1,13 +1,13 @@
 @file:Suppress("Unused")
 
-package foo.starred.cascade.states.impl.blur
+package foo.starred.cascade.graphics.states.blur
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
-import foo.starred.cascade.geometry.CascadeGeometricRadius
+import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.utils.Blur
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
@@ -86,7 +86,7 @@ class BlurRenderState(
                 //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
                 .withLocation(Identifier.fromNamespaceAndPath("cascade", "blur"))
-                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/rectangle/rounded/rounded_rect"))
+                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/blur/blur"))
                 .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/blur/blur"))
                 .build()
         )

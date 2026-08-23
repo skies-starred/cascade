@@ -1,15 +1,13 @@
 #version 330
 
 #moj_import <minecraft:dynamictransforms.glsl>
-#moj_import <cascade:blur.glsl>
-
-uniform sampler2D Sampler0;
 
 in vec2 localCoord;
 in vec4 vertexColor;
 in vec2 screenUv;
 flat in vec2 rectSize;
 flat in vec4 cornerRadii;
+flat in float outlineW;
 flat in float blurRadius;
 
 out vec4 fragColor;
@@ -27,19 +25,23 @@ float roundedBox(vec2 p, vec2 b, vec4 r) {
 
 void main() {
     vec2 half0 = rectSize * 0.5;
-    float dist = roundedBox(localCoord - half0, half0, min(cornerRadii, vec4(min(half0.x, half0.y))));
+    vec2 quadHalf = half0 + vec2(blurRadius);
+    vec2 p = localCoord - quadHalf;
 
-    float delta = fwidth(dist);
-    float alpha = 1.0 - smoothstep(-delta, delta, dist);
+    float dist = roundedBox(p, half0, min(cornerRadii, vec4(min(half0.x, half0.y))));
+
+    float d0 = fwidth(dist);
+    float blur = max(blurRadius, 0.0);
+
+    float alpha;
+    if (blur > 0.0) {
+        alpha = dist <= 0.0 ? 1.0 : clamp(1.0 - smoothstep(0.0, blur, dist), 0.0, 1.0);
+    } else {
+        alpha = 1.0 - smoothstep(-d0, d0, dist);
+    }
 
     if (alpha < 0.001) discard;
 
-    vec4 color = vertexColor * ColorModulator;
-    vec2 texelSize = 1.0 / vec2(textureSize(Sampler0, 0));
-    vec3 blur = blur(Sampler0, screenUv, texelSize, blurRadius).rgb;
-    color.rgb = mix(blur, color.rgb, color.a);
-    color.a = 1.0;
-
-    fragColor = color;
+    fragColor = vertexColor * ColorModulator;
     fragColor.a *= alpha;
 }

@@ -1,34 +1,33 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.extensions.circle.circle
+import foo.starred.cascade.graphics.extensions.circle.circle
+import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.primitives.base.interfaces.IPrimitiveRounded
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.max
 
-open class CirclePrimitive : IPrimitiveElement<CirclePrimitive>() {
+open class CirclePrimitive : IPrimitiveElement<CirclePrimitive>(), IPrimitiveRounded {
     override var x: Float = 0f
     override var y: Float = 0f
     override var color: Int = -1
+    override var radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO // Only takes top left radius into account!
 
     override var width: Float
-        get() = radius * 2f
+        get() = radius.tl * 2f
         set(value) {
-            radius = max(value / 2f, radius)
+            radius = CascadeGeometricRadius(max(value / 2f, radius.tl))
         }
 
     override var height: Float
-        get() = radius * 2f
+        get() = radius.tl * 2f
         set(value) {
-            radius = max(value / 2f, radius)
+            radius = CascadeGeometricRadius(max(value / 2f, radius.tl))
         }
 
-    var radius: Float = 0f
-
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
-
+    override fun draw(graphics: GuiGraphicsExtractor) {
+        val radius = radius.tl
         graphics.circle(x + radius, y + radius, radius, color)
-        super.render(graphics)
     }
 
     companion object {

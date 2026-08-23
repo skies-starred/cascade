@@ -1,14 +1,14 @@
 @file:Suppress("Unused")
 
-package foo.starred.cascade.states.impl.shadow
+package foo.starred.cascade.graphics.states.shadow
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
-import foo.starred.cascade.geometry.CascadeGeometricOffset
-import foo.starred.cascade.geometry.CascadeGeometricRadius
+import foo.starred.cascade.graphics.geometry.CascadeGeometricOffset
+import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
