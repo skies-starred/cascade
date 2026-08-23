@@ -4,7 +4,7 @@ package foo.starred.cascade
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import foo.starred.cascade.font.CascadeFonts
+import foo.starred.cascade.graphics.font.CascadeFonts
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.minecraft.client.Minecraft
