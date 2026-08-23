@@ -1,4 +1,4 @@
-package foo.starred.cascade.graphics.states.rectangle.rounded
+package foo.starred.cascade.graphics.states.rectangle.hollow
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -16,14 +16,15 @@ import net.minecraft.resources.Identifier
 import org.joml.Matrix3x2fc
 import kotlin.math.min
 
-class RoundedRectangleRenderState(
+class HollowRectangleRenderState(
     val pose: Matrix3x2fc,
     val x0: Float,
     val y0: Float,
     val x1: Float,
     val y1: Float,
+    val thickness: Float,
     val color: Int,
-    val radius: CascadeGeometricRadius,
+    val radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO,
     val scissor: ScreenRectangle? = null,
     val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : GuiElementRenderState {
@@ -43,9 +44,10 @@ class RoundedRectangleRenderState(
 
         val u2x = (tr shl 8) or tl
         val u2y = (bl shl 8) or br
+        val line = thickness / 127f
 
         fun vertex(x: Float, y: Float, u: Float, v: Float) {
-            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y)
+            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(line, 0f, 0f)
         }
 
         vertex(x0, y0, 0f, 0f)
@@ -62,6 +64,7 @@ class RoundedRectangleRenderState(
             .addAttribute("UV0", GpuFormat.RG32_FLOAT)
             .addAttribute("UV1", GpuFormat.RG16_SINT)
             .addAttribute("UV2", GpuFormat.RG16_SINT)
+            .addAttribute("Normal", GpuFormat.RGBA8_SNORM)
             .build()
         *///? } else {
         private val VERTEX_FORMAT = VertexFormat.builder()
@@ -70,6 +73,8 @@ class RoundedRectangleRenderState(
             .add("UV0", VertexFormatElement.UV0)
             .add("UV1", VertexFormatElement.UV1)
             .add("UV2", VertexFormatElement.UV2)
+            .add("Normal", VertexFormatElement.NORMAL)
+            .padding(1)
             .build()
         //? }
 
@@ -77,9 +82,9 @@ class RoundedRectangleRenderState(
             RenderPipeline.builder(RenderPipelines.GUI_SNIPPET)
                 //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
-                .withLocation(Identifier.fromNamespaceAndPath("cascade", "rounded_rect"))
-                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/rectangle/rounded/rounded_rect"))
-                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/rectangle/rounded/rounded_rect"))
+                .withLocation(Identifier.fromNamespaceAndPath("cascade", "hollow_rect"))
+                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/rectangle/hollow/hollow_rect"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/rectangle/hollow/hollow_rect"))
                 .build()
         )
     }
