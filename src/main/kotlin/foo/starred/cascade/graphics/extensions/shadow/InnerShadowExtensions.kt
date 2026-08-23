@@ -12,8 +12,9 @@ import org.joml.Matrix3x2f
 fun GuiGraphicsExtractor.innerShadow(x: Float, y: Float, width: Float, height: Float, offset: CascadeGeometricOffset, blur: Float, color: Int, radius: CascadeGeometricRadius, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null, bounds: ScreenRectangle? = null) {
     val x1 = x + width
     val y1 = y + height
-    val pose0 = pose ?: Matrix3x2f(pose())
-    val bounds0 = bounds ?: bounds(x, y, x1, y1, pose0, scissor)
+    val pose = pose ?: Matrix3x2f(pose())
+    val scissor = scissor ?: scissorStack.peek()
+    val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
-    InnerShadowRenderState(pose0, x, y, x1, y1, offset, blur, color, radius, scissor, bounds0).submit(this)
+    InnerShadowRenderState(pose, x, y, x1, y1, offset, blur, color, radius, scissor, bounds).submit(this)
 }
