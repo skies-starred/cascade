@@ -4,10 +4,9 @@ package foo.starred.cascade.primitives.base.interfaces
 
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
-import java.util.concurrent.CopyOnWriteArrayList
 
 interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<T> {
-    val children: CopyOnWriteArrayList<IPrimitiveElement<*>>
+    val children: MutableList<IPrimitiveElement<*>>
     val root: IPrimitiveElement<*>
     var parent: IPrimitiveElement<*>?
 

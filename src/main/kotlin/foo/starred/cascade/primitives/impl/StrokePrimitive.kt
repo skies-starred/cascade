@@ -1,11 +1,11 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
-import foo.starred.cascade.states.extensions.line.line
+import foo.starred.cascade.graphics.extensions.stroke.stroke
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.abs
 
-open class LinePrimitive : IPrimitiveElement<LinePrimitive>() {
+open class StrokePrimitive : IPrimitiveElement<StrokePrimitive>() {
     override var x: Float = 0f
     override var y: Float = 0f
     override var color: Int = -1
@@ -28,14 +28,14 @@ open class LinePrimitive : IPrimitiveElement<LinePrimitive>() {
     var thickness: Float = 1f
 
     override fun draw(graphics: GuiGraphicsExtractor) {
-        graphics.line(x, y, x2, y2, color, thickness)
+        graphics.stroke(x, y, x2, y2, color, thickness)
     }
 
     companion object {
-        val NONE = LinePrimitive()
+        val NONE = StrokePrimitive()
 
-        inline fun line(block: LinePrimitive.() -> Unit): LinePrimitive {
-            return LinePrimitive().apply(block)
+        inline fun line(block: StrokePrimitive.() -> Unit): StrokePrimitive {
+            return StrokePrimitive().apply(block)
         }
     }
 }

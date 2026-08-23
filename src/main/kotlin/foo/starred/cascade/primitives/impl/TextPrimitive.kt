@@ -3,8 +3,9 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
-import foo.starred.cascade.primitives.data.text.base.ITextPrimitiveRenderer
-import foo.starred.cascade.primitives.data.text.impl.VanillaTextPrimitiveRenderer
+import foo.starred.cascade.wrappers.text.base.ITextWrapper
+import foo.starred.cascade.wrappers.text.data.CascadeTextWrapperData
+import foo.starred.cascade.wrappers.text.impl.VanillaTextWrapper
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
 import net.minecraft.util.FormattedCharSequence
@@ -27,7 +28,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
     var center: Boolean = false
     var cached: Boolean = true
 
-    var type: ITextPrimitiveRenderer = VanillaTextPrimitiveRenderer
+    var wrapper: ITextWrapper = VanillaTextWrapper
         set(value) {
             if (field == value) return
             field = value
@@ -72,11 +73,11 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
         }
 
         if (width == 0f) {
-            width = texts0?.maxOfOrNull { type.width(it, textSize) } ?: type.width(text0, textSize)
+            width = texts0?.maxOfOrNull { wrapper.width(it, textSize) } ?: wrapper.width(text0, textSize)
         }
 
         if (height == 0f) {
-            height = texts0?.let { it.size * type.height(text0, textSize) + (it.size - 1) * 2f } ?: type.height(text0, textSize)
+            height = texts0?.let { it.size * wrapper.height(textSize) + (it.size - 1) * 2f } ?: wrapper.height(textSize)
         }
 
         position?.let {
@@ -85,11 +86,14 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
         }
     }
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
+    override fun draw(graphics: GuiGraphicsExtractor) {
         if (color ushr 24 == 0) return
 
-        type.render(graphics, this)
+        val data =
+            if (texts0 != null) CascadeTextWrapperData.multiple(texts0!!, x, y, color, shadow, center, width, textSize, cached)
+            else CascadeTextWrapperData.singular(text0, x, y, color, shadow, center, width, textSize, cached)
+
+        wrapper.render(graphics, data)
     }
 
     companion object {

@@ -17,16 +17,11 @@ open class RenderStatePrimitive : IPrimitiveElement<RenderStatePrimitive>() {
     var provider: ((GuiGraphicsExtractor) -> GuiElementRenderState?)? = null
     var ascend: Boolean = false
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
+    override fun draw(graphics: GuiGraphicsExtractor) {
+        val s = state ?: provider?.invoke(graphics) ?: return
 
-        val s = state ?: provider?.invoke(graphics)
-        if (s != null) {
-            s.submit(graphics)
-            if (ascend) graphics.guiRenderState.nextStratum()
-        }
-
-        super.render(graphics)
+        s.submit(graphics)
+        if (ascend) graphics.guiRenderState.nextStratum()
     }
 
     companion object {
