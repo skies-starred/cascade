@@ -7,13 +7,14 @@ import foo.starred.cascade.animation.data.AnimatableColor
 import foo.starred.cascade.animation.data.AnimatableFloat
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
+import foo.starred.cascade.effects.base.IEffect
 import foo.starred.cascade.events.base.UIEvent
 import foo.starred.cascade.events.impl.FocusEvent
 import foo.starred.cascade.primitives.base.interfaces.*
 import net.minecraft.client.gui.GuiGraphicsExtractor
-import java.util.concurrent.CopyOnWriteArrayList
+import org.joml.Matrix3x2f
 
-abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
+abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffect<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
     internal var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
@@ -22,8 +23,9 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     abstract var height: Float
     abstract var color: Int
 
+    override val effects: MutableList<IEffect> = mutableListOf()
+    override val children: MutableList<IPrimitiveElement<*>> = mutableListOf()
     override val listeners: MutableMap<Class<out UIEvent>, MutableList<UIEvent.() -> Unit>> = mutableMapOf()
-    override val children: CopyOnWriteArrayList<IPrimitiveElement<*>> = CopyOnWriteArrayList()
 
     override val root: IPrimitiveElement<*>
         get() {
@@ -80,9 +82,39 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     override var `animation$float`: AnimatableFloat? = null
     override var `animation$color`: AnimatableColor? = null
 
+    open fun draw(graphics: GuiGraphicsExtractor) {}
+
     open fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
-        for (c in children) c.render(graphics)
+        if (!visible) {
+            return
+        }
+
+        if (effects.isEmpty()) {
+            draw(graphics)
+
+            for (c in children) {
+                c.render(graphics)
+            }
+
+            return
+        }
+
+        val pose = Matrix3x2f(graphics.pose())
+        val scissor = graphics.scissorStack.peek()
+
+        for (e in effects) {
+            e.before(self, graphics, pose, scissor)
+        }
+
+        draw(graphics)
+
+        for (e in effects) {
+            e.after(self, graphics, pose, scissor)
+        }
+
+        for (c in children) {
+            c.render(graphics)
+        }
     }
 
     inline fun <reified E : UIEvent> on(noinline listener: E.() -> Unit): T {

@@ -15,13 +15,11 @@ open class ItemPrimitive : IPrimitiveElement<ItemPrimitive>() {
 
     var item: ItemStack = ItemStack.EMPTY
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
+    override fun draw(graphics: GuiGraphicsExtractor) {
         if (item.isEmpty) return
 
         //~ if >= 26.1 'renderItem(' -> 'item('
         graphics.item(item, x.toInt(), y.toInt())
-        super.render(graphics)
     }
 
     companion object {

@@ -34,8 +34,7 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         scale = height * factor
     }
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
+    override fun draw(graphics: GuiGraphicsExtractor) {
         val entity = entity ?: return
 
         val mouseX = client.mouseHandler.getScaledXPos(client.window).toFloat()
@@ -84,7 +83,6 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
 
         //~ if >= 26.1 'submitEntityRenderState' -> 'entity'
         graphics.entity(state, scale, translation, rotationZ, rotationX, x0, y0, x1, y1)
-        super.render(graphics)
     }
 
     fun modifications(block: EntityRenderState.() -> Unit) {

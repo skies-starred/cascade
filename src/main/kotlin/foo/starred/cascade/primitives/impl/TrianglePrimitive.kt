@@ -1,7 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.extensions.triangle.triangle
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.graphics.extensions.triangle.triangle
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Vector2f
 import kotlin.math.max
@@ -46,11 +46,8 @@ open class TrianglePrimitive : IPrimitiveElement<TrianglePrimitive>() {
     var p1: Vector2f = Vector2f()
     var p2: Vector2f = Vector2f()
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
-
+    override fun draw(graphics: GuiGraphicsExtractor) {
         graphics.triangle(x + p0.x, y + p0.y, x + p1.x, y + p1.y, x + p2.x, y + p2.y, color)
-        super.render(graphics)
     }
 
     companion object {

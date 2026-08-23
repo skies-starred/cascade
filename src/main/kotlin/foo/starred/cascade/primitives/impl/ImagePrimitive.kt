@@ -1,8 +1,8 @@
 package foo.starred.cascade.primitives.impl
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
-import foo.starred.cascade.extensions.rectangle.blit
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.graphics.extensions.rectangle.textured.blit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.resources.Identifier
@@ -29,14 +29,11 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
     var textureWidth: Int = 256
     var textureHeight: Int = 256
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
+    override fun draw(graphics: GuiGraphicsExtractor) {
         val location = location ?: return
 
         if (sprite) {
             graphics.blitSprite(pipeline, location, x.toInt(), y.toInt(), width.toInt(), height.toInt(), color)
-            super.render(graphics)
-
             return
         }
 
@@ -55,7 +52,6 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
         }
 
         graphics.blit(pipeline, location, x, y, width, height, u00, v00, u01, v01, color)
-        super.render(graphics)
 
         if (rotation != 0f) {
             graphics.pose().popMatrix()

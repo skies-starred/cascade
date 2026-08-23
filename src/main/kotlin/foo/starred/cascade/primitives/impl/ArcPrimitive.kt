@@ -1,7 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.extensions.arc.arc
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.graphics.extensions.arc.arc
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.max
 
@@ -28,11 +28,8 @@ open class ArcPrimitive : IPrimitiveElement<ArcPrimitive>() {
     var angle1: Float = 360f
     var rounded: Boolean = false
 
-    override fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) return
-
+    override fun draw(graphics: GuiGraphicsExtractor) {
         graphics.arc(x + radius1, y + radius1, radius0, radius1, angle0, angle1, rounded, color)
-        super.render(graphics)
     }
 
     companion object {
