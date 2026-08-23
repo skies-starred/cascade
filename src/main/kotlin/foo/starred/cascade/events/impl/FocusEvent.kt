@@ -1,4 +1,4 @@
-﻿package foo.starred.cascade.events.impl
+package foo.starred.cascade.events.impl
 
 import foo.starred.cascade.events.base.UIEvent
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
