@@ -11,8 +11,9 @@ import org.joml.Matrix3x2f
 fun GuiGraphicsExtractor.blur(x: Float, y: Float, width: Float, height: Float, color: Int, radius: CascadeGeometricRadius, blur: Float, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null, bounds: ScreenRectangle? = null) {
     val x1 = x + width
     val y1 = y + height
-    val pose0 = pose ?: Matrix3x2f(pose())
-    val bounds0 = bounds ?: bounds(x, y, x1, y1, pose0, scissor)
+    val pose = pose ?: Matrix3x2f(pose())
+    val scissor = scissor ?: scissorStack.peek()
+    val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
-    BlurRenderState(pose0, x, y, x1, y1, color, radius, blur, scissor, bounds0).submit(this)
+    BlurRenderState(pose, x, y, x1, y1, color, radius, blur, scissor, bounds).submit(this)
 }

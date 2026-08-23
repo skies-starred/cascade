@@ -12,6 +12,7 @@ fun GuiGraphicsExtractor.roundedRectangle(x: Float, y: Float, width: Float, heig
     val x1 = x + width
     val y1 = y + height
     val pose = pose ?: Matrix3x2f(pose())
+    val scissor = scissor ?: scissorStack.peek()
     val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
     RoundedRectangleRenderState(pose, x, y, x1, y1, color, radius, scissor, bounds).submit(this)

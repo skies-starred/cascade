@@ -12,6 +12,7 @@ fun GuiGraphicsExtractor.hollowRectangle(x: Float, y: Float, width: Float, heigh
     val x1 = x + width
     val y1 = y + height
     val pose = pose ?: Matrix3x2f(pose())
+    val scissor = scissor ?: scissorStack.peek()
     val bounds = bounds ?: bounds(x, y, x1, y1, pose, scissor)
 
     HollowRectangleRenderState(pose, x, y, x1, y1, thickness, color, radius, scissor, bounds).submit(this)
