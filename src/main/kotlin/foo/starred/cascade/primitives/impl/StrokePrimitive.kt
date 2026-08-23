@@ -1,7 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.graphics.extensions.stroke.stroke
+import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.abs
 

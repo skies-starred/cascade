@@ -1,7 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
-import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.graphics.extensions.triangle.triangle
+import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Vector2f
 import kotlin.math.max

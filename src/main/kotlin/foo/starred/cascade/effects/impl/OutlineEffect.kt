@@ -1,9 +1,9 @@
 package foo.starred.cascade.effects.impl
 
 import foo.starred.cascade.effects.base.IEffect
+import foo.starred.cascade.graphics.extensions.rectangle.hollow.hollowRectangle
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
-import foo.starred.cascade.graphics.extensions.rectangle.hollow.hollowRectangle
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
