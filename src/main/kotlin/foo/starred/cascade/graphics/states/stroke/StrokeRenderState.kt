@@ -111,7 +111,7 @@ class StrokeRenderState(
             RenderPipeline.builder(RenderPipelines.GUI_SNIPPET)
                 //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
-                .withLocation(Identifier.fromNamespaceAndPath("cascade", "line"))
+                .withLocation(Identifier.fromNamespaceAndPath("cascade", "stroke"))
                 .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/stroke/stroke"))
                 .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/stroke/stroke"))
                 .build()
