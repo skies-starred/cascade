@@ -5,31 +5,12 @@ A UI and font rendering engine for Minecraft.
 ## Features
 
 - **Fonts:** Load `.ttf` files or use pre-baked MSDF fonts.
+- A Kotlin-first constraint-based layout builder
+- Rounded rectangles, blur, circles, arcs, rings, triangles, and more!
 
-### Primitives
+## Documentation
 
-- `ArcPrimitive`
-- `ContainerPrimitive`
-- `CirclePrimitive`
-- `ImagePrimitive`
-- `ItemPrimitive`
-- `LinePrimitive`
-- `RectanglePrimitive`
-- `RoundedRectanglePrimitive`
-- `ScrollablePrimitive`
-- `TextPrimitive`
-- `TrianglePrimitive`
-- `RenderStatePrimitive`
-
-### Render states
-
-- `ArcRenderState`
-- `CircleRenderState`
-- `LineRenderState`
-- `RectangleRenderState`
-- `RoundedRectangleRenderState`
-- `TextureRenderState`
-- `TriangleRenderState`
+Check it out here: [Click me!](./documentation)
 
 ## Usage
 
