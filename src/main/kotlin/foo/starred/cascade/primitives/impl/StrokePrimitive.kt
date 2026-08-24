@@ -34,7 +34,7 @@ open class StrokePrimitive : IPrimitiveElement<StrokePrimitive>() {
     companion object {
         val NONE = StrokePrimitive()
 
-        inline fun line(block: StrokePrimitive.() -> Unit): StrokePrimitive {
+        inline fun stroke(block: StrokePrimitive.() -> Unit): StrokePrimitive {
             return StrokePrimitive().apply(block)
         }
     }
