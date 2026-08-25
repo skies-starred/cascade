@@ -65,7 +65,7 @@ repositories {
 dependencies {
     "minecraft"("com.mojang:minecraft:$ver")
 
-    rune("devauth".global)
+    "localRuntime"("devauth".global)
 
     impl("fabric-api".versioned)
     impl("fabric-loader".global)
@@ -112,9 +112,6 @@ kotlin {
 
     compilerOptions {
         jvmTarget.set(JvmTarget.valueOf("JVM_$java"))
-
-        freeCompilerArgs.addAll("-XXLanguage:+ExplicitBackingFields", "-Xcontext-parameters", "-Xcontext-sensitive-resolution")
-        optIn.add("kotlin.time.ExperimentalTime")
     }
 }
 
