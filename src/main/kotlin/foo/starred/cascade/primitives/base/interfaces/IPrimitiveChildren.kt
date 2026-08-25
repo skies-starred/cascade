@@ -32,6 +32,7 @@ interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<
 
     fun disown(a: IPrimitiveElement<*>): T {
         if (a.parent !== self) return self
+        if (root.focused != null) a.forEach { if (root.focused === it) root.focused = null }
 
         children.remove(a)
         a.parent = null
