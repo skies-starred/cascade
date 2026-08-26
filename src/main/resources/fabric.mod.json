@@ -3,7 +3,7 @@
   "id": "${id}",
   "version": "${version}",
   "name": "${name}",
-  "description": "A very awesome Hypixel SkyBlock template mod.",
+  "description": "A rendering library.",
   "authors": [
     "Starred"
   ],
@@ -26,5 +26,11 @@
     "fabric-language-kotlin": ">=${kotlin}",
     "minecraft": "${minecraft}"
   },
-  "accessWidener": "${accessWidener}"
+  "accessWidener": "${accessWidener}",
+  "custom": {
+    "modmenu": {
+      "update_checker": false,
+      "badges": ["library"]
+    }
+  }
 }
