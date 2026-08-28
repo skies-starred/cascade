@@ -4,7 +4,7 @@ import foo.starred.cascade.Cascade
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.min
 
-object Resolution {
+internal object Resolution {
     private const val REFERENCE_WIDTH = 960f
     private const val REFERENCE_HEIGHT = 540f
 
@@ -17,7 +17,7 @@ object Resolution {
     var height = 540f
         private set
 
-    internal fun refresh() {
+    fun refresh() {
         val guiWidth = Cascade.client.window.guiScaledWidth
         val guiHeight = Cascade.client.window.guiScaledHeight
 
