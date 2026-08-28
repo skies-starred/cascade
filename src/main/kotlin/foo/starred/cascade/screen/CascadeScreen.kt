@@ -10,16 +10,22 @@ import net.minecraft.client.input.KeyEvent
 import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 
-open class CascadeScreen(title: String = "Cascade Screen [Athen]") : Screen(Component.literal(title)) {
+open class CascadeScreen(title: String = "Cascade Screen", private val guiScale: Boolean = false) : Screen(Component.literal(title)) {
     val scene = ContainerPrimitive().apply {
-        width = this@CascadeScreen.width.toFloat()
-        height = this@CascadeScreen.height.toFloat()
+        width = sceneWidth()
+        height = sceneHeight()
         animations = Animation(this)
     }
 
+    private fun sceneWidth() = if (guiScale) this@CascadeScreen.width.toFloat() else Resolution.width
+    private fun sceneHeight() = if (guiScale) this@CascadeScreen.height.toFloat() else Resolution.height
+    private fun mouseX(vanillaX: Double) = if (guiScale) vanillaX else vanillaX / Resolution.scale
+    private fun mouseY(vanillaY: Double) = if (guiScale) vanillaY else vanillaY / Resolution.scale
+
     override fun init() {
-        scene.width = width.toFloat()
-        scene.height = height.toFloat()
+        if (!guiScale) Resolution.refresh()
+        scene.width = sceneWidth()
+        scene.height = sceneHeight()
         scene.layout()
     }
 
@@ -28,25 +34,27 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]") : Screen(Comp
         scene.animations?.animate()
         if (scene.dirty) scene.layout()
 
+        if (!guiScale) Resolution.push(graphics)
         scene.render(graphics)
+        if (!guiScale) Resolution.pop(graphics)
         //~ if >= 26.1 'render(' -> 'extractRenderState('
         super.extractRenderState(graphics, mouseX, mouseY, delta)
     }
 
     final override fun mouseClicked(event: MouseButtonEvent, isDoubleClick: Boolean): Boolean {
-        return scene.mousePress(event.x(), event.y(), event.button()) || super.mouseClicked(event, isDoubleClick)
+        return scene.mousePress(mouseX(event.x()), mouseY(event.y()), event.button()) || super.mouseClicked(event, isDoubleClick)
     }
 
     final override fun mouseReleased(event: MouseButtonEvent): Boolean {
-        return scene.mouseRelease(event.x(), event.y(), event.button())
+        return scene.mouseRelease(mouseX(event.x()), mouseY(event.y()), event.button())
     }
 
     final override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
-        return scene.mouseScroll(mouseX, mouseY, scrollY) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)
+        return scene.mouseScroll(mouseX(mouseX), mouseY(mouseY), scrollY) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)
     }
 
     final override fun mouseMoved(mouseX: Double, mouseY: Double) {
-        scene.mouseMove(mouseX, mouseY)
+        scene.mouseMove(mouseX(mouseX), mouseY(mouseY))
         super.mouseMoved(mouseX, mouseY)
     }
 
