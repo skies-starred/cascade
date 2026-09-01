@@ -21,7 +21,7 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
     override var color: Int = -1
 
     var entity: LivingEntity? = null
-    var scale: Float = 30f
+    var multiplier: Float = 30f
     var factor: Float = 0.529f
     var cursor: Boolean = true
     var items: Boolean = true
@@ -31,14 +31,14 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         super.constrain(parent)
         if (size == null) return
 
-        scale = height * factor
+        multiplier = height * factor
     }
 
     override fun draw(graphics: GuiGraphicsExtractor) {
         val entity = entity ?: return
 
-        val mouseX = client.mouseHandler.getScaledXPos(client.window).toFloat()
-        val mouseY = client.mouseHandler.getScaledYPos(client.window).toFloat()
+        val mouseX = mouseX
+        val mouseY = mouseY
 
         val x0 = x.toInt()
         val y0 = y.toInt()
@@ -82,7 +82,7 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         val translation = Vector3f(0f, state.boundingBoxHeight / 2f + 0.0625f, 0f)
 
         //~ if >= 26.1 'submitEntityRenderState' -> 'entity'
-        graphics.entity(state, scale, translation, rotationZ, rotationX, x0, y0, x1, y1)
+        graphics.entity(state, multiplier, translation, rotationZ, rotationX, x0, y0, x1, y1)
     }
 
     fun modifications(block: EntityRenderState.() -> Unit) {
