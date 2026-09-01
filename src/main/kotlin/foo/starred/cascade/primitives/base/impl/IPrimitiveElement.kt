@@ -83,6 +83,15 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     override var `animation$float`: AnimatableFloat? = null
     override var `animation$color`: AnimatableColor? = null
 
+    var scale: Float = 1f
+        get() = if (this === root) field else root.scale
+
+    var mouseX: Float = 0f
+        get() = if (this === root) field else root.mouseX
+
+    var mouseY: Float = 0f
+        get() = if (this === root) field else root.mouseY
+
     open fun draw(graphics: GuiGraphicsExtractor) {}
 
     open fun render(graphics: GuiGraphicsExtractor) {
