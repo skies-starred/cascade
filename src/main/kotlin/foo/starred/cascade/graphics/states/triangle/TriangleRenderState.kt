@@ -32,10 +32,21 @@ class TriangleRenderState(
     private val x01 = max(x0, max(x1, x2))
     private val y01 = max(y0, max(y1, y2))
 
-    override fun pipeline(): RenderPipeline = PIPELINE
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissor
-    override fun bounds(): ScreenRectangle? = bounds(x00, y00, x01, y01, pose, scissor)
+    override fun pipeline(): RenderPipeline {
+        return PIPELINE
+    }
+
+    override fun textureSetup(): TextureSetup {
+        return TextureSetup.noTexture()
+    }
+
+    override fun scissorArea(): ScreenRectangle? {
+        return scissor
+    }
+
+    override fun bounds(): ScreenRectangle? {
+        return bounds(x00, y00, x01, y01, pose, scissor)
+    }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {
         val p1x = (x1 - x0).toInt().toShort().toInt() and 0xFFFF

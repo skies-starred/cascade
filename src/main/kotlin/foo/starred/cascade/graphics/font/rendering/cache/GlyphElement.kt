@@ -1,11 +1,11 @@
 package foo.starred.cascade.graphics.font.rendering.cache
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
-import foo.starred.cascade.graphics.font.rendering.state.RectangleRenderState
-import foo.starred.cascade.graphics.font.rendering.state.TexturedRectangleRenderState
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
+import foo.starred.cascade.graphics.states.rectangle.solid.SolidRectangleRenderState
+import foo.starred.cascade.graphics.states.rectangle.textured.TexturedRectangleRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.render.TextureSetup
-import net.minecraft.client.renderer.RenderPipelines
 import org.joml.Matrix3x2f
 
 class GlyphElement(
@@ -38,11 +38,12 @@ class GlyphElement(
         }
 
         val scissor = graphics.scissorStack.peek()
-        val state = TexturedRectangleRenderState(pipeline, textureSetup, matrix, x0, y0, x1, y1, u0, u1, v0, v1, color, color, scissor)
+        val color0 = CascadeGeometricColor(color)
+        val state = TexturedRectangleRenderState(pipeline, textureSetup, matrix, x0, y0, x1, y1, u0, u1, v0, v1, color0, scissor)
 
         //~ if >= 26.1 'submitGlyphToCurrentLayer' -> 'addGlyphToCurrentLayer' {
         if (shadow) {
-            graphics.guiRenderState.addGlyphToCurrentLayer(TexturedRectangleRenderState(pipeline, textureSetup, matrix, x0 + 0.5f, y0 + 0.5f, x1 + 0.5f, y1 + 0.5f, u0, u1, v0, v1, shade, shade, scissor))
+            graphics.guiRenderState.addGlyphToCurrentLayer(TexturedRectangleRenderState(pipeline, textureSetup, matrix, x0 + 0.5f, y0 + 0.5f, x1 + 0.5f, y1 + 0.5f, u0, u1, v0, v1, CascadeGeometricColor(shade), scissor))
         }
 
         graphics.guiRenderState.addGlyphToCurrentLayer(state)
@@ -50,11 +51,11 @@ class GlyphElement(
         val size2 = size / 10f
 
         if (strike) {
-            graphics.guiRenderState.addGlyphToCurrentLayer(RectangleRenderState(RenderPipelines.GUI, TextureSetup.noTexture(), matrix, 0f, size / 2f - size2 / 2f, advance, size / 2f + size2 / 2f, color, color, scissor))
+            graphics.guiRenderState.addGlyphToCurrentLayer(SolidRectangleRenderState(matrix, 0f, size / 2f - size2 / 2f, advance, size / 2f + size2 / 2f, color0, scissor))
         }
 
         if (under) {
-            graphics.guiRenderState.addGlyphToCurrentLayer(RectangleRenderState(RenderPipelines.GUI, TextureSetup.noTexture(), matrix, 0f, size - size2, advance, size, color, color, scissor))
+            graphics.guiRenderState.addGlyphToCurrentLayer(SolidRectangleRenderState(matrix, 0f, size - size2, advance, size, color0, scissor))
         }
         //~ }
     }

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
@@ -23,15 +24,26 @@ class HollowRectangleRenderState(
     val x1: Float,
     val y1: Float,
     val thickness: Float,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO,
     val scissor: ScreenRectangle? = null,
     val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : GuiElementRenderState {
-    override fun pipeline(): RenderPipeline = PIPELINE
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissor
-    override fun bounds(): ScreenRectangle? = bounds
+    override fun pipeline(): RenderPipeline {
+        return PIPELINE
+    }
+
+    override fun textureSetup(): TextureSetup {
+        return TextureSetup.noTexture()
+    }
+
+    override fun scissorArea(): ScreenRectangle? {
+        return scissor
+    }
+
+    override fun bounds(): ScreenRectangle? {
+        return bounds
+    }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {
         val width = (x1 - x0).toInt()
@@ -46,14 +58,14 @@ class HollowRectangleRenderState(
         val u2y = (bl shl 8) or br
         val line = thickness / 127f
 
-        fun vertex(x: Float, y: Float, u: Float, v: Float) {
+        fun vertex(x: Float, y: Float, u: Float, v: Float, color: Int) {
             vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(line, 0f, 0f)
         }
 
-        vertex(x0, y0, 0f, 0f)
-        vertex(x0, y1, 0f, height.toFloat())
-        vertex(x1, y1, width.toFloat(), height.toFloat())
-        vertex(x1, y0, width.toFloat(), 0f)
+        vertex(x0, y0, 0f, 0f, color.tl)
+        vertex(x0, y1, 0f, height.toFloat(), color.bl)
+        vertex(x1, y1, width.toFloat(), height.toFloat(), color.br)
+        vertex(x1, y0, width.toFloat(), 0f, color.tr)
     }
 
     companion object {
