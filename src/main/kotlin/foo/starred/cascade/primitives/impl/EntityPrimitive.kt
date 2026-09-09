@@ -81,8 +81,13 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         modifications(state)
         val translation = Vector3f(0f, state.boundingBoxHeight / 2f + 0.0625f, 0f)
 
+        val x00 = (x0 * scale).toInt()
+        val y00 = (y0 * scale).toInt()
+        val x01 = (x1 * scale).toInt()
+        val y01 = (y1 * scale).toInt()
+
         //~ if >= 26.1 'submitEntityRenderState' -> 'entity'
-        graphics.entity(state, multiplier, translation, rotationZ, rotationX, x0, y0, x1, y1)
+        graphics.entity(state, multiplier * scale, translation, rotationZ, rotationX, x00, y00, x01, y01)
     }
 
     fun modifications(block: EntityRenderState.() -> Unit) {
