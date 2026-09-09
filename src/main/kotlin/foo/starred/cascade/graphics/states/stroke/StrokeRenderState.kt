@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
@@ -24,7 +25,7 @@ class StrokeRenderState(
     x2: Float,
     y2: Float,
     thickness: Float,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
 ) : GuiElementRenderState {
     private var v0x: Float = 0f
@@ -39,10 +40,21 @@ class StrokeRenderState(
     private var v0: Float = 0f
     private var bounds: ScreenRectangle? = null
 
-    override fun pipeline(): RenderPipeline = PIPELINE
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissor
-    override fun bounds(): ScreenRectangle? = bounds
+    override fun pipeline(): RenderPipeline {
+        return PIPELINE
+    }
+
+    override fun textureSetup(): TextureSetup {
+        return TextureSetup.noTexture()
+    }
+
+    override fun scissorArea(): ScreenRectangle? {
+        return scissor
+    }
+
+    override fun bounds(): ScreenRectangle? {
+        return bounds
+    }
 
     init {
         val x0 = x2 - x1
@@ -86,10 +98,10 @@ class StrokeRenderState(
     override fun buildVertices(vertexConsumer: VertexConsumer) {
         if (bounds == null) return
 
-        vertexConsumer.addVertexWith2DPose(pose, v0x, v0y).setColor(color).setUv(-u0, -v0)
-        vertexConsumer.addVertexWith2DPose(pose, v1x, v1y).setColor(color).setUv(-u0, v0)
-        vertexConsumer.addVertexWith2DPose(pose, v2x, v2y).setColor(color).setUv(u0, v0)
-        vertexConsumer.addVertexWith2DPose(pose, v3x, v3y).setColor(color).setUv(u0, -v0)
+        vertexConsumer.addVertexWith2DPose(pose, v0x, v0y).setColor(color.tl).setUv(-u0, -v0)
+        vertexConsumer.addVertexWith2DPose(pose, v1x, v1y).setColor(color.bl).setUv(-u0, v0)
+        vertexConsumer.addVertexWith2DPose(pose, v2x, v2y).setColor(color.br).setUv(u0, v0)
+        vertexConsumer.addVertexWith2DPose(pose, v3x, v3y).setColor(color.tr).setUv(u0, -v0)
     }
 
     companion object {

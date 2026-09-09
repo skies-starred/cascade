@@ -29,10 +29,21 @@ class ArcRenderState(
 ) : GuiElementRenderState {
     private var bounds: ScreenRectangle? = null
 
-    override fun pipeline(): RenderPipeline = PIPELINE
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissor
-    override fun bounds(): ScreenRectangle? = bounds
+    override fun pipeline(): RenderPipeline {
+        return PIPELINE
+    }
+
+    override fun textureSetup(): TextureSetup {
+        return TextureSetup.noTexture()
+    }
+
+    override fun scissorArea(): ScreenRectangle? {
+        return scissor
+    }
+
+    override fun bounds(): ScreenRectangle? {
+        return bounds
+    }
 
     init {
         if (radius1 > 0f) {

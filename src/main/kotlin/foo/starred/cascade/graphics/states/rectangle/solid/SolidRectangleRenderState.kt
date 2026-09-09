@@ -2,6 +2,7 @@ package foo.starred.cascade.graphics.states.rectangle.solid
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
@@ -18,7 +19,7 @@ class SolidRectangleRenderState(
     y0: Float,
     x1: Float,
     y1: Float,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
 ) : GuiElementRenderState {
     val x00 = min(x0, x1)
@@ -27,15 +28,26 @@ class SolidRectangleRenderState(
     val y01 = max(y0, y1)
     val bounds: ScreenRectangle? = bounds(x00, y00, x01, y01, pose, scissor)
 
-    override fun pipeline(): RenderPipeline = RenderPipelines.GUI
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissor
-    override fun bounds(): ScreenRectangle? = bounds
+    override fun pipeline(): RenderPipeline {
+        return RenderPipelines.GUI
+    }
+
+    override fun textureSetup(): TextureSetup {
+        return TextureSetup.noTexture()
+    }
+
+    override fun scissorArea(): ScreenRectangle? {
+        return scissor
+    }
+
+    override fun bounds(): ScreenRectangle? {
+        return bounds
+    }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {
-        vertexConsumer.addVertexWith2DPose(pose, x00, y00).setColor(color)
-        vertexConsumer.addVertexWith2DPose(pose, x00, y01).setColor(color)
-        vertexConsumer.addVertexWith2DPose(pose, x01, y01).setColor(color)
-        vertexConsumer.addVertexWith2DPose(pose, x01, y00).setColor(color)
+        vertexConsumer.addVertexWith2DPose(pose, x00, y00).setColor(color.tl)
+        vertexConsumer.addVertexWith2DPose(pose, x00, y01).setColor(color.bl)
+        vertexConsumer.addVertexWith2DPose(pose, x01, y01).setColor(color.br)
+        vertexConsumer.addVertexWith2DPose(pose, x01, y00).setColor(color.tr)
     }
 }

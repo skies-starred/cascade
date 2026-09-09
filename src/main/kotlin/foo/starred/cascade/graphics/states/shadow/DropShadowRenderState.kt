@@ -32,10 +32,21 @@ class DropShadowRenderState(
     val scissor: ScreenRectangle? = null,
     val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : GuiElementRenderState {
-    override fun pipeline(): RenderPipeline = PIPELINE
-    override fun textureSetup(): TextureSetup = TextureSetup.noTexture()
-    override fun scissorArea(): ScreenRectangle? = scissor
-    override fun bounds(): ScreenRectangle? = bounds
+    override fun pipeline(): RenderPipeline {
+        return PIPELINE
+    }
+
+    override fun textureSetup(): TextureSetup {
+        return TextureSetup.noTexture()
+    }
+
+    override fun scissorArea(): ScreenRectangle? {
+        return scissor
+    }
+
+    override fun bounds(): ScreenRectangle? {
+        return bounds
+    }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {
         val width1 = (x1 - x0).toInt()
