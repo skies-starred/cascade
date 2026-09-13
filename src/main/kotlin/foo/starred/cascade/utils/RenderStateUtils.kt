@@ -2,14 +2,12 @@ package foo.starred.cascade.utils
 
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import org.joml.Matrix3x2fc
 import kotlin.math.ceil
 import kotlin.math.floor
 
 fun GuiElementRenderState.submit(graphics: GuiGraphicsExtractor) {
-    //~ if >= 26.1 'submitGuiElement' -> 'addGuiElement'
     graphics.guiRenderState.addGuiElement(this)
 }
 

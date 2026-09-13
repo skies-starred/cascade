@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.graphics.extensions.arc.arc
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.max
@@ -8,7 +9,7 @@ import kotlin.math.max
 open class ArcPrimitive : IPrimitiveElement<ArcPrimitive>() {
     override var x: Float = 0f
     override var y: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     override var width: Float
         get() = radius1 * 2f

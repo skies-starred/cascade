@@ -1,15 +1,18 @@
 package foo.starred.cascade.graphics.states.triangle
 
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormatElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import net.minecraft.resources.Identifier
 import org.joml.Matrix3x2fc
@@ -24,7 +27,7 @@ class TriangleRenderState(
     val y1: Float,
     val x2: Float,
     val y2: Float,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
 ) : GuiElementRenderState {
     private val x00 = min(x0, min(x1, x2))
@@ -54,14 +57,14 @@ class TriangleRenderState(
         val p2x = (x2 - x0).toInt().toShort().toInt() and 0xFFFF
         val p2y = (y2 - y0).toInt().toShort().toInt() and 0xFFFF
 
-        fun vertex(x: Float, y: Float) {
+        fun vertex(x: Float, y: Float, color: Int) {
             vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(x - x0, y - y0).setUv1(p1x, p1y).setUv2(p2x, p2y)
         }
 
-        vertex(x00, y00)
-        vertex(x00, y01)
-        vertex(x01, y01)
-        vertex(x01, y00)
+        vertex(x00, y00, color.tl)
+        vertex(x00, y01, color.bl)
+        vertex(x01, y01, color.br)
+        vertex(x01, y00, color.tr)
     }
 
     companion object {

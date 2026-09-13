@@ -1,12 +1,12 @@
 package foo.starred.cascade.graphics.states.rectangle.textured
 
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import org.joml.Matrix3x2fc
 import kotlin.math.max

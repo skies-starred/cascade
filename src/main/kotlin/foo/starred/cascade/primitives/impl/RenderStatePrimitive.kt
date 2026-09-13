@@ -1,9 +1,9 @@
 package foo.starred.cascade.primitives.impl
 
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 
 open class RenderStatePrimitive : IPrimitiveElement<RenderStatePrimitive>() {
@@ -11,7 +11,7 @@ open class RenderStatePrimitive : IPrimitiveElement<RenderStatePrimitive>() {
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     var state: GuiElementRenderState? = null
     var provider: ((GuiGraphicsExtractor) -> GuiElementRenderState?)? = null

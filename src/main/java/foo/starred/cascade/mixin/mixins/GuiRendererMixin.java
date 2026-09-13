@@ -1,9 +1,10 @@
 package foo.starred.cascade.mixin.mixins;
 
 import com.mojang.blaze3d.platform.Window;
+//~ if >= 26.3 'blaze3d.systems' -> 'renderpearl.api.commands'
 import com.mojang.blaze3d.systems.RenderPass;
 import foo.starred.cascade.Cascade;
-import net.minecraft.client.Minecraft;
+import foo.starred.cascade.mixin.accessors.RenderPassAccessor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.GuiRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +21,7 @@ public class GuiRendererMixin {
     /*@Inject(method = "enableScissor", at = @At("HEAD"), cancellable = true)
     private void cascade$enableScissor(ScreenRectangle rectangle, RenderPass renderPass, CallbackInfo ci) {
         if (!(rectangle instanceof CascadeScreenRectangle)) return;
+        RenderPassAccessor pass = (RenderPassAccessor) renderPass;
 
         final Window window = Cascade.client.getWindow();
         final double scale = window.getGuiScale();
@@ -28,7 +30,7 @@ public class GuiRendererMixin {
         final double width = rectangle.width() * scale;
         final double height = rectangle.height() * scale;
 
-        renderPass.backend.enableScissor((int) left, (int) bottom, Math.max(0, (int) width), Math.max(0, (int) height));
+        pass.cascade$backend().enableScissor((int) left, (int) bottom, Math.max(0, (int) width), Math.max(0, (int) height));
         ci.cancel();
     }
     *///? }

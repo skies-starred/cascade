@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.graphics.extensions.triangle.triangle
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Vector2f
@@ -10,7 +11,7 @@ import kotlin.math.min
 open class TrianglePrimitive : IPrimitiveElement<TrianglePrimitive>() {
     override var x: Float = 0f
     override var y: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     override var width: Float
         get() = max(p0.x, max(p1.x, p2.x)) - min(p0.x, min(p1.x, p2.x))

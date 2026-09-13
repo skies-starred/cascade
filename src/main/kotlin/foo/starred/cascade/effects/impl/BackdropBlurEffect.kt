@@ -2,6 +2,7 @@ package foo.starred.cascade.effects.impl
 
 import foo.starred.cascade.effects.base.IEffect
 import foo.starred.cascade.graphics.extensions.blur.blur
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -10,7 +11,7 @@ import org.joml.Matrix3x2f
 
 open class BackdropBlurEffect() : IEffect() {
     var blur: Float = 8f
-    var color: Int = 0
+    var color: CascadeGeometricColor = CascadeGeometricColor.TRANSPARENT
     var radius: CascadeGeometricRadius? = null
 
     constructor(block: BackdropBlurEffect.() -> Unit) : this() {

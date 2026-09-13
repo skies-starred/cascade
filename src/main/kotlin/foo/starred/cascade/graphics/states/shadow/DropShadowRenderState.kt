@@ -2,17 +2,20 @@
 
 package foo.starred.cascade.graphics.states.shadow
 
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormatElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import net.minecraft.resources.Identifier
 import org.joml.Matrix3x2fc
@@ -26,7 +29,7 @@ class DropShadowRenderState(
     val y1: Float,
     val width: Float,
     val height: Float,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val radius: CascadeGeometricRadius,
     val blur: Float = 0f,
     val scissor: ScreenRectangle? = null,
@@ -62,14 +65,14 @@ class DropShadowRenderState(
 
         val blur = min(blur, 127f) / 127f
 
-        fun vertex(x: Float, y: Float, u: Float, v: Float) {
+        fun vertex(x: Float, y: Float, u: Float, v: Float, color: Int) {
             vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width.toInt(), height.toInt()).setUv2(u2x, u2y).setNormal(0f, blur, 0f)
         }
 
-        vertex(x0, y0, 0f, 0f)
-        vertex(x0, y1, 0f, height1.toFloat())
-        vertex(x1, y1, width1.toFloat(), height1.toFloat())
-        vertex(x1, y0, width1.toFloat(), 0f)
+        vertex(x0, y0, 0f, 0f, color.tl)
+        vertex(x0, y1, 0f, height1.toFloat(), color.bl)
+        vertex(x1, y1, width1.toFloat(), height1.toFloat(), color.br)
+        vertex(x1, y0, width1.toFloat(), 0f, color.tr)
     }
 
     companion object {

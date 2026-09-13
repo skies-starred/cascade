@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.Cascade.client
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.entity.state.EntityRenderState
@@ -18,7 +19,7 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     var entity: LivingEntity? = null
     var multiplier: Float = 30f
@@ -86,7 +87,6 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         val x01 = (x1 * scale).toInt()
         val y01 = (y1 * scale).toInt()
 
-        //~ if >= 26.1 'submitEntityRenderState' -> 'entity'
         graphics.entity(state, multiplier * scale, translation, rotationZ, rotationX, x00, y00, x01, y01)
     }
 

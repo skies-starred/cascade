@@ -2,9 +2,14 @@ package foo.starred.cascade.primitives.utils
 
 import com.mojang.blaze3d.pipeline.TextureTarget
 import com.mojang.blaze3d.systems.RenderSystem
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.textures.FilterMode
 import foo.starred.cascade.Cascade.client
 import net.minecraft.client.gui.render.TextureSetup
+
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
+//? if >= 26.2
+//import com.mojang.blaze3d.GpuFormat
 
 object Blur {
     private var last = 0L
@@ -29,8 +34,13 @@ object Blur {
 
         if (target == null || width0 != width00 || height0 != height00) {
             target?.destroyBuffers()
-            //~ if >= 26.2 'false)' -> 'false, com.mojang.blaze3d.GpuFormat.RGBA8_UNORM)'
+            //? if >= 26.3 {
+            /*target = TextureTarget("cascade_blur_target", width00, height00, GpuFormat.RGBA8_UNORM, null)
+            *///? } elif 26.2 {
+            /*target = TextureTarget("cascade_blur_target", width00, height00, false, GpuFormat.RGBA8_UNORM)
+            *///? } else {
             target = TextureTarget("cascade_blur_target", width00, height00, false)
+            //? }
             width0 = width00
             height0 = height00
         }

@@ -1,5 +1,6 @@
 package foo.starred.cascade.graphics.geometry
 
+import net.minecraft.util.ARGB
 import java.awt.Color
 
 data class CascadeGeometricColor(
@@ -10,6 +11,23 @@ data class CascadeGeometricColor(
 ) {
     constructor(color: Int) : this(color, color, color, color)
     constructor(top: Int, bottom: Int) : this(top, top, bottom, bottom)
+
+    val visible: Boolean by lazy {
+        (tl ushr 24 == 0) && (tr ushr 24 == 0) && (bl ushr 24 == 0) && (br ushr 24 == 0)
+    }
+
+    fun rgb(rgb: Int): CascadeGeometricColor {
+        val rgb = rgb and 0x00FFFFFF
+        return CascadeGeometricColor((tl and 0xFF000000.toInt()) or rgb, (tr and 0xFF000000.toInt()) or rgb, (bl and 0xFF000000.toInt()) or rgb, (br and 0xFF000000.toInt()) or rgb)
+    }
+
+    fun alpha(scale: Float): CascadeGeometricColor {
+        return CascadeGeometricColor(ARGB.multiplyAlpha(tl, scale), ARGB.multiplyAlpha(tr, scale), ARGB.multiplyAlpha(bl, scale), ARGB.multiplyAlpha(br, scale))
+    }
+
+    fun scale(scale: Float): CascadeGeometricColor {
+        return CascadeGeometricColor(ARGB.scaleRGB(tl, scale), ARGB.scaleRGB(tr, scale), ARGB.scaleRGB(bl, scale), ARGB.scaleRGB(br, scale))
+    }
 
     companion object {
         val WHITE = CascadeGeometricColor(-1)

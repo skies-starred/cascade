@@ -6,26 +6,26 @@ import foo.starred.cascade.animation.Animation
 import foo.starred.cascade.animation.base.IAnimatable
 import foo.starred.cascade.animation.base.IAnimation
 import foo.starred.cascade.animation.enums.CascadeAnimations
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 
 class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
     override var function: (() -> Unit)? = null
 
-    var value: Int = element.color
+    var value: CascadeGeometricColor = element.color
         private set
 
-    private var from: Int = value
-    private var to: Int = value
+    private var from: CascadeGeometricColor = value
+    private var to: CascadeGeometricColor = value
     private var duration: Float = 0f
     private var elapsed: Float = 0f
     private var easing: IAnimation = CascadeAnimations.LINEAR
 
-    fun animate(manager: Animation, target: Number, duration0: Number, easing0: IAnimation = CascadeAnimations.LINEAR, function0: (() -> Unit)? = null) {
-        val t = target.toInt()
-        if (t == to && this.easing === easing0) return
+    fun animate(manager: Animation, target: CascadeGeometricColor, duration0: Number, easing0: IAnimation = CascadeAnimations.LINEAR, function0: (() -> Unit)? = null) {
+        if (target == to && this.easing === easing0) return
 
         from = value
-        to = t
+        to = target
         duration = duration0.toFloat()
         easing = easing0
         elapsed = 0f
@@ -43,8 +43,8 @@ class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
         manager.track(this)
     }
 
-    fun snap(target: Number) {
-        value = target.toInt()
+    fun snap(target: CascadeGeometricColor) {
+        value = target
         from = value
         to = value
         element.color = value
@@ -62,6 +62,12 @@ class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
 
         val ease = easing.apply(elapsed / duration)
 
+        value = CascadeGeometricColor(interpolate(from.tl, to.tl, ease), interpolate(from.tr, to.tr, ease), interpolate(from.bl, to.bl, ease), interpolate(from.br, to.br, ease))
+        element.color = value
+        return true
+    }
+
+    private fun interpolate(from: Int, to: Int, ease: Float): Int {
         val a1 = (from ushr 24) and 0xFF
         val r1 = (from ushr 16) and 0xFF
         val g1 = (from ushr 8) and 0xFF
@@ -77,16 +83,14 @@ class AnimatableColor(val element: IPrimitiveElement<*>) : IAnimatable {
         val g = (g1 + (g2 - g1) * ease).toInt()
         val b = (b1 + (b2 - b1) * ease).toInt()
 
-        value = (a shl 24) or (r shl 16) or (g shl 8) or b
-        element.color = value
-        return true
+        return (a shl 24) or (r shl 16) or (g shl 8) or b
     }
 
     companion object {
-        fun <T : IPrimitiveElement<T>> T.animateColor(color1: Number, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR, function: (() -> Unit)? = null): T {
+        fun <T : IPrimitiveElement<T>> T.animateColor(color1: CascadeGeometricColor, duration: Number, easing: IAnimation = CascadeAnimations.LINEAR, function: (() -> Unit)? = null): T {
             val manager = root.animations
             if (manager == null) {
-                color = color1.toInt()
+                color = color1
                 function?.invoke()
                 return self
             }

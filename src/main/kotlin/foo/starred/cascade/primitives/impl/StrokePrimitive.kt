@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.graphics.extensions.stroke.stroke
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import kotlin.math.abs
@@ -8,7 +9,7 @@ import kotlin.math.abs
 open class StrokePrimitive : IPrimitiveElement<StrokePrimitive>() {
     override var x: Float = 0f
     override var y: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     override var width: Float
         get() = abs(x2 - x)

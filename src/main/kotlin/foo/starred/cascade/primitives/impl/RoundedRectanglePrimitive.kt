@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.graphics.extensions.rectangle.rounded.roundedRectangle
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.primitives.base.interfaces.IPrimitiveRounded
@@ -11,8 +12,7 @@ open class RoundedRectanglePrimitive : IPrimitiveElement<RoundedRectanglePrimiti
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: Int = -1
-
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
     override var radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO
 
     override fun draw(graphics: GuiGraphicsExtractor) {

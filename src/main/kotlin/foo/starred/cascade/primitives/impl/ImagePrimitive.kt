@@ -1,7 +1,9 @@
 package foo.starred.cascade.primitives.impl
 
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import foo.starred.cascade.graphics.extensions.rectangle.textured.blit
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.RenderPipelines
@@ -12,7 +14,7 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     var sprite: Boolean = false
     var rotation: Float = 0f
@@ -33,7 +35,7 @@ open class ImagePrimitive : IPrimitiveElement<ImagePrimitive>() {
         val location = location ?: return
 
         if (sprite) {
-            graphics.blitSprite(pipeline, location, x.toInt(), y.toInt(), width.toInt(), height.toInt(), color)
+            graphics.blitSprite(pipeline, location, x.toInt(), y.toInt(), width.toInt(), height.toInt(), color.tl)
             return
         }
 

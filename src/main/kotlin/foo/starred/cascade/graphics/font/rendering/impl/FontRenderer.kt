@@ -4,18 +4,20 @@ package foo.starred.cascade.graphics.font.rendering.impl
 
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.systems.RenderSystem
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.textures.FilterMode
 import foo.starred.cascade.graphics.font.data.font.base.IFontData
 import foo.starred.cascade.graphics.font.data.font.impl.MsdfFontData
 import foo.starred.cascade.graphics.font.rendering.cache.GlyphElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
-import net.minecraft.util.ARGB
 import net.minecraft.util.FormattedCharSequence
 import org.joml.Matrix3x2f
 import java.util.concurrent.TimeUnit
@@ -27,14 +29,26 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
     private val layout: Cache<String, List<GlyphElement>> = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(1, TimeUnit.MINUTES).build()
 
     fun extract(graphics: GuiGraphicsExtractor, text: String, x: Number, y: Number, color: Int = -1, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
-        extract(graphics, Component.literal(text), x, y, color, shadow, size, cached)
+        extract(graphics, text, x, y, CascadeGeometricColor(color), shadow, size, cached)
     }
 
     fun extract(graphics: GuiGraphicsExtractor, component: Component, x: Number, y: Number, color: Int = -1, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
-        extract(graphics, component.visualOrderText, x, y, color, shadow, size, cached)
+        extract(graphics, component, x, y, CascadeGeometricColor(color), shadow, size, cached)
     }
 
     fun extract(graphics: GuiGraphicsExtractor, sequence: FormattedCharSequence, x: Number, y: Number, color: Int = -1, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
+        extract(graphics, sequence, x, y, CascadeGeometricColor(color), shadow, size, cached)
+    }
+
+    fun extract(graphics: GuiGraphicsExtractor, text: String, x: Number, y: Number, color: CascadeGeometricColor = CascadeGeometricColor.WHITE, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
+        extract(graphics, Component.literal(text), x, y, color, shadow, size, cached)
+    }
+
+    fun extract(graphics: GuiGraphicsExtractor, component: Component, x: Number, y: Number, color: CascadeGeometricColor = CascadeGeometricColor.WHITE, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
+        extract(graphics, component.visualOrderText, x, y, color, shadow, size, cached)
+    }
+
+    fun extract(graphics: GuiGraphicsExtractor, sequence: FormattedCharSequence, x: Number, y: Number, color: CascadeGeometricColor = CascadeGeometricColor.WHITE, shadow: Boolean = true, size: Number = 12, cached: Boolean = true) {
         val size = size.toFloat()
 
         if (!cached) {
@@ -116,7 +130,7 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
         return if (i3 == text.length) text else text.substring(0, i3) + suffix
     }
 
-    private fun extract0(sequence: FormattedCharSequence, size: Float, color: Int, shadow: Boolean): List<GlyphElement> {
+    private fun extract0(sequence: FormattedCharSequence, size: Float, color: CascadeGeometricColor, shadow: Boolean): List<GlyphElement> {
         val elements = mutableListOf<GlyphElement>()
         var x = 0f
 
@@ -133,8 +147,8 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
                 return@accept true
             }
 
-            val color0 = style.color?.value?.let { (color and 0xFF000000.toInt()) or (it and 0x00FFFFFF) } ?: color
-            val shade = if (shadow) style.shadowColor ?: ARGB.multiplyAlpha(ARGB.scaleRGB(color0, 0.25f), 0.55f) else color0
+            val color0 = style.color?.value?.let { color.rgb(it) } ?: color
+            val shade = if (shadow) style.shadowColor?.let { CascadeGeometricColor.of(it) } ?: color0.scale(0.25f).alpha(0.55f) else color0
 
             val ascent = size + font.metrics.descender * size
             val offset = if (style.isObfuscated) ((base.planeBounds?.width() ?: base.advance) - plane.width()) * size / 2f else 0f
