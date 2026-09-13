@@ -2,6 +2,7 @@ package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.events.impl.MouseEvent
 import foo.starred.cascade.graphics.extensions.scissor.scissor
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.primitives.base.interfaces.IPrimitiveScrollable
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -11,7 +12,7 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     val content: Int
         get() = children.maxOfOrNull { (it.y - y) + it.height }?.toInt() ?: 0

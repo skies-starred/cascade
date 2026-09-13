@@ -30,13 +30,12 @@ object VanillaTextWrapper : ITextWrapper {
 
         if (scale == 1f) {
             if (texts != null) {
-                graphics.extract(texts, x, y, data.color, data.shadow, center)
+                graphics.extract(texts, x, y, data.color.tl, data.shadow, center)
                 return
             }
 
             val x1 = if (center) x + (width / 2) - (client.font.width(text) / 2) else x
-            //~ if >= 26.1 'drawString(' -> 'text('
-            graphics.text(client.font, text, x1, y, data.color, data.shadow)
+            graphics.text(client.font, text, x1, y, data.color.tl, data.shadow)
             return
         }
 
@@ -45,14 +44,13 @@ object VanillaTextWrapper : ITextWrapper {
         pose.scale(scale, scale)
 
         if (texts != null) {
-            graphics.extract(texts, 0, 0, data.color, data.shadow, center)
+            graphics.extract(texts, 0, 0, data.color.tl, data.shadow, center)
             pose.popMatrix()
             return
         }
 
         val x1 = if (center) ((width / 2f / scale) - (client.font.width(text) / 2f)).toInt() else 0
-        //~ if >= 26.1 'drawString(' -> 'text('
-        graphics.text(client.font, text, x1, 0, data.color, data.shadow)
+        graphics.text(client.font, text, x1, 0, data.color.tl, data.shadow)
 
         pose.popMatrix()
     }
@@ -64,7 +62,6 @@ object VanillaTextWrapper : ITextWrapper {
         for (i in texts.indices) {
             val x0 = if (center) x + (max - widths[i]) / 2 else x
             val y0 = y + i * (client.font.lineHeight + 2)
-            //~ if >= 26.1 'drawString(' -> 'text('
             text(client.font, texts[i], x0, y0, color, shadow)
         }
     }

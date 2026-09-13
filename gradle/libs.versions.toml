@@ -1,17 +1,11 @@
 [versions]
-loom = "1.15-SNAPSHOT"
-kotlin = "2.3.0"
+loom = "1.17-SNAPSHOT"
+kotlin = "2.4.10"
 
-devauth = "1.2.2"
+devauth = "1.2.1"
 
-fabric-loader = "0.18.4"
-fabric-language-kotlin = "1.13.8+kotlin.2.3.0"
-
-fabric-api-1-21-11 = "0.140.2+1.21.11"
-fabric-api-26-1 = "0.144.0+26.1"
-fabric-api-26-2 = "0.154.0+26.2"
-
-parchment-1-21-11 = "2025.12.20"
+fabric-loader = "0.19.3"
+fabric-language-kotlin = "1.13.13+kotlin.2.4.10"
 
 [libraries]
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
@@ -19,13 +13,6 @@ fabric-language-kotlin = { module = "net.fabricmc:fabric-language-kotlin", versi
 
 devauth = { module = "me.djtheredstoner:DevAuth-fabric", version.ref = "devauth" }
 
-fabric-api-1-21-11 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-1-21-11" }
-fabric-api-26-1 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-26-1" }
-fabric-api-26-2 = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api-26-2" }
-
-parchment-1-21-11 = { module = "org.parchmentmc.data:parchment-1.21.11", version.ref = "parchment-1-21-11" }
-
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-loom-obf = { id = "fabric-loom", version.ref = "loom" }
 loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }

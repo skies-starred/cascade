@@ -1,15 +1,18 @@
 package foo.starred.cascade.graphics.states.circle
 
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormat
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormatElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import net.minecraft.resources.Identifier
 import org.joml.Matrix3x2fc
@@ -19,7 +22,7 @@ class CircleRenderState(
     val x: Float,
     val y: Float,
     val radius: Float,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
 ) : GuiElementRenderState {
     private var bounds: ScreenRectangle? = null
@@ -59,10 +62,10 @@ class CircleRenderState(
         val x1 = x + radius
         val y1 = y + radius
 
-        vertexConsumer.addVertexWith2DPose(pose, x0, y0).setColor(color).setUv(-1f, -1f)
-        vertexConsumer.addVertexWith2DPose(pose, x0, y1).setColor(color).setUv(-1f, 1f)
-        vertexConsumer.addVertexWith2DPose(pose, x1, y1).setColor(color).setUv(1f, 1f)
-        vertexConsumer.addVertexWith2DPose(pose, x1, y0).setColor(color).setUv(1f, -1f)
+        vertexConsumer.addVertexWith2DPose(pose, x0, y0).setColor(color.tl).setUv(-1f, -1f)
+        vertexConsumer.addVertexWith2DPose(pose, x0, y1).setColor(color.bl).setUv(-1f, 1f)
+        vertexConsumer.addVertexWith2DPose(pose, x1, y1).setColor(color.br).setUv(1f, 1f)
+        vertexConsumer.addVertexWith2DPose(pose, x1, y0).setColor(color.tr).setUv(1f, -1f)
     }
 
     companion object {

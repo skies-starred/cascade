@@ -1,5 +1,6 @@
 package foo.starred.cascade.wrappers.text.data
 
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import net.minecraft.network.chat.Component
 import net.minecraft.util.FormattedCharSequence
 
@@ -12,7 +13,7 @@ class CascadeTextWrapperData {
     var width: Float = 0f
     var size: Float = 12f
 
-    var color: Int = -1
+    var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     var cached: Boolean = false
     var center: Boolean = false
@@ -21,7 +22,7 @@ class CascadeTextWrapperData {
     companion object {
         private val EMPTY = Component.empty().visualOrderText
 
-        fun singular(text: FormattedCharSequence, x: Float, y: Float, color: Int = -1, shadow: Boolean = false, center: Boolean = false, width: Float = 0f, size: Float = 12f, cache: Boolean = true): CascadeTextWrapperData {
+        fun singular(text: FormattedCharSequence, x: Float, y: Float, color: CascadeGeometricColor = CascadeGeometricColor.WHITE, shadow: Boolean = false, center: Boolean = false, width: Float = 0f, size: Float = 12f, cache: Boolean = true): CascadeTextWrapperData {
             return CascadeTextWrapperData().apply {
                 this.text = text
                 this.x = x
@@ -35,7 +36,11 @@ class CascadeTextWrapperData {
             }
         }
 
-        fun multiple(texts: List<FormattedCharSequence>, x: Float, y: Float, color: Int = -1, shadow: Boolean = false, center: Boolean = false, width: Float = 0f, size: Float = 12f, cache: Boolean = true): CascadeTextWrapperData {
+        fun singular(text: FormattedCharSequence, x: Float, y: Float, color: Int, shadow: Boolean = false, center: Boolean = false, width: Float = 0f, size: Float = 12f, cache: Boolean = true): CascadeTextWrapperData {
+            return singular(text, x, y, CascadeGeometricColor(color), shadow, center, width, size, cache)
+        }
+
+        fun multiple(texts: List<FormattedCharSequence>, x: Float, y: Float, color: CascadeGeometricColor = CascadeGeometricColor.WHITE, shadow: Boolean = false, center: Boolean = false, width: Float = 0f, size: Float = 12f, cache: Boolean = true): CascadeTextWrapperData {
             return CascadeTextWrapperData().apply {
                 this.texts = texts
                 this.x = x
@@ -47,6 +52,10 @@ class CascadeTextWrapperData {
                 this.size = size
                 this.cached = cache
             }
+        }
+
+        fun multiple(texts: List<FormattedCharSequence>, x: Float, y: Float, color: Int, shadow: Boolean = false, center: Boolean = false, width: Float = 0f, size: Float = 12f, cache: Boolean = true): CascadeTextWrapperData {
+            return multiple(texts, x, y, CascadeGeometricColor(color), shadow, center, width, size, cache)
         }
     }
 }

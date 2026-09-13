@@ -1,14 +1,17 @@
 package foo.starred.cascade.graphics.states.arc
 
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.vertex.VertexFormat
+//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 //~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
 import com.mojang.blaze3d.vertex.VertexFormatElement
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines
-//~ if >= 26.1 'gui.render.state.GuiElementRenderState' -> 'renderer.state.gui.GuiElementRenderState'
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import net.minecraft.resources.Identifier
 import org.joml.Matrix3x2fc
@@ -24,7 +27,7 @@ class ArcRenderState(
     val angle0: Float,
     val angle1: Float,
     val rounded: Boolean,
-    val color: Int,
+    val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
 ) : GuiElementRenderState {
     private var bounds: ScreenRectangle? = null
@@ -74,10 +77,10 @@ class ArcRenderState(
         val u2x = a0 and 0xFFFF
         val u2y = a1 and 0xFFFF
 
-        vertexConsumer.addVertexWith2DPose(pose, x0, y0).setColor(color).setUv(-r, -r).setUv1(u1x, u1y).setUv2(u2x, u2y)
-        vertexConsumer.addVertexWith2DPose(pose, x0, y1).setColor(color).setUv(-r, r).setUv1(u1x, u1y).setUv2(u2x, u2y)
-        vertexConsumer.addVertexWith2DPose(pose, x1, y1).setColor(color).setUv(r, r).setUv1(u1x, u1y).setUv2(u2x, u2y)
-        vertexConsumer.addVertexWith2DPose(pose, x1, y0).setColor(color).setUv(r, -r).setUv1(u1x, u1y).setUv2(u2x, u2y)
+        vertexConsumer.addVertexWith2DPose(pose, x0, y0).setColor(color.tl).setUv(-r, -r).setUv1(u1x, u1y).setUv2(u2x, u2y)
+        vertexConsumer.addVertexWith2DPose(pose, x0, y1).setColor(color.bl).setUv(-r, r).setUv1(u1x, u1y).setUv2(u2x, u2y)
+        vertexConsumer.addVertexWith2DPose(pose, x1, y1).setColor(color.br).setUv(r, r).setUv1(u1x, u1y).setUv2(u2x, u2y)
+        vertexConsumer.addVertexWith2DPose(pose, x1, y0).setColor(color.tr).setUv(r, -r).setUv1(u1x, u1y).setUv2(u2x, u2y)
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.graphics.extensions.circle.circle
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.primitives.base.interfaces.IPrimitiveRounded
@@ -10,7 +11,7 @@ import kotlin.math.max
 open class CirclePrimitive : IPrimitiveElement<CirclePrimitive>(), IPrimitiveRounded {
     override var x: Float = 0f
     override var y: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
     override var radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO // Only takes top left radius into account!
 
     override var width: Float

@@ -3,6 +3,7 @@
   "package": "foo.starred.cascade.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "accessors.RenderPassAccessor",
     "mixins.GuiRendererMixin",
     "mixins.ScissorStackMixin"
   ],

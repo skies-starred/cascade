@@ -10,6 +10,7 @@ import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.effects.base.IEffect
 import foo.starred.cascade.events.base.UIEvent
 import foo.starred.cascade.events.impl.FocusEvent
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.interfaces.*
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Matrix3x2f
@@ -22,7 +23,7 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
     abstract var y: Float
     abstract var width: Float
     abstract var height: Float
-    abstract var color: Int
+    abstract var color: CascadeGeometricColor
 
     override val effects: CopyOnWriteArrayList<IEffect> = CopyOnWriteArrayList()
     override val children: CopyOnWriteArrayList<IPrimitiveElement<*>> = CopyOnWriteArrayList()

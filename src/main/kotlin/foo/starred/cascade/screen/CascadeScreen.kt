@@ -28,7 +28,6 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
         scene.layout()
     }
 
-    //~ if >= 26.1 'render(' -> 'extractRenderState('
     final override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
         scene.animations?.animate()
         if (scene.dirty) scene.layout()
@@ -46,7 +45,6 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
             graphics.pose().popMatrix()
         }
 
-        //~ if >= 26.1 'render(' -> 'extractRenderState('
         super.extractRenderState(graphics, mouseX, mouseY, delta)
     }
 

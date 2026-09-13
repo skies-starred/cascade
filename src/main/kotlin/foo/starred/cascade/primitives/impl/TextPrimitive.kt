@@ -2,6 +2,7 @@
 
 package foo.starred.cascade.primitives.impl
 
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.wrappers.text.base.ITextWrapper
 import foo.starred.cascade.wrappers.text.data.CascadeTextWrapperData
@@ -21,7 +22,7 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: Int = -1
+    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
 
     override var interact: Boolean = false
     var shadow: Boolean = true
@@ -87,8 +88,6 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
     }
 
     override fun draw(graphics: GuiGraphicsExtractor) {
-        if (color ushr 24 == 0) return
-
         val data =
             if (texts0 != null) CascadeTextWrapperData.multiple(texts0!!, x, y, color, shadow, center, width, textSize, cached)
             else CascadeTextWrapperData.singular(text0, x, y, color, shadow, center, width, textSize, cached)
