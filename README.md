@@ -29,6 +29,6 @@ dependencies {
 
 Latest cascade version: `040` / Usually updated, check commits for latest ``bump(version): <version>`` commit if not!
 \
-Minecraft versions: `1.21.11`, `26.1`,  `26.2`
+Minecraft versions: `26.1`,  `26.2`, `26.3`
 \
 Cascade will aim to support the latest three Minecraft versions.
