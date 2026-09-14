@@ -3,9 +3,9 @@
 //#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
-#moj_import <cascade:blur.glsl>
 
 uniform sampler2D Sampler0;
+uniform sampler2D Sampler1;
 
 //$ layout '0' 'in' >> vec
 in vec2 localCoord;
@@ -18,7 +18,7 @@ flat in vec2 rectSize;
 //$ layout '4' 'flat in' >> vec
 flat in vec4 cornerRadii;
 //$ layout '5' 'flat in' >> float
-flat in float blurRadius;
+flat in float blendFactor;
 
 //$ layout '0' 'out' >> vec
 out vec4 fragColor;
@@ -44,8 +44,10 @@ void main() {
     if (alpha < 0.001) discard;
 
     vec4 color = vertexColor * ColorModulator;
-    vec2 texelSize = 1.0 / vec2(textureSize(Sampler0, 0));
-    vec3 blur = blur(Sampler0, screenUv, texelSize, blurRadius).rgb;
+    vec3 blur0 = texture(Sampler0, screenUv).rgb;
+    vec3 blur1 = texture(Sampler1, screenUv).rgb;
+    vec3 blur = mix(blur0, blur1, blendFactor);
+
     color.rgb = mix(blur, color.rgb, color.a);
     color.a = 1.0;
 

@@ -12,7 +12,8 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.blaze3d.vertex.VertexFormatElement
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
-import foo.starred.cascade.primitives.utils.Blur
+import foo.starred.cascade.utils.blur.data.CascadeBlurBlend
+import foo.starred.cascade.utils.blur.impl.CascadeBlurHelper
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
@@ -34,12 +35,14 @@ class BlurRenderState(
     val scissor: ScreenRectangle? = null,
     val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : GuiElementRenderState {
+    private val blend: CascadeBlurBlend = CascadeBlurBlend.get(blur)
+
     override fun pipeline(): RenderPipeline {
         return PIPELINE
     }
 
     override fun textureSetup(): TextureSetup {
-        return Blur.setup()
+        return CascadeBlurHelper.setup(blend)
     }
 
     override fun scissorArea(): ScreenRectangle? {
@@ -61,10 +64,10 @@ class BlurRenderState(
 
         val u2x = (tr shl 8) or tl
         val u2y = (bl shl 8) or br
-        val blur = min(blur, 127f) / 127f
+        val blend = blend.blend
 
         fun vertex(x: Float, y: Float, u: Float, v: Float, color: Int) {
-            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(0f, blur, 0f)
+            vertexConsumer.addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(width, height).setUv2(u2x, u2y).setNormal(blend, 0f, 0f)
         }
 
         vertex(x0, y0, 0f, 0f, color.tl)
@@ -94,14 +97,23 @@ class BlurRenderState(
             .padding(1)
             .build()
         //? }
-
-        private val PIPELINE: RenderPipeline = RenderPipelines.register(
+        @JvmField
+        val PIPELINE: RenderPipeline = RenderPipelines.register(
             RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
+                //? if >= 26.3 {
+                /*.withBindGroupLayout(com.mojang.renderpearl.api.pipeline.BindGroupLayout.builder()
+                    .withUniform("Sampler1", com.mojang.renderpearl.api.pipeline.UniformType.COMBINED_IMAGE_SAMPLER)
+                    .build())
+                *///?} elif 26.2 {
+                /*.withBindGroupLayout(net.minecraft.client.renderer.BindGroupLayouts.SAMPLER1)
+                *///? } else {
+                .withSampler("Sampler1")
+                //?}
                 //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
                 .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
                 .withLocation(Identifier.fromNamespaceAndPath("cascade", "blur"))
-                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/blur/blur"))
-                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/blur/blur"))
+                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/blur/impl/blur"))
+                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/effects/blur/impl/blur"))
                 .build()
         )
     }

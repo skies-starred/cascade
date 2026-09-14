@@ -12,7 +12,7 @@ open class BlurPrimitive : IPrimitiveElement<BlurPrimitive>(), IPrimitiveRounded
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
-    override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
+    override var color: CascadeGeometricColor = CascadeGeometricColor.TRANSPARENT
     override var radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO
 
     var blur: Float = 8f

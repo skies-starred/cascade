@@ -29,7 +29,7 @@ flat out vec2 rectSize;
 //$ layout '4' 'flat out' >> vec
 flat out vec4 cornerRadii;
 //$ layout '5' 'flat out' >> float
-flat out float blurRadius;
+flat out float blendFactor;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
@@ -41,5 +41,5 @@ void main() {
     rectSize = vec2(float(UV1.x), float(UV1.y));
     cornerRadii = vec4(float(UV2.x & 0xFF), float((UV2.x >> 8) & 0xFF), float(UV2.y & 0xFF), float((UV2.y >> 8) & 0xFF)) * 0.1;
 
-    blurRadius = max(Normal.y * 127.0, 0.0);
+    blendFactor = clamp(Normal.x, 0.0, 1.0);
 }
