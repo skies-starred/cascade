@@ -1,3 +1,4 @@
+//? if < 26.3
 #version 330
 
 vec4 blur(sampler2D tex, vec2 uv, vec2 texelSize, float radius) {

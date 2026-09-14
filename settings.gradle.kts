@@ -27,11 +27,9 @@ fun TreeBuilder.setup(vararg versions: String) {
             from(files("gradle/mod.versions.toml"))
         }
 
-        for (ver in versions) {
-            val toml = file("gradle/${ver.replace(".", "-")}.versions.toml")
-                .takeIf { it.exists() } ?: file("gradle/$ver.versions.toml")
-
-            create("libs${ver.replace(".", "")}") {
+        for (v in versions) {
+            val toml = file("gradle/${v.replace(".", "-")}.versions.toml").takeIf { it.exists() } ?: file("gradle/$v.versions.toml")
+            create("libs${v.replace(".", "")}") {
                 from(files(toml))
             }
         }

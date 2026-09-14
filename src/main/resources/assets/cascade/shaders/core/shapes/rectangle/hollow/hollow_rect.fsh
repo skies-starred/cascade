@@ -1,13 +1,21 @@
 #version 330
+//? if >= 26.3
+//#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
 
+//$ layout '0' 'in' >> vec
 in vec2 localCoord;
+//$ layout '1' 'in' >> vec
 in vec4 vertexColor;
+//$ layout '2' 'flat in' >> vec
 flat in vec2 rectSize;
+//$ layout '3' 'flat in' >> vec
 flat in vec4 cornerRadii;
+//$ layout '4' 'flat in' >> float
 flat in float thickness;
 
+//$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
 float radius(vec2 p, vec4 r) {
