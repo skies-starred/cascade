@@ -1,12 +1,17 @@
 #version 330
+//? if >= 26.3
+//#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
 
 uniform sampler2D Sampler0;
 
+//$ layout '0' 'in' >> vec
 in vec2 texCoord0;
+//$ layout '1' 'in' >> vec
 in vec4 vertexColor;
 
+//$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
 float median(float r, float g, float b) {
@@ -27,5 +32,5 @@ void main() {
     float pxDist = range() * (dist - 0.5);
     float opacity = clamp(pxDist + 0.5, 0.0, 1.0);
 
-    fragColor = vec4(1.0, 1.0, 1.0, opacity) * vertexColor;
+    fragColor = vec4(1.0, 1.0, 1.0, opacity) * vertexColor * ColorModulator;
 }

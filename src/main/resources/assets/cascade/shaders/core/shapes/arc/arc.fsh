@@ -1,12 +1,19 @@
 #version 330
+//? if >= 26.3
+//#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
 
+//$ layout '0' 'in' >> vec
 in vec4 vertexColor;
+//$ layout '1' 'in' >> vec
 in vec2 localUV;
+//$ layout '2' 'flat in' >> vec
 flat in vec2 arcRadii;
+//$ layout '3' 'flat in' >> vec
 flat in vec2 arcAngles;
 
+//$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
 void main() {
