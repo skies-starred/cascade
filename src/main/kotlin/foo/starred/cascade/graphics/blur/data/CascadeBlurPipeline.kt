@@ -1,4 +1,4 @@
-package foo.starred.cascade.utils.blur.data
+package foo.starred.cascade.graphics.blur.data
 
 import com.mojang.blaze3d.pipeline.ColorTargetState
 import com.mojang.blaze3d.pipeline.RenderPipeline

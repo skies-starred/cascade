@@ -1,8 +1,7 @@
 package foo.starred.cascade.graphics.states.pipeline.vertex.builder
 
-import foo.starred.cascade.graphics.states.pipeline.vertex.data.CascadeVertexFormatElement
-
 import com.mojang.blaze3d.vertex.VertexFormat
+import foo.starred.cascade.graphics.states.pipeline.vertex.data.CascadeVertexFormatElement
 
 //? if >= 26.2 {
 /*import com.mojang.blaze3d.vertex.VertexFormatElement

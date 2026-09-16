@@ -1,4 +1,4 @@
-package foo.starred.cascade.utils.blur.data
+package foo.starred.cascade.graphics.blur.data
 
 @JvmInline
 value class CascadeBlurBlend(val packed: Long) {

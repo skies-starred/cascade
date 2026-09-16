@@ -5,9 +5,9 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import foo.starred.cascade.Cascade;
+import foo.starred.cascade.graphics.blur.impl.CascadeBlurSetup;
 import foo.starred.cascade.graphics.states.impl.blur.BlurRenderState;
 import foo.starred.cascade.mixin.accessors.RenderPassAccessor;
-import foo.starred.cascade.utils.blur.impl.CascadeBlurHelper;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.GuiRenderer;
 import org.spongepowered.asm.mixin.Final;
@@ -54,7 +54,7 @@ public class GuiRendererMixin {
         }
 
         if (first == startIndex) {
-            CascadeBlurHelper.INSTANCE.capture();
+            CascadeBlurSetup.INSTANCE.capture();
             return;
         }
 
@@ -62,7 +62,7 @@ public class GuiRendererMixin {
         //~ if >= 26.2 'fogBuffer, dynamicTransforms, indexBuffer, indexType' -> 'dynamicTransforms'
         this.executeDrawRange(label, mainRenderTarget, fogBuffer, dynamicTransforms, indexBuffer, indexType, startIndex, first);
 
-        CascadeBlurHelper.INSTANCE.capture();
+        CascadeBlurSetup.INSTANCE.capture();
 
         //~ if >= 26.2 'fogBuffer, dynamicTransforms, indexBuffer, indexType' -> 'dynamicTransforms'
         this.executeDrawRange(label, mainRenderTarget, fogBuffer, dynamicTransforms, indexBuffer, indexType, first, endIndex);

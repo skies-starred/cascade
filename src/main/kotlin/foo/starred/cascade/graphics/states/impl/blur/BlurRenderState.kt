@@ -4,15 +4,14 @@ package foo.starred.cascade.graphics.states.impl.blur
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
+import foo.starred.cascade.graphics.blur.data.CascadeBlurBlend
+import foo.starred.cascade.graphics.blur.impl.CascadeBlurSetup
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState
 import foo.starred.cascade.graphics.states.pipeline.render.builder.CascadeRenderPipelineBuilder.Companion.cascadeRenderPipeline
 import foo.starred.cascade.graphics.states.pipeline.sampler.impl.CascadeSamplers
 import foo.starred.cascade.graphics.states.pipeline.vertex.impl.CascadeVertexFormats
-import foo.starred.cascade.utils.blur.data.CascadeBlurBlend
-import foo.starred.cascade.utils.blur.impl.CascadeBlurHelper
-import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines
@@ -34,7 +33,7 @@ class BlurRenderState(
     private val blend: CascadeBlurBlend = CascadeBlurBlend.get(blur)
 
     override fun textureSetup(): TextureSetup {
-        return CascadeBlurHelper.setup(blend)
+        return CascadeBlurSetup.setup(blend)
     }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {

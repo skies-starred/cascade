@@ -3,7 +3,6 @@ package foo.starred.cascade.graphics.states.impl.rectangle.solid
 import com.mojang.blaze3d.vertex.VertexConsumer
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState
-import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.renderer.RenderPipelines
 import org.joml.Matrix3x2fc

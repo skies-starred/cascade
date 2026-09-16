@@ -2,7 +2,6 @@ package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
-import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 
@@ -18,9 +17,9 @@ open class RenderStatePrimitive : IPrimitiveElement<RenderStatePrimitive>() {
     var ascend: Boolean = false
 
     override fun draw(graphics: GuiGraphicsExtractor) {
-        val s = state ?: provider?.invoke(graphics) ?: return
+        val state = state ?: provider?.invoke(graphics) ?: return
 
-        s.submit(graphics)
+        graphics.guiRenderState.addGuiElement(state)
         if (ascend) graphics.guiRenderState.nextStratum()
     }
 

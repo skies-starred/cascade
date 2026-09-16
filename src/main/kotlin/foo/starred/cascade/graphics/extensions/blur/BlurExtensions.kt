@@ -2,9 +2,8 @@ package foo.starred.cascade.graphics.extensions.blur
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
+import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState.Companion.bounds
 import foo.starred.cascade.graphics.states.impl.blur.BlurRenderState
-import foo.starred.cascade.utils.bounds
-import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f

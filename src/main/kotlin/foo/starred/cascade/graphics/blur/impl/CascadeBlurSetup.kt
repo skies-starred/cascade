@@ -1,18 +1,18 @@
-package foo.starred.cascade.utils.blur.impl
+package foo.starred.cascade.graphics.blur.impl
 
 import com.mojang.blaze3d.pipeline.TextureTarget
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.textures.FilterMode
-//? if >= 26.2 {
-/*import com.mojang.blaze3d.vertex.VertexFormatElement
-*///?}
 import foo.starred.cascade.Cascade.client
-import foo.starred.cascade.utils.blur.data.CascadeBlurBlend
-import foo.starred.cascade.utils.blur.data.CascadeBlurPipeline
+import foo.starred.cascade.graphics.blur.data.CascadeBlurBlend
+import foo.starred.cascade.graphics.blur.data.CascadeBlurPipeline
 import net.minecraft.client.gui.render.TextureSetup
 import kotlin.math.max
 
-object CascadeBlurHelper {
+//? if >= 26.2
+//import com.mojang.blaze3d.vertex.VertexFormatElement
+
+object CascadeBlurSetup {
     private val targets = arrayOfNulls<TextureTarget>(6)
     private val tiers = arrayOfNulls<TextureTarget>(5)
 
