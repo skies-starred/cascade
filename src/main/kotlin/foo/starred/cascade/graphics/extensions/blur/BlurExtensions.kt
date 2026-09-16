@@ -2,7 +2,7 @@ package foo.starred.cascade.graphics.extensions.blur
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
-import foo.starred.cascade.graphics.states.blur.BlurRenderState
+import foo.starred.cascade.graphics.states.impl.blur.BlurRenderState
 import foo.starred.cascade.utils.bounds
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor

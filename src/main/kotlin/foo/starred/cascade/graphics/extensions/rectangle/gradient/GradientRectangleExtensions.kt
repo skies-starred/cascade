@@ -1,7 +1,7 @@
 package foo.starred.cascade.graphics.extensions.rectangle.gradient
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
-import foo.starred.cascade.graphics.states.rectangle.solid.SolidRectangleRenderState
+import foo.starred.cascade.graphics.states.impl.rectangle.solid.SolidRectangleRenderState
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle

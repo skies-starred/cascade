@@ -1,7 +1,7 @@
 package foo.starred.cascade.graphics.extensions.arc
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
-import foo.starred.cascade.graphics.states.arc.ArcRenderState
+import foo.starred.cascade.graphics.states.impl.arc.ArcRenderState
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle

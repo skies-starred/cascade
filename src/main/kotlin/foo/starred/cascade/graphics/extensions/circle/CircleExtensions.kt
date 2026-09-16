@@ -1,7 +1,7 @@
 package foo.starred.cascade.graphics.extensions.circle
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
-import foo.starred.cascade.graphics.states.circle.CircleRenderState
+import foo.starred.cascade.graphics.states.impl.circle.CircleRenderState
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle

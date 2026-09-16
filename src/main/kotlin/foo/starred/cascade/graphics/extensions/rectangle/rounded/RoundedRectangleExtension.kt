@@ -2,7 +2,7 @@ package foo.starred.cascade.graphics.extensions.rectangle.rounded
 
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
-import foo.starred.cascade.graphics.states.rectangle.rounded.RoundedRectangleRenderState
+import foo.starred.cascade.graphics.states.impl.rectangle.rounded.RoundedRectangleRenderState
 import foo.starred.cascade.utils.bounds
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor

@@ -4,10 +4,8 @@ package foo.starred.cascade.graphics.font.rendering.impl
 
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.systems.RenderSystem
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.textures.FilterMode
 import foo.starred.cascade.graphics.font.data.font.base.IFontData
 import foo.starred.cascade.graphics.font.data.font.impl.MsdfFontData

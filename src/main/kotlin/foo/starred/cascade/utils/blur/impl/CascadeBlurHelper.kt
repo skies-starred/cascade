@@ -2,12 +2,9 @@ package foo.starred.cascade.utils.blur.impl
 
 import com.mojang.blaze3d.pipeline.TextureTarget
 import com.mojang.blaze3d.systems.RenderSystem
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.textures.FilterMode
-//? if >= 26.3 {
-/*import com.mojang.renderpearl.api.GpuFormat
-*///?} elif 26.2 {
-/*import com.mojang.blaze3d.GpuFormat
+//? if >= 26.2 {
+/*import com.mojang.blaze3d.vertex.VertexFormatElement
 *///?}
 import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.utils.blur.data.CascadeBlurBlend
@@ -62,13 +59,13 @@ object CascadeBlurHelper {
         }
     }
 
-    private fun ensure(level: Int, w: Int, h: Int): TextureTarget? {
+    private fun ensure(level: Int, width: Int, height: Int): TextureTarget? {
         if (level == 0) return targets[0]
+
         val existing = targets[level]
         if (existing != null) return existing
-        val created = target("cascade_blur_final_$level", w, h)
-        targets[level] = created
-        return created
+
+        return target("cascade_blur_final_$level", width, height).also { targets[level] = it }
     }
 
     private fun pass(tier: Int, dest: TextureTarget) {

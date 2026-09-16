@@ -1,10 +1,9 @@
 package foo.starred.cascade.graphics.extensions.rectangle.textured
 
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
-import foo.starred.cascade.graphics.states.rectangle.textured.TexturedRectangleRenderState
+import foo.starred.cascade.graphics.states.impl.rectangle.textured.TexturedRectangleRenderState
 import foo.starred.cascade.utils.submit
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle

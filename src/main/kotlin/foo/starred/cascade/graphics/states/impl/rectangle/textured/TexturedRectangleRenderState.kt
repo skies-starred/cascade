@@ -1,13 +1,12 @@
-package foo.starred.cascade.graphics.states.rectangle.textured
+package foo.starred.cascade.graphics.states.impl.rectangle.textured
 
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
+import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
-import net.minecraft.client.renderer.state.gui.GuiElementRenderState
 import org.joml.Matrix3x2fc
 import kotlin.math.max
 import kotlin.math.min
@@ -26,27 +25,18 @@ class TexturedRectangleRenderState(
     val v1: Float,
     val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
-) : GuiElementRenderState {
+) : CascadeGuiElementRenderState(pipeline, scissor) {
     val x00 = min(x0, x1)
     val y00 = min(y0, y1)
     val x01 = max(x0, x1)
     val y01 = max(y0, y1)
-    val bounds: ScreenRectangle? = bounds(x00, y00, x01, y01, pose, scissor)
-
-    override fun pipeline(): RenderPipeline {
-        return pipeline
-    }
 
     override fun textureSetup(): TextureSetup {
         return textureSetup
     }
 
-    override fun scissorArea(): ScreenRectangle? {
-        return scissor
-    }
-
     override fun bounds(): ScreenRectangle? {
-        return bounds
+        return bounds(x00, y00, x01, y01, pose, _scissor)
     }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {

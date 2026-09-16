@@ -2,12 +2,10 @@ package foo.starred.cascade.mixin.mixins;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.Window;
-//~ if >= 26.3 'blaze3d.systems' -> 'renderpearl.api.commands'
 import com.mojang.blaze3d.systems.RenderPass;
-//~ if >= 26.3 'blaze3d.buffers' -> 'renderpearl.api.buffers'
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import foo.starred.cascade.Cascade;
-import foo.starred.cascade.graphics.states.blur.BlurRenderState;
+import foo.starred.cascade.graphics.states.impl.blur.BlurRenderState;
 import foo.starred.cascade.mixin.accessors.RenderPassAccessor;
 import foo.starred.cascade.utils.blur.impl.CascadeBlurHelper;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -45,7 +43,7 @@ public class GuiRendererMixin {
     private void cascade$executeDrawRange(Supplier<String> label, RenderTarget mainRenderTarget, GpuBufferSlice fogBuffer, GpuBufferSlice dynamicTransforms, GpuBuffer indexBuffer, VertexFormat.IndexType indexType, int startIndex, int endIndex, CallbackInfo ci) {
         int first = -1;
         for (int i = startIndex; i < endIndex; i++) {
-            if (this.draws.get(i).pipeline() != BlurRenderState.PIPELINE) continue;
+            if (this.draws.get(i).pipeline() != BlurRenderState.Companion.getPIPELINE()) continue;
 
             first = i;
             break;

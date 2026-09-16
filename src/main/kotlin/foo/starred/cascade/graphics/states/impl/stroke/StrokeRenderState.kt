@@ -1,20 +1,12 @@
-package foo.starred.cascade.graphics.states.stroke
+package foo.starred.cascade.graphics.states.impl.stroke
 
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
-import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.vertex.VertexConsumer
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
-import com.mojang.blaze3d.vertex.VertexFormat
-//~ if >= 26.2 'vertex.VertexFormatElement' -> 'GpuFormat'
-//~ if >= 26.3 'blaze3d' -> 'renderpearl.api'
-import com.mojang.blaze3d.vertex.VertexFormatElement
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
+import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState
+import foo.starred.cascade.graphics.states.pipeline.render.builder.CascadeRenderPipelineBuilder.Companion.cascadeRenderPipeline
+import foo.starred.cascade.graphics.states.pipeline.vertex.impl.CascadeVertexFormats
 import foo.starred.cascade.utils.bounds
 import net.minecraft.client.gui.navigation.ScreenRectangle
-import net.minecraft.client.gui.render.TextureSetup
-import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.renderer.state.gui.GuiElementRenderState
-import net.minecraft.resources.Identifier
 import org.joml.Matrix3x2fc
 import kotlin.math.max
 import kotlin.math.min
@@ -29,7 +21,7 @@ class StrokeRenderState(
     thickness: Float,
     val color: CascadeGeometricColor,
     val scissor: ScreenRectangle? = null
-) : GuiElementRenderState {
+) : CascadeGuiElementRenderState(PIPELINE, scissor) {
     private var v0x: Float = 0f
     private var v0y: Float = 0f
     private var v1x: Float = 0f
@@ -41,18 +33,6 @@ class StrokeRenderState(
     private var u0: Float = 0f
     private var v0: Float = 0f
     private var bounds: ScreenRectangle? = null
-
-    override fun pipeline(): RenderPipeline {
-        return PIPELINE
-    }
-
-    override fun textureSetup(): TextureSetup {
-        return TextureSetup.noTexture()
-    }
-
-    override fun scissorArea(): ScreenRectangle? {
-        return scissor
-    }
 
     override fun bounds(): ScreenRectangle? {
         return bounds
@@ -107,28 +87,6 @@ class StrokeRenderState(
     }
 
     companion object {
-        //? if >= 26.2 {
-        /*private val VERTEX_FORMAT = VertexFormat.builder(0)
-            .addAttribute("Position", GpuFormat.RGB32_FLOAT)
-            .addAttribute("Color", GpuFormat.RGBA8_UNORM)
-            .addAttribute("UV0", GpuFormat.RG32_FLOAT)
-            .build()
-        *///? } else {
-        private val VERTEX_FORMAT = VertexFormat.builder()
-            .add("Position", VertexFormatElement.POSITION)
-            .add("Color", VertexFormatElement.COLOR)
-            .add("UV0", VertexFormatElement.UV0)
-            .build()
-        //? }
-
-        private val PIPELINE = RenderPipelines.register(
-            RenderPipeline.builder(RenderPipelines.GUI_SNIPPET)
-                //~ if >= 26.2 'withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)' -> 'withVertexBinding(0, VERTEX_FORMAT)'
-                .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.QUADS)
-                .withLocation(Identifier.fromNamespaceAndPath("cascade", "stroke"))
-                .withVertexShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/stroke/stroke"))
-                .withFragmentShader(Identifier.fromNamespaceAndPath("cascade", "core/shapes/stroke/stroke"))
-                .build()
-        )
+        val PIPELINE = cascadeRenderPipeline("stroke", CascadeVertexFormats.UV)
     }
 }
