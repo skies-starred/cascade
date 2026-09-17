@@ -17,32 +17,26 @@ in ivec2 UV1;
 in ivec2 UV2;
 
 //$ layout '0' 'out' >> vec
-out vec4 vertexColor;
+out vec4 color0;
 //$ layout '1' 'out' >> vec
-out vec2 localCoord;
+out vec2 coord0;
 //$ layout '2' 'flat out' >> vec
-flat out vec2 p1Coord;
+flat out vec2 point1;
 //$ layout '3' 'flat out' >> vec
-flat out vec2 p2Coord;
+flat out vec2 point2;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-    vertexColor = Color;
-    localCoord = UV0;
+    color0 = Color;
+    coord0 = UV0;
 
-    int p1x = UV1.x;
-    if (p1x > 32767) p1x -= 65536;
+    ivec2 coord1 = UV1;
+    if (coord1.x > 32767) coord1.x -= 65536;
+    if (coord1.y > 32767) coord1.y -= 65536;
+    point1 = vec2(coord1);
 
-    int p1y = UV1.y;
-    if (p1y > 32767) p1y -= 65536;
-
-    p1Coord = vec2(float(p1x), float(p1y));
-
-    int p2x = UV2.x;
-    if (p2x > 32767) p2x -= 65536;
-
-    int p2y = UV2.y;
-    if (p2y > 32767) p2y -= 65536;
-
-    p2Coord = vec2(float(p2x), float(p2y));
+    ivec2 coord2 = UV2;
+    if (coord2.x > 32767) coord2.x -= 65536;
+    if (coord2.y > 32767) coord2.y -= 65536;
+    point2 = vec2(coord2);
 }

@@ -20,27 +20,25 @@ in ivec2 UV2;
 in vec3 Normal;
 
 //$ layout '0' 'out' >> vec
-out vec2 coord0;
+out vec2 uv0;
 //$ layout '1' 'out' >> vec
-out vec4 color0;
+out vec2 coord0;
 //$ layout '2' 'out' >> vec
-out vec2 screen0;
+out vec4 color0;
 //$ layout '3' 'flat out' >> vec
 flat out vec2 half0;
 //$ layout '4' 'flat out' >> vec
 flat out vec4 radius0;
-//$ layout '5' 'flat out' >> float
-flat out float blend0;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-    screen0 = (gl_Position.xy / gl_Position.w) * 0.5 + 0.5;
 
-    coord0 = UV0;
+    uint packed0 = floatBitsToUint(UV0.x);
+    uv0 = vec2(float(packed0 & 0xFFFFu), float(packed0 >> 16u)) / 65535.0;
     color0 = Color;
 
-    half0 = abs(UV0);
+    uint size0 = floatBitsToUint(UV0.y);
+    half0 = vec2(float(size0 >> 16u), float(size0 & 0xFFFFu)) * 0.1;
+    coord0 = Normal.xy * half0;
     radius0 = radii(UV1, UV2);
-
-    blend0 = clamp(Normal.x, 0.0, 1.0);
 }

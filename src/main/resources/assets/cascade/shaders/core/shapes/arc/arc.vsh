@@ -17,19 +17,19 @@ in ivec2 UV1;
 in ivec2 UV2;
 
 //$ layout '0' 'out' >> vec
-out vec4 vertexColor;
+out vec4 color0;
 //$ layout '1' 'out' >> vec
-out vec2 localUV;
+out vec2 coord0;
 //$ layout '2' 'flat out' >> vec
-flat out vec2 arcRadii;
+flat out vec2 radius0;
 //$ layout '3' 'flat out' >> vec
-flat out vec2 arcAngles;
+flat out vec2 angle0;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
-    vertexColor = Color;
-    localUV = UV0;
-    arcRadii = vec2(float(UV1.x), float(UV1.y));
-    arcAngles = vec2(float(UV2.x) / 10.0, float(UV2.y) / 10.0);
+    color0 = Color;
+    coord0 = UV0;
+    radius0 = vec2(float(UV1.x), float(UV1.y));
+    angle0 = vec2(float(UV2.x) / 10.0, float(UV2.y) / 10.0);
 }

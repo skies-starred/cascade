@@ -27,9 +27,10 @@ open class StrokePrimitive : IPrimitiveElement<StrokePrimitive>() {
     var y2: Float = 0f
 
     var thickness: Float = 1f
+    var rounded: Boolean = false
 
     override fun draw(graphics: GuiGraphicsExtractor) {
-        graphics.stroke(x, y, x2, y2, color, thickness)
+        graphics.stroke(x, y, x2, y2, color, thickness, rounded)
     }
 
     companion object {

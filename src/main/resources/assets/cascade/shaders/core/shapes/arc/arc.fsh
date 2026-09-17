@@ -3,57 +3,55 @@
 //#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
+#moj_import <cascade:antialias.glsl>
 
 //$ layout '0' 'in' >> vec
-in vec4 vertexColor;
+in vec4 color0;
 //$ layout '1' 'in' >> vec
-in vec2 localUV;
+in vec2 coord0;
 //$ layout '2' 'flat in' >> vec
-flat in vec2 arcRadii;
+flat in vec2 radius0;
 //$ layout '3' 'flat in' >> vec
-flat in vec2 arcAngles;
+flat in vec2 angle0;
 
 //$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
 void main() {
-    float distance = length(localUV);
-    float aa = fwidth(distance);
+    float distance0 = length(coord0);
 
-    float radius0 = arcRadii.x;
-    float radius1 = abs(arcRadii.y);
-    float radius2 = (radius0 + radius1) * 0.5;
-    float radius3 = (radius1 - radius0) * 0.5;
+    float radius1 = radius0.x;
+    float radius2 = abs(radius0.y);
+    float radius3 = (radius1 + radius2) * 0.5;
+    float radius4 = (radius2 - radius1) * 0.5;
 
-    float distance0 = abs(distance - radius2);
-    float alpha = 1.0 - smoothstep(radius3 - aa, radius3, distance0);
+    float distance1 = abs(distance0 - radius3);
+    float alpha0 = antialias(distance1, radius4);
 
-    float angle0 = arcAngles.x;
-    float angle1 = arcAngles.y;
-    float angle2 = mod(angle1 - angle0 + 360.0, 360.0);
+    float angle1 = angle0.x;
+    float angle2 = angle0.y;
+    float angle3 = mod(angle2 - angle1 + 360.0, 360.0);
 
-    if (angle2 > 0.1 && angle2 < 359.9) {
-        float angle3 = degrees(atan(localUV.x, -localUV.y));
-        if (angle3 < 0.0)angle3 += 360.0;
+    if (angle3 > 0.1 && angle3 < 359.9) {
+        float angle4 = degrees(atan(coord0.x, -coord0.y));
+        if (angle4 < 0.0) angle4 += 360.0;
 
-        float angle4 = mod(angle3 - angle0 + 360.0, 360.0);
-        if (angle4 > angle2) {
-            if (arcRadii.y >= 0.0) discard;
+        float angle5 = mod(angle4 - angle1 + 360.0, 360.0);
+        if (angle5 > angle3) {
+            if (radius0.y >= 0.0) discard;
 
-            vec2 cap0 = vec2(sin(radians(angle0)), -cos(radians(angle0))) * radius2;
-            vec2 cap1 = vec2(sin(radians(angle1)), -cos(radians(angle1))) * radius2;
+            vec2 cap0 = vec2(sin(radians(angle1)), -cos(radians(angle1))) * radius3;
+            vec2 cap1 = vec2(sin(radians(angle2)), -cos(radians(angle2))) * radius3;
 
-            float d0 = length(localUV - cap0);
-            float d1 = length(localUV - cap1);
+            float distance2 = length(coord0 - cap0);
+            float distance3 = length(coord0 - cap1);
 
-            alpha = 1.0 - smoothstep(radius3 - aa, radius3, min(d0, d1));
+            alpha0 = antialias(min(distance2, distance3), radius4);
         }
     }
 
-    if (alpha <= 0.0) {
-        discard;
-    }
+    if (alpha0 <= 0.0) discard;
 
-    fragColor = vertexColor * ColorModulator;
-    fragColor.a *= alpha;
+    fragColor = color0 * ColorModulator;
+    fragColor.a *= alpha0;
 }

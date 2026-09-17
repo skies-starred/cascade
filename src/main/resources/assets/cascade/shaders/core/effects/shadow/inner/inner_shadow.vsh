@@ -4,6 +4,7 @@
 
 #moj_import <minecraft:dynamictransforms.glsl>
 #moj_import <minecraft:projection.glsl>
+#moj_import <cascade:box.glsl>
 
 //$ layout '0' 'in' >> vec
 in vec3 Position;
@@ -19,30 +20,27 @@ in ivec2 UV2;
 in vec3 Normal;
 
 //$ layout '0' 'out' >> vec
-out vec2 localCoord;
+out vec2 coord0;
 //$ layout '1' 'out' >> vec
-out vec4 vertexColor;
-//$ layout '2' 'out' >> vec
-out vec2 screenUv;
+out vec4 color0;
+//$ layout '2' 'flat out' >> vec
+flat out vec2 half0;
 //$ layout '3' 'flat out' >> vec
-flat out vec2 rectSize;
+flat out vec4 radius0;
 //$ layout '4' 'flat out' >> vec
-flat out vec4 cornerRadii;
-//$ layout '5' 'flat out' >> vec
-flat out vec2 shadowOffset;
-//$ layout '6' 'flat out' >> float
-flat out float blurRadius;
+flat out vec2 offset0;
+//$ layout '5' 'flat out' >> float
+flat out float blur0;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-    screenUv = (gl_Position.xy / gl_Position.w) * 0.5 + 0.5;
 
-    localCoord = UV0;
-    vertexColor = Color;
+    coord0 = UV0;
+    color0 = Color;
 
-    rectSize = vec2(float(UV1.x), float(UV1.y));
-    cornerRadii = vec4(float(UV2.x & 0xFF), float((UV2.x >> 8) & 0xFF), float(UV2.y & 0xFF), float((UV2.y >> 8) & 0xFF)) * 0.1;
+    half0 = abs(UV0);
+    radius0 = radii(UV1, UV2);
 
-    shadowOffset = vec2(Normal.x, Normal.z) * 127.0;
-    blurRadius = max(Normal.y * 127.0, 0.0);
+    offset0 = vec2(Normal.x, Normal.z) * 127.0;
+    blur0 = max(Normal.y * 127.0, 0.0);
 }

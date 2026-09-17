@@ -13,12 +13,12 @@ in vec4 Color;
 in vec2 UV0;
 
 //$ layout '0' 'out' >> vec
-out vec4 vertexColor;
+out vec4 color0;
 //$ layout '1' 'out' >> vec
-out vec2 localUV;
+out vec2 coord0;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-    vertexColor = Color;
-    localUV = UV0;
+    color0 = Color;
+    coord0 = UV0;
 }

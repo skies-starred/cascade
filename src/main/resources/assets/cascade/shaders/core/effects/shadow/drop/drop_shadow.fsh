@@ -3,51 +3,36 @@
 //#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
+#moj_import <cascade:box.glsl>
+#moj_import <cascade:antialias.glsl>
 
 //$ layout '0' 'in' >> vec
-in vec2 localCoord;
+in vec2 coord0;
 //$ layout '1' 'in' >> vec
-in vec4 vertexColor;
+in vec4 color0;
 //$ layout '2' 'flat in' >> vec
-flat in vec2 rectSize;
+flat in vec2 half0;
 //$ layout '3' 'flat in' >> vec
-flat in vec4 cornerRadii;
+flat in vec4 radius0;
 //$ layout '4' 'flat in' >> float
-flat in float blurRadius;
+flat in float blur0;
 
 //$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
-float radius(vec2 p, vec4 r) {
-    if (p.x <= 0.0) return p.y <= 0.0 ? r.x : r.w;
-    return p.y <= 0.0 ? r.y : r.z;
-}
-
-float roundedBox(vec2 p, vec2 b, vec4 r) {
-    float corner = radius(p, r);
-    vec2 q = abs(p) - b + corner;
-    return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - corner;
-}
-
 void main() {
-    vec2 half0 = rectSize * 0.5;
-    vec2 quadHalf = half0 + vec2(blurRadius);
-    vec2 p = localCoord - quadHalf;
+    vec2 half1 = max(half0 - vec2(blur0), vec2(0.0));
+    float distance0 = box(coord0, half1, radius0);
 
-    float dist = roundedBox(p, half0, min(cornerRadii, vec4(min(half0.x, half0.y))));
-
-    float d0 = fwidth(dist);
-    float blur = max(blurRadius, 0.0);
-
-    float alpha;
-    if (blur > 0.0) {
-        alpha = dist <= 0.0 ? 1.0 : clamp(1.0 - smoothstep(0.0, blur, dist), 0.0, 1.0);
+    float alpha0;
+    if (blur0 > 0.0) {
+        alpha0 = distance0 <= 0.0 ? 1.0 : clamp(1.0 - smoothstep(0.0, blur0, distance0), 0.0, 1.0);
     } else {
-        alpha = 1.0 - smoothstep(-d0, d0, dist);
+        alpha0 = antialias(distance0);
     }
 
-    if (alpha < 0.001) discard;
+    if (alpha0 < 0.001) discard;
 
-    fragColor = vertexColor * ColorModulator;
-    fragColor.a *= alpha;
+    fragColor = color0 * ColorModulator;
+    fragColor.a *= alpha0;
 }

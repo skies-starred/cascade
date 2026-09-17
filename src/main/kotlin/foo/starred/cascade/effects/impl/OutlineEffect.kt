@@ -23,9 +23,6 @@ open class OutlineEffect() : IEffect() {
         if (width <= 0f) return
         val radius = radius ?: radius(element)
 
-        val i0 = if (inset) 0f else -width
-        val i1 = if (inset) 0f else width
-
-        graphics.hollowRectangle(element.x + i0, element.y + i0, element.width - i0 * 2, element.height - i0 * 2, width, color, radius + i1, pose, scissor)
+        graphics.hollowRectangle(element.x, element.y, element.width, element.height, width, color, radius, inset, pose, scissor)
     }
 }

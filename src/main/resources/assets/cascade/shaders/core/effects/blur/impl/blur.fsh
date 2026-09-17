@@ -3,54 +3,42 @@
 //#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
+#moj_import <cascade:box.glsl>
+#moj_import <cascade:antialias.glsl>
 
 uniform sampler2D Sampler0;
 uniform sampler2D Sampler1;
 
 //$ layout '0' 'in' >> vec
-in vec2 localCoord;
+in vec2 coord0;
 //$ layout '1' 'in' >> vec
-in vec4 vertexColor;
+in vec4 color0;
 //$ layout '2' 'in' >> vec
-in vec2 screenUv;
+in vec2 screen0;
 //$ layout '3' 'flat in' >> vec
-flat in vec2 rectSize;
+flat in vec2 half0;
 //$ layout '4' 'flat in' >> vec
-flat in vec4 cornerRadii;
+flat in vec4 radius0;
 //$ layout '5' 'flat in' >> float
-flat in float blendFactor;
+flat in float blend0;
 
 //$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
-float radius(vec2 p, vec4 r) {
-    if (p.x <= 0.0) return p.y <= 0.0 ? r.x : r.w;
-    return p.y <= 0.0 ? r.y : r.z;
-}
-
-float roundedBox(vec2 p, vec2 b, vec4 r) {
-    float corner = radius(p, r);
-    vec2 q = abs(p) - b + corner;
-    return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - corner;
-}
-
 void main() {
-    vec2 half0 = rectSize * 0.5;
-    float dist = roundedBox(localCoord - half0, half0, min(cornerRadii, vec4(min(half0.x, half0.y))));
+    float distance0 = box(coord0, half0, radius0);
+    float alpha0 = antialias(distance0);
 
-    float delta = fwidth(dist);
-    float alpha = 1.0 - smoothstep(-delta, delta, dist);
+    if (alpha0 < 0.001) discard;
 
-    if (alpha < 0.001) discard;
+    vec4 tint0 = color0 * ColorModulator;
+    vec3 blur0 = texture(Sampler0, screen0).rgb;
+    vec3 blur1 = texture(Sampler1, screen0).rgb;
+    vec3 blur2 = mix(blur0, blur1, blend0);
 
-    vec4 color = vertexColor * ColorModulator;
-    vec3 blur0 = texture(Sampler0, screenUv).rgb;
-    vec3 blur1 = texture(Sampler1, screenUv).rgb;
-    vec3 blur = mix(blur0, blur1, blendFactor);
+    tint0.rgb = mix(blur2, tint0.rgb, tint0.a);
+    tint0.a = 1.0;
 
-    color.rgb = mix(blur, color.rgb, color.a);
-    color.a = 1.0;
-
-    fragColor = color;
-    fragColor.a *= alpha;
+    fragColor = tint0;
+    fragColor.a *= alpha0;
 }

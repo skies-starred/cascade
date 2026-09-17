@@ -3,6 +3,7 @@
 //#extension GL_ARB_separate_shader_objects : require
 
 #moj_import <minecraft:dynamictransforms.glsl>
+#moj_import <cascade:font.glsl>
 
 uniform sampler2D Sampler0;
 
@@ -14,23 +15,13 @@ in vec4 vertexColor;
 //$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
-float median(float r, float g, float b) {
-    return max(min(r, g), min(max(r, g), b));
-}
-
-float range() {
-    vec2 unitRange = vec2(16.0) / vec2(textureSize(Sampler0, 0));
-    vec2 screenTexSize = vec2(1.0) / fwidth(texCoord0);
-    return max(0.5 * dot(unitRange, screenTexSize), 1.0);
-}
-
 void main() {
-    vec4 texel = texture(Sampler0, texCoord0);
-    float dist = median(texel.r, texel.g, texel.b);
-    if (dist < 0.01) discard;
+    vec4 texel0 = texture(Sampler0, texCoord0);
+    float distance0 = median(texel0.r, texel0.g, texel0.b);
+    if (distance0 < 0.01) discard;
 
-    float pxDist = range() * (dist - 0.5);
-    float opacity = clamp(pxDist + 0.5, 0.0, 1.0);
+    float distance1 = fontRange(Sampler0, texCoord0, 16.0) * (distance0 - 0.5);
+    float opacity0 = clamp(distance1 + 0.5, 0.0, 1.0);
 
-    fragColor = vec4(1.0, 1.0, 1.0, opacity) * vertexColor * ColorModulator;
+    fragColor = vec4(1.0, 1.0, 1.0, opacity0) * vertexColor * ColorModulator;
 }
