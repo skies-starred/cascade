@@ -28,3 +28,7 @@ fun GuiGraphicsExtractor.stroke(x1: Float, y1: Float, x2: Float, y2: Float, colo
 
     roundedRectangle(x, -i1, width, thickness, color, radius, matrix, scissor)
 }
+
+fun GuiGraphicsExtractor.stroke(x1: Float, y1: Float, x2: Float, y2: Float, color: Int = -1, thickness: Float = 1f, rounded: Boolean = false, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null) {
+    stroke(x1, y1, x2, y2, CascadeGeometricColor(color), thickness, rounded, pose, scissor)
+}
