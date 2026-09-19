@@ -1,6 +1,6 @@
 [versions]
 id = "cascade"
 name = "Cascade"
-version = "2026.09.1"
+version = "2026.09.2"
 group = "foo.starred"
 tweaker = "cascade.accesswidener"
