@@ -30,8 +30,8 @@ object Cascade : ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register { _ ->
             val chars = (32..126).map { it.toChar() }
-            CascadeFonts.arial.regular.preload(chars)
-            CascadeFonts.arial.bold.preload(chars)
+            CascadeFonts.sans.regular.preload(chars)
+            CascadeFonts.sans.bold.preload(chars)
         }
     }
 }

@@ -8,11 +8,11 @@ import net.minecraft.util.FormattedCharSequence
 
 object CascadeTextWrapper : ITextWrapper {
     private val height by lazy {
-        CascadeFonts.arial.regular.height
+        CascadeFonts.sans.regular.height
     }
 
     override fun width(text: FormattedCharSequence, size: Float): Float {
-        return CascadeFonts.arial.width(text, size)
+        return CascadeFonts.sans.width(text, size)
     }
 
     override fun height(size: Float): Float {
@@ -31,7 +31,7 @@ object CascadeTextWrapper : ITextWrapper {
         val size = data.size
 
         val height = height * size
-        val font = CascadeFonts.arial
+        val font = CascadeFonts.sans
 
         if (texts != null) {
             var y = y

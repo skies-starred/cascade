@@ -41,8 +41,8 @@ class TtfFontData(stream: InputStream, bakeSize: Float = 48f) : IFontData {
         STBTruetype.stbtt_GetFontVMetrics(info, ascent, descent, gap)
 
         val ascender = ascent[0] * scale
-        val descender = descent[0] * scale
-        val height0 = ascender - descender + (gap[0] * scale)
+        val descender = (ascender + (descent[0] * scale) - bakeSize) / 2f
+        val height0 = ascender - (descent[0] * scale) + (gap[0] * scale)
 
         metrics = MetricsData(bakeSize.toInt(), height0 / bakeSize, ascender / bakeSize, descender / bakeSize, -0.1f, 0.05f)
         atlas = AtlasData("sdf", 4, 127, bakeSize, 2048, 2048, "bottom")

@@ -3,6 +3,7 @@
 package foo.starred.cascade.graphics.geometry
 
 import foo.starred.cascade.Cascade.client
+import kotlin.math.abs
 
 open class CascadeGeometricResolution(
     val width: Float,
@@ -35,7 +36,7 @@ open class CascadeGeometricResolution(
             }
 
             val height1 = resolution.height / resolution.guiScale
-            val scale = (height / height1).coerceAtLeast(0.001f)
+            val scale = (height / height1).coerceAtLeast(0.001f).takeIf { abs(it - 1f) > 0.025f } ?: 1f
 
             block(scale, width / scale, height / scale)
         }
