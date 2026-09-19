@@ -1,4 +1,5 @@
-#version 330
+#ifndef CASCADE_TRIANGLE_GLSL
+#define CASCADE_TRIANGLE_GLSL
 
 float triangle(vec2 coord0, vec2 point0, vec2 point1, vec2 point2) {
     vec2 edge0 = point1 - point0;
@@ -21,3 +22,5 @@ float triangle(vec2 coord0, vec2 point0, vec2 point1, vec2 point2) {
 
     return -sqrt(distance0.x) * sign(distance0.y);
 }
+
+#endif

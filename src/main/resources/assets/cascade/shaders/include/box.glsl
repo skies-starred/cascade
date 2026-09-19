@@ -1,4 +1,5 @@
-#version 330
+#ifndef CASCADE_BOX_GLSL
+#define CASCADE_BOX_GLSL
 
 float radius(vec2 coord0, vec4 radius0) {
     if (coord0.x <= 0.0) return coord0.y <= 0.0 ? radius0.x : radius0.w;
@@ -24,3 +25,5 @@ float hollow(vec2 coord0, vec2 half0, vec4 radius0, float thickness0) {
 vec4 radii(ivec2 uv0, ivec2 uv1) {
     return vec4(float(uv0.x), float(uv0.y), float(uv1.x), float(uv1.y)) * 0.1;
 }
+
+#endif
