@@ -21,6 +21,7 @@ dependencies {
     minecraft(lib["minecraft"])
 
     localRuntime(libs.devauth)
+    compileOnly(libs.jsvg)
 
     implementation(lib["fabric-api"])
     implementation(libs.fabric.loader)

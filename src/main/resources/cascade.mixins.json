@@ -5,7 +5,8 @@
   "mixins": [
     "accessors.RenderPassAccessor",
     "mixins.GuiRendererMixin",
-    "mixins.ScissorStackMixin"
+    "mixins.ScissorStackMixin",
+    "mixins.WindowMixin"
   ],
   "injectors": {
     "defaultRequire": 1
