@@ -45,6 +45,13 @@ class GlyphElement(
         }
 
         graphics.guiRenderState.addGlyphToCurrentLayer(state)
+    }
+
+    fun effects(graphics: GuiGraphicsExtractor, pose: Matrix3x2f) {
+        if (!strike && !under) return
+
+        val matrix = Matrix3x2f(pose).translate(x, 0f)
+        val scissor = graphics.scissorStack.peek()
         val size2 = size / 10f
 
         if (strike) {

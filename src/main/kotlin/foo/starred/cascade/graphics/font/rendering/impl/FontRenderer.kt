@@ -53,6 +53,8 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
             val matrix = Matrix3x2f(graphics.pose()).translate(x.toFloat(), y.toFloat())
             val layout = extract0(sequence, size, color, shadow)
             for (element in layout) element.submit(graphics, matrix)
+            for (element in layout) element.effects(graphics, matrix)
+
             return
         }
 
@@ -69,6 +71,7 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
         val layout = layout.get("$string|$hash|$size|$color|$shadow") { extract0(sequence, size, color, shadow) }
 
         for (element in layout) element.submit(graphics, matrix)
+        for (element in layout) element.effects(graphics, matrix)
     }
 
     fun width(text: String, size: Number = 12, cached: Boolean = true): Float {
