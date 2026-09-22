@@ -14,4 +14,5 @@ interface IFontData {
     fun glyph(c: Char): GlyphData?
     fun glyph(): GlyphData?
     fun preload(chars: Iterable<Char>) {}
+    fun upload() {}
 }

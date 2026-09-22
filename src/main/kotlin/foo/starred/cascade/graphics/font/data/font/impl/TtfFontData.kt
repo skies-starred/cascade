@@ -21,6 +21,8 @@ class TtfFontData(stream: InputStream, bakeSize: Float = 48f) : IFontData {
     private val atlas0 = DynamicAtlas(2048, 2048)
     private val glyphs = mutableMapOf<Int, GlyphData>()
 
+    private var dirty = false
+
     override val metrics: MetricsData
     override val atlas: AtlasData
     override val height: Float
@@ -54,25 +56,28 @@ class TtfFontData(stream: InputStream, bakeSize: Float = 48f) : IFontData {
         atlas0.native.close()
     }
 
-    override fun preload(chars: Iterable<Char>) {
-        var uploaded = false
+    override fun upload() {
+        if (!dirty) return
 
+        atlas0.texture.upload()
+        dirty = false
+    }
+
+    override fun preload(chars: Iterable<Char>) {
         for (c in chars) {
             if (glyphs.containsKey(c.code)) continue
             val g = glyph(c.code, false) ?: continue
 
             glyphs[c.code] = g
-            uploaded = true
+            dirty = true
         }
 
-        if (uploaded) {
-            atlas0.texture.upload()
-        }
+        upload()
     }
 
     override fun glyph(c: Char): GlyphData? {
         return glyphs.getOrPut(c.code) {
-            glyph(c.code) ?: return null
+            glyph(c.code, false)?.also { dirty = true } ?: return null
         }
     }
 
