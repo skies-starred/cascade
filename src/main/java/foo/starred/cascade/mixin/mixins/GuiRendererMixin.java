@@ -81,7 +81,7 @@ public class GuiRendererMixin {
         final double width = rectangle.width() * scale;
         final double height = rectangle.height() * scale;
 
-        pass.cascade$backend().enableScissor((int) left, (int) bottom, Math.max(0, (int) width), Math.max(0, (int) height));
+        pass.cascade$backend().enableScissor((int) left, Math.max(0, window.getHeight() - (int) bottom), Math.max(0, (int) (right - left)), Math.max(0, (int) (bottom - top)));
         ci.cancel();
     }
     *///? }
