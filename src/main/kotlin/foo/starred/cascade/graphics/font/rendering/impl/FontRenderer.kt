@@ -171,7 +171,7 @@ class FontRenderer(val regular: IFontData, val bold: IFontData) {
             val v0 = 1f - (bounds.top / font.atlas.height)
             val v1 = 1f - (bounds.bottom / font.atlas.height)
 
-            elements += GlyphElement(x, style.isItalic, if (font.atlas.type == "sdf") PIPELINE_SDF else PIPELINE_MSDF, TextureSetup.singleTexture(font.texture.textureView, RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR)), x0, y0, x1, y1, u0, u1, v0, v1, color0, shade, shadow, style.isStrikethrough, style.isUnderlined, advance, size)
+            elements += GlyphElement(x, style.isItalic, if (font.atlas.type == "sdf") PIPELINE_SDF else PIPELINE_MSDF, TextureSetup.singleTexture(font.texture(glyph.page).textureView, RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR)), x0, y0, x1, y1, u0, u1, v0, v1, color0, shade, shadow, style.isStrikethrough, style.isUnderlined, advance, size)
             x += advance
             true
         }

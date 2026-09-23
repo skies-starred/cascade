@@ -15,4 +15,8 @@ interface IFontData {
     fun glyph(): GlyphData?
     fun preload(chars: Iterable<Char>) {}
     fun upload() {}
+
+    fun texture(page: Int): AbstractTexture {
+        return texture
+    }
 }
