@@ -76,10 +76,10 @@ public class GuiRendererMixin {
 
         final Window window = Cascade.client.getWindow();
         final double scale = window.getGuiScale();
-        final double left = rectangle.left() * scale;
-        final double bottom = window.getHeight() - rectangle.bottom() * scale;
-        final double width = rectangle.width() * scale;
-        final double height = rectangle.height() * scale;
+        final double left = Math.max(0.0, rectangle.left() * scale);
+        final double top = Math.max(0.0, rectangle.top() * scale);
+        final double right = Math.min((double) window.getWidth(), rectangle.right() * scale);
+        final double bottom = Math.min((double) window.getHeight(), rectangle.bottom() * scale);
 
         pass.cascade$backend().enableScissor((int) left, Math.max(0, window.getHeight() - (int) bottom), Math.max(0, (int) (right - left)), Math.max(0, (int) (bottom - top)));
         ci.cancel();
