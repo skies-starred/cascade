@@ -8,7 +8,8 @@ import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2f
 
 abstract class IEffect {
-    var element: IPrimitiveElement<*>? = null
+    var id: String = "primary"
+    var enabled: Boolean = true
 
     open fun before(element: IPrimitiveElement<*>, graphics: GuiGraphicsExtractor, pose: Matrix3x2f, scissor: ScreenRectangle?) {}
     open fun after(element: IPrimitiveElement<*>, graphics: GuiGraphicsExtractor, pose: Matrix3x2f, scissor: ScreenRectangle?) {}

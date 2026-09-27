@@ -21,6 +21,7 @@ open class InnerShadowEffect() : IEffect() {
     }
 
     override fun after(element: IPrimitiveElement<*>, graphics: GuiGraphicsExtractor, pose: Matrix3x2f, scissor: ScreenRectangle?) {
+        if (!enabled) return
         val radius = radius ?: radius(element)
 
         graphics.innerShadow(element.x, element.y, element.width, element.height, offset, blur, color, radius, pose, scissor)

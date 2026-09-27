@@ -46,9 +46,9 @@ interface IPrimitiveInteractable<T> : IPrimitiveSelf<T> where T : IPrimitiveElem
     fun mouseMove(x: Double, y: Double) {
         val a = self.find(x, y)
 
-        self.forEach {
-            if (!it.hovered) return@forEach
-            if (it == a) return@forEach
+        self.iterateChildren {
+            if (!it.hovered) return@iterateChildren
+            if (it == a) return@iterateChildren
 
             it.hovered = false
             it.post(MouseEvent.Move.Exit(x, y, it))

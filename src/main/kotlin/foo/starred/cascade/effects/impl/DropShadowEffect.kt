@@ -22,6 +22,7 @@ open class DropShadowEffect() : IEffect() {
     }
 
     override fun before(element: IPrimitiveElement<*>, graphics: GuiGraphicsExtractor, pose: Matrix3x2f, scissor: ScreenRectangle?) {
+        if (!enabled) return
         val radius = radius ?: radius(element)
 
         graphics.dropShadow(element.x, element.y, element.width, element.height, offset, blur, spread, color, radius, pose, scissor)

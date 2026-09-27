@@ -19,6 +19,7 @@ open class BackdropBlurEffect() : IEffect() {
     }
 
     override fun before(element: IPrimitiveElement<*>, graphics: GuiGraphicsExtractor, pose: Matrix3x2f, scissor: ScreenRectangle?) {
+        if (!enabled) return
         if (blur <= 0f) return
         val radius = radius ?: radius(element)
 

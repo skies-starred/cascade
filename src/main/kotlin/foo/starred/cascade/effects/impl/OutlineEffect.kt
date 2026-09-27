@@ -20,6 +20,7 @@ open class OutlineEffect() : IEffect() {
     }
 
     override fun after(element: IPrimitiveElement<*>, graphics: GuiGraphicsExtractor, pose: Matrix3x2f, scissor: ScreenRectangle?) {
+        if (!enabled) return
         if (width <= 0f) return
         val radius = radius ?: radius(element)
 

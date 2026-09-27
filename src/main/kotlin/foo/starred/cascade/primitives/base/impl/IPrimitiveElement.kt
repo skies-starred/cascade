@@ -11,12 +11,11 @@ import foo.starred.cascade.effects.base.IEffect
 import foo.starred.cascade.events.base.UIEvent
 import foo.starred.cascade.events.impl.FocusEvent
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
+import foo.starred.cascade.primitives.base.abstract.AbstractPrimitiveExtensions
 import foo.starred.cascade.primitives.base.interfaces.*
-import net.minecraft.client.gui.GuiGraphicsExtractor
-import org.joml.Matrix3x2f
 import java.util.concurrent.CopyOnWriteArrayList
 
-abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveVisible<T> {
+abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveExtensions<T>(), IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveRenderable<T> {
     internal var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
@@ -92,43 +91,4 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : IPrimitiveAnimatabl
 
     var mouseY: Float = 0f
         get() = if (this === root) field else root.mouseY
-
-    open fun draw(graphics: GuiGraphicsExtractor) {}
-
-    open fun render(graphics: GuiGraphicsExtractor) {
-        if (!visible) {
-            return
-        }
-
-        if (effects.isEmpty()) {
-            draw(graphics)
-
-            for (c in children) {
-                c.render(graphics)
-            }
-
-            return
-        }
-
-        val pose = Matrix3x2f(graphics.pose())
-        val scissor = graphics.scissorStack.peek()
-
-        for (e in effects) {
-            e.before(self, graphics, pose, scissor)
-        }
-
-        draw(graphics)
-
-        for (e in effects) {
-            e.after(self, graphics, pose, scissor)
-        }
-
-        for (c in children) {
-            c.render(graphics)
-        }
-    }
-
-    inline fun <reified E : UIEvent> on(noinline listener: E.() -> Unit): T {
-        return on(E::class.java, listener)
-    }
 }

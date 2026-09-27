@@ -7,13 +7,23 @@ import java.util.concurrent.CopyOnWriteArrayList
 interface IPrimitiveEffects<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<T> {
     val effects: CopyOnWriteArrayList<IEffect>
 
+    operator fun contains(effect: IEffect): Boolean {
+        return effect in effects
+    }
+
     fun <E : IEffect> effect(effect: E): E {
-        effect.element = self
+        return effect(effect.id, effect)
+    }
+
+    fun <E : IEffect> effect(id: String, effect: E): E {
+        effect.id = id
+
+        effects.removeIf { it.id == id && it::class == effect::class }
         effects.add(effect)
         return effect
     }
 
-    fun <E : IEffect> effect(effect: E, block: E.() -> Unit): E {
-        return effect(effect.apply(block))
+    fun disown(effect: IEffect): Boolean {
+        return effects.remove(effect)
     }
 }

@@ -11,6 +11,10 @@ interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<
     val root: IPrimitiveElement<*>
     var parent: IPrimitiveElement<*>?
 
+    operator fun contains(child: IPrimitiveElement<*>): Boolean {
+        return child in children
+    }
+
     fun children(graphics: GuiGraphicsExtractor) {
         for (c in children) c.render(graphics)
     }
@@ -32,7 +36,7 @@ interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<
 
     fun disown(a: IPrimitiveElement<*>): T {
         if (a.parent !== self) return self
-        if (root.focused != null) a.forEach { if (root.focused === it) root.focused = null }
+        if (root.focused != null) a.iterateChildren { if (root.focused === it) root.focused = null }
 
         children.remove(a)
         a.parent = null
@@ -45,10 +49,15 @@ interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<
         return self
     }
 
+    @Deprecated("Use iterateChildren", ReplaceWith("iterateChildren(reversed, block)"))
     fun forEach(reversed: Boolean = false, block: (IPrimitiveElement<*>) -> Unit) {
+        iterateChildren(reversed, block)
+    }
+
+    fun iterateChildren(reversed: Boolean = false, block: (IPrimitiveElement<*>) -> Unit) {
         block(self)
 
         val a = if (reversed) children.asReversed() else children
-        for (b in a) b.forEach(reversed, block)
+        for (b in a) b.iterateChildren(reversed, block)
     }
 }
