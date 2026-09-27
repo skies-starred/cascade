@@ -69,8 +69,8 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
 
     override fun constrain(parent: IPrimitiveElement<*>) {
         size?.let {
-            width = it.width(this, parent)
-            height = it.height(this, parent)
+            width = it._width(this, parent)
+            height = it._height(this, parent)
         }
 
         if (width == 0f) {
@@ -82,8 +82,8 @@ open class TextPrimitive : IPrimitiveElement<TextPrimitive>() {
         }
 
         position?.let {
-            x = it.x(this, parent)
-            y = it.y(this, parent)
+            x = it._x(this, parent) + offset.x
+            y = it._y(this, parent) + offset.y
         }
     }
 

@@ -4,11 +4,11 @@ import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 
 class MixedSizeConstraint(val width: ISizeConstraint, val height: ISizeConstraint) : ISizeConstraint {
-    override fun width(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
-        return width.width(element, parent)
+    override fun _width(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
+        return width._width(element, parent)
     }
 
-    override fun height(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
-        return height.height(element, parent)
+    override fun _height(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
+        return height._height(element, parent)
     }
 }

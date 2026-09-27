@@ -1,7 +1,7 @@
 package foo.starred.cascade.screen
 
 import foo.starred.cascade.Cascade.client
-import foo.starred.cascade.animation.Animation
+import foo.starred.cascade.animation.manager.AnimationManager
 import foo.starred.cascade.graphics.geometry.CascadeGeometricResolution
 import foo.starred.cascade.primitives.impl.ContainerPrimitive
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -15,7 +15,7 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
     val scene = ContainerPrimitive().apply {
         width = this@CascadeScreen.width.toFloat()
         height = this@CascadeScreen.height.toFloat()
-        animations = Animation(this)
+        animations = AnimationManager(this)
     }
 
     override fun init() {

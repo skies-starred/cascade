@@ -1,13 +1,13 @@
 @file:Suppress("Unused")
 
-package foo.starred.cascade.animation
+package foo.starred.cascade.animation.manager
 
-import foo.starred.cascade.animation.base.IAnimatable
+import foo.starred.cascade.animation.type.base.IAnimationType
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import java.util.concurrent.CopyOnWriteArrayList
 
-class Animation(val scene: IPrimitiveElement<*>) {
-    private val active = CopyOnWriteArrayList<IAnimatable>()
+class AnimationManager(val scene: IPrimitiveElement<*>) {
+    private val active = CopyOnWriteArrayList<IAnimationType>()
     private var last = System.nanoTime()
 
     val bool: Boolean
@@ -21,9 +21,17 @@ class Animation(val scene: IPrimitiveElement<*>) {
         scene.dirty()
     }
 
-    fun track(anim: IAnimatable) {
-        if (active.contains(anim)) return
-        active.add(anim)
+    fun track(type: IAnimationType) {
+        if (active.contains(type)) return
+        active.add(type)
+    }
+
+    fun untrack(type: IAnimationType) {
+        active.remove(type)
+    }
+
+    fun removeIf(predicate: (IAnimationType) -> Boolean): Boolean {
+        return active.removeIf(predicate)
     }
 
     fun tick() {

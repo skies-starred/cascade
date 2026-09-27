@@ -2,20 +2,19 @@
 
 package foo.starred.cascade.primitives.base.impl
 
-import foo.starred.cascade.animation.Animation
-import foo.starred.cascade.animation.data.AnimatableColor
-import foo.starred.cascade.animation.data.AnimatableFloat
+import foo.starred.cascade.animation.manager.AnimationManager
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.effects.base.IEffect
 import foo.starred.cascade.events.base.UIEvent
 import foo.starred.cascade.events.impl.FocusEvent
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
+import foo.starred.cascade.graphics.geometry.CascadeGeometricOffset
 import foo.starred.cascade.primitives.base.abstract.AbstractPrimitiveExtensions
 import foo.starred.cascade.primitives.base.interfaces.*
 import java.util.concurrent.CopyOnWriteArrayList
 
-abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveExtensions<T>(), IPrimitiveAnimatable<T>, IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveRenderable<T> {
+abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveExtensions<T>(), IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveRenderable<T> {
     internal var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
@@ -57,6 +56,13 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveEx
             root.dirty()
         }
 
+    override var offset: CascadeGeometricOffset = CascadeGeometricOffset.ZERO
+        set(value) {
+            if (field == value) return
+            field = value
+            root.dirty()
+        }
+
     override var visible: Boolean = true
         set(value) {
             if (field == value) return
@@ -79,9 +85,7 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveEx
     override var hovered: Boolean = false
     override var unfocus: Boolean = true
 
-    override var animations: Animation? = null
-    override var `animation$float`: AnimatableFloat? = null
-    override var `animation$color`: AnimatableColor? = null
+    var animations: AnimationManager? = null
 
     var scale: Float = 1f
         get() = if (this === root) field else root.scale

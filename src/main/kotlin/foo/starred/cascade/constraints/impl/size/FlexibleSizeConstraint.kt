@@ -4,13 +4,13 @@ import foo.starred.cascade.constraints.base.ISizeConstraint
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 
 class FlexibleSizeConstraint(padding: Number = 0) : ISizeConstraint {
-    val padding: Float = padding.toFloat()
+    var padding: Float = padding.toFloat()
 
-    override fun width(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
+    override fun _width(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
         return fn(element, { it.x - element.x }, { it.width })
     }
 
-    override fun height(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
+    override fun _height(element: IPrimitiveElement<*>, parent: IPrimitiveElement<*>): Float {
         return fn(element, { it.y - element.y }, { it.height })
     }
 
