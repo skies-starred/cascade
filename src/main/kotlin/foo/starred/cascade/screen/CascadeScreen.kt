@@ -39,6 +39,10 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
             graphics.pose().scale(scene.scale, scene.scale)
         }
 
+        scene.cursor?.let {
+            graphics.requestCursor(it)
+        }
+
         scene.render(graphics)
 
         if (bool) {

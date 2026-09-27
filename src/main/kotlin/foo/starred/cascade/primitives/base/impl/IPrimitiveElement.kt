@@ -2,6 +2,7 @@
 
 package foo.starred.cascade.primitives.base.impl
 
+import com.mojang.blaze3d.platform.cursor.CursorType
 import foo.starred.cascade.animation.manager.AnimationManager
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
@@ -14,7 +15,7 @@ import foo.starred.cascade.primitives.base.abstract.AbstractPrimitiveExtensions
 import foo.starred.cascade.primitives.base.interfaces.*
 import java.util.concurrent.CopyOnWriteArrayList
 
-abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveExtensions<T>(), IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveRenderable<T> {
+abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveExtensions<T>(), IPrimitiveChildren<T>, IPrimitiveConstrainable<T>, IPrimitiveCursors<T>, IPrimitiveEffects<T>, IPrimitiveEvents<T>, IPrimitiveFindable<T>, IPrimitiveInteractable<T>, IPrimitiveLayoutResolver<T>, IPrimitiveRenderable<T> {
     internal var _root: IPrimitiveElement<*>? = null
 
     abstract var x: Float
@@ -80,6 +81,7 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveEx
             value?.post(FocusEvent.Gain(value))
         }
 
+    override var cursor: CursorType? = null
     override var dirty: Boolean = false
     override var interact: Boolean = true
     override var hovered: Boolean = false

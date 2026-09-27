@@ -45,6 +45,7 @@ interface IPrimitiveInteractable<T> : IPrimitiveSelf<T> where T : IPrimitiveElem
 
     fun mouseMove(x: Double, y: Double) {
         val a = self.find(x, y)
+        self.root.cursor = a?.cursor()
 
         self.iterateChildren {
             if (!it.hovered) return@iterateChildren

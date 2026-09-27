@@ -24,7 +24,7 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
     var entity: LivingEntity? = null
     var multiplier: Float = 30f
     var factor: Float = 0.529f
-    var cursor: Boolean = true
+    var follow: Boolean = true
     var items: Boolean = true
     var modifications: EntityRenderState.() -> Unit = {}
 
@@ -49,8 +49,8 @@ open class EntityPrimitive : IPrimitiveElement<EntityPrimitive>() {
         val x2 = (x0 + x1) / 2f
         val y2 = (y0 + y1) / 2f
 
-        val angle0 = if (cursor) atan((x2 - mouseX) / 40f) else 0f
-        val angle1 = if (cursor) atan((y2 - mouseY) / 40f) else 0f
+        val angle0 = if (follow) atan((x2 - mouseX) / 40f) else 0f
+        val angle1 = if (follow) atan((y2 - mouseY) / 40f) else 0f
 
         val rotationZ = Quaternionf().rotateZ(Math.PI.toFloat())
         val rotationX = Quaternionf().rotateX(angle1 * 20f * (Math.PI.toFloat() / 180f))
