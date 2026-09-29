@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 object Cascade : ClientModInitializer {
-    const val version: String = /*$ mod_version*/ "2026.09.5"
+    const val version: String = /*$ mod_version*/ "2026.09.6"
     const val id: String = /*$ mod_id*/ "cascade"
     const val name: String = /*$ mod_name*/ "Cascade"
 
