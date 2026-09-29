@@ -25,7 +25,13 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
 
     init {
         on<MouseEvent.Scroll> {
+            val last = scroll
             scroll = (scroll - amount.toInt() * 10).coerceIn(0, maxScroll)
+
+            if (scroll != last) {
+                root.mouseMove(x, y)
+            }
+
             cancel()
         }
     }
