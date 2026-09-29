@@ -7,6 +7,7 @@ import foo.starred.cascade.animation.interpolator.easing.base.IEasingInterpolato
 import foo.starred.cascade.animation.interpolator.property.base.IPropertyInterpolator
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
+import foo.starred.cascade.effects.base.IEffect
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import kotlin.reflect.KMutableProperty0
 import kotlin.time.Duration
@@ -26,6 +27,10 @@ class AnimationScope<T : IPrimitiveElement<T>>(
 
     inline fun <reified C : IPositionConstraint> position(block: C.() -> Unit) {
         (element.position as? C)?.apply(block)
+    }
+
+    inline fun <reified E : IEffect> effect(id: String = "primary", block: E.() -> Unit) {
+        element.effect<E>(id)?.apply(block)
     }
 
     inner class Binding<V>(val property: KMutableProperty0<V>, val target: V) {
