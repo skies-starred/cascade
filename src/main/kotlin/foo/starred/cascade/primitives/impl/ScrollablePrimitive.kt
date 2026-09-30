@@ -6,6 +6,7 @@ import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import foo.starred.cascade.primitives.base.interfaces.IPrimitiveScrollable
 import net.minecraft.client.gui.GuiGraphicsExtractor
+import org.joml.Matrix3x2f
 
 open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrimitiveScrollable {
     override var x: Float = 0f
@@ -22,6 +23,9 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
 
     var scroll: Int = 0
         private set
+
+    var overscan: Float = 20f
+    var virtual: Boolean = true
 
     init {
         on<MouseEvent.Scroll> {
@@ -43,7 +47,8 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
             graphics.pose().pushMatrix()
             graphics.pose().translate(0f, -scroll.toFloat())
 
-            super.render(graphics)
+            render0(graphics)
+            render1(graphics)
 
             graphics.pose().popMatrix()
         }
@@ -57,13 +62,58 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
     override fun find(x: Double, y: Double): IPrimitiveElement<*>? {
         if (!contains(x, y)) return null
 
-        val oy = y + scroll
+        val y2 = y + scroll
+        if (!virtual) {
+            for (c in children.asReversed()) return c.find(x, y2) ?: continue
+            return this
+        }
+
+        val y0 = this.y + scroll
+        val y1 = y0 + height
         for (c in children.asReversed()) {
-            val a = c.find(x, oy) ?: continue
-            return a
+            if (c.y + c.height < y0) continue
+            if (c.y > y1) continue
+
+            return c.find(x, y2) ?: continue
         }
 
         return this
+    }
+
+    private fun render0(graphics: GuiGraphicsExtractor) {
+        if (effects.isEmpty()) {
+            draw(graphics)
+            return
+        }
+
+        val pose = Matrix3x2f(graphics.pose())
+        val scissor = graphics.scissorStack.peek()
+
+        for (e in effects) {
+            e.before(self, graphics, pose, scissor)
+        }
+
+        draw(graphics)
+
+        for (e in effects) {
+            e.after(self, graphics, pose, scissor)
+        }
+    }
+
+    private fun render1(graphics: GuiGraphicsExtractor) {
+        if (!virtual) {
+            for (c in children) c.render(graphics)
+            return
+        }
+
+        val y0 = y + scroll - overscan
+        val y1 = y + scroll + height + overscan
+        for (c in children) {
+            if (c.y + c.height < y0) continue
+            if (c.y > y1) continue
+
+            c.render(graphics)
+        }
     }
 
     companion object {
