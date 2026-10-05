@@ -1,6 +1,5 @@
 package foo.starred.cascade.internal.blur.data
 
-//~ if >= 26.2 'OptionalInt' -> 'Optional'
 import com.mojang.blaze3d.pipeline.ColorTargetState
 import com.mojang.blaze3d.pipeline.RenderPipeline
 import com.mojang.blaze3d.pipeline.TextureTarget
