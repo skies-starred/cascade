@@ -1,15 +1,11 @@
 package foo.starred.cascade.mixin.mixins;
 
-import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import foo.starred.cascade.Cascade;
-import foo.starred.cascade.graphics.blur.impl.CascadeBlurSetup;
-import foo.starred.cascade.graphics.states.impl.blur.BlurRenderState;
-import foo.starred.cascade.mixin.accessors.RenderPassAccessor;
-import net.minecraft.client.gui.navigation.ScreenRectangle;
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import foo.starred.cascade.internal.interceptor.data.CascadeDrawContext;
+import foo.starred.cascade.internal.interceptor.impl.CascadeGenericDrawInterceptor;
 import net.minecraft.client.gui.render.GuiRenderer;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,9 +20,14 @@ import java.util.function.Supplier;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 //?}
-
-//? if >= 26.2
-//import foo.starred.cascade.geometry.CascadeScreenRectangle;
+//? if >= 26.2 {
+/*import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderPass;
+import foo.starred.cascade.Cascade;
+import foo.starred.cascade.mixin.accessors.RenderPassAccessor;
+import foo.starred.cascade.geometry.CascadeScreenRectangle;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+*///?}
 
 @Mixin(GuiRenderer.class)
 public class GuiRendererMixin {
@@ -41,31 +42,15 @@ public class GuiRendererMixin {
     @Inject(method = "executeDrawRange", at = @At("HEAD"), cancellable = true)
     //~ if >= 26.2 'GpuBufferSlice fogBuffer, GpuBufferSlice dynamicTransforms, GpuBuffer indexBuffer, VertexFormat.IndexType indexType' -> 'GpuBufferSlice dynamicTransforms'
     private void cascade$executeDrawRange(Supplier<String> label, RenderTarget mainRenderTarget, GpuBufferSlice fogBuffer, GpuBufferSlice dynamicTransforms, GpuBuffer indexBuffer, VertexFormat.IndexType indexType, int startIndex, int endIndex, CallbackInfo ci) {
-        int first = -1;
-        for (int i = startIndex; i < endIndex; i++) {
-            if (this.draws.get(i).pipeline() != BlurRenderState.Companion.getPIPELINE()) continue;
-
-            first = i;
-            break;
+        if (CascadeGenericDrawInterceptor.INSTANCE.extract(new CascadeDrawContext(this.draws, startIndex, endIndex, mainRenderTarget) {
+            @Override
+            public void execute(@NonNull RenderTarget target, int start, int end) {
+                //~ if >= 26.2 'fogBuffer, dynamicTransforms, indexBuffer, indexType' -> 'dynamicTransforms'
+                GuiRendererMixin.this.executeDrawRange(label, target, fogBuffer, dynamicTransforms, indexBuffer, indexType, start, end);
+            }
+        })) {
+            ci.cancel();
         }
-
-        if (first == -1) {
-            return;
-        }
-
-        if (first == startIndex) {
-            CascadeBlurSetup.INSTANCE.capture();
-            return;
-        }
-
-        ci.cancel();
-        //~ if >= 26.2 'fogBuffer, dynamicTransforms, indexBuffer, indexType' -> 'dynamicTransforms'
-        this.executeDrawRange(label, mainRenderTarget, fogBuffer, dynamicTransforms, indexBuffer, indexType, startIndex, first);
-
-        CascadeBlurSetup.INSTANCE.capture();
-
-        //~ if >= 26.2 'fogBuffer, dynamicTransforms, indexBuffer, indexType' -> 'dynamicTransforms'
-        this.executeDrawRange(label, mainRenderTarget, fogBuffer, dynamicTransforms, indexBuffer, indexType, first, endIndex);
     }
 
     //? if >= 26.2 {

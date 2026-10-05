@@ -3,8 +3,8 @@ package foo.starred.cascade.graphics.states.impl.arc
 import com.mojang.blaze3d.vertex.VertexConsumer
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState
-import foo.starred.cascade.graphics.states.pipeline.render.builder.CascadeRenderPipelineBuilder.Companion.cascadeRenderPipeline
-import foo.starred.cascade.graphics.states.pipeline.vertex.impl.CascadeVertexFormats
+import foo.starred.cascade.internal.pipeline.render.builder.CascadeRenderPipelineBuilder.Companion.cascadeRenderPipeline
+import foo.starred.cascade.internal.pipeline.vertex.impl.CascadeVertexFormats
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import org.joml.Matrix3x2fc
 

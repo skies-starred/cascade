@@ -1,19 +1,23 @@
 package foo.starred.cascade.primitives.impl
 
 import foo.starred.cascade.events.impl.MouseEvent
+import foo.starred.cascade.graphics.extensions.scissor.rounded.roundedScissor
 import foo.starred.cascade.graphics.extensions.scissor.scissor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
+import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
+import foo.starred.cascade.primitives.base.interfaces.IPrimitiveRounded
 import foo.starred.cascade.primitives.base.interfaces.IPrimitiveScrollable
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import org.joml.Matrix3x2f
 
-open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrimitiveScrollable {
+open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrimitiveScrollable, IPrimitiveRounded {
     override var x: Float = 0f
     override var y: Float = 0f
     override var width: Float = 0f
     override var height: Float = 0f
     override var color: CascadeGeometricColor = CascadeGeometricColor.WHITE
+    override var radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO
 
     val content: Int
         get() = children.maxOfOrNull { (it.y - y) + it.height }?.toInt() ?: 0
@@ -43,15 +47,27 @@ open class ScrollablePrimitive : IPrimitiveElement<ScrollablePrimitive>(), IPrim
     override fun render(graphics: GuiGraphicsExtractor) {
         if (!visible) return
 
-        graphics.scissor(x, y, width, height) {
-            graphics.pose().pushMatrix()
-            graphics.pose().translate(0f, -scroll.toFloat())
+        if (radius == CascadeGeometricRadius.ZERO) {
+            graphics.scissor(x, y, width, height) {
+                extract(graphics)
+            }
 
-            render0(graphics)
-            render1(graphics)
-
-            graphics.pose().popMatrix()
+            return
         }
+
+        graphics.roundedScissor(x, y, width, height, radius) {
+            extract(graphics)
+        }
+    }
+
+    private fun extract(graphics: GuiGraphicsExtractor) {
+        graphics.pose().pushMatrix()
+        graphics.pose().translate(0f, -scroll.toFloat())
+
+        render0(graphics)
+        render1(graphics)
+
+        graphics.pose().popMatrix()
     }
 
     override fun layout() {

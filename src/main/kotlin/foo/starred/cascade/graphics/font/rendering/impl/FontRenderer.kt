@@ -10,8 +10,8 @@ import com.mojang.blaze3d.textures.FilterMode
 import foo.starred.cascade.graphics.font.data.font.base.IFontData
 import foo.starred.cascade.graphics.font.data.font.impl.MsdfFontData
 import foo.starred.cascade.graphics.font.rendering.cache.CascadeTextLayout
-import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.font.rendering.state.FontRenderState
+import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.renderer.RenderPipelines

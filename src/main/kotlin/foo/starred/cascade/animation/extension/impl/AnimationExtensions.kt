@@ -2,11 +2,11 @@
 
 package foo.starred.cascade.animation.extension.impl
 
-import foo.starred.cascade.animation.interpolator.easing.base.IEasingInterpolator
 import foo.starred.cascade.animation.extension.base.AnimationScope
-import foo.starred.cascade.animation.type.impl.PropertyAnimationType
+import foo.starred.cascade.animation.interpolator.easing.base.IEasingInterpolator
 import foo.starred.cascade.animation.interpolator.easing.impl.LinearEasingInterpolator
 import foo.starred.cascade.animation.interpolator.property.base.IPropertyInterpolator
+import foo.starred.cascade.animation.type.impl.PropertyAnimationType
 import foo.starred.cascade.primitives.base.impl.IPrimitiveElement
 import kotlin.reflect.KMutableProperty0
 import kotlin.time.Duration

@@ -2,10 +2,10 @@
 
 package foo.starred.cascade.animation.type.impl
 
-import foo.starred.cascade.animation.type.base.IAnimationType
 import foo.starred.cascade.animation.interpolator.easing.base.IEasingInterpolator
 import foo.starred.cascade.animation.interpolator.easing.impl.LinearEasingInterpolator
 import foo.starred.cascade.animation.interpolator.property.base.IPropertyInterpolator
+import foo.starred.cascade.animation.type.base.IAnimationType
 import kotlin.reflect.KMutableProperty0
 import kotlin.time.Duration
 import kotlin.time.DurationUnit

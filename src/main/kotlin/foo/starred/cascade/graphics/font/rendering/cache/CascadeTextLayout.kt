@@ -1,9 +1,9 @@
 package foo.starred.cascade.graphics.font.rendering.cache
 
 import com.mojang.blaze3d.pipeline.RenderPipeline
+import foo.starred.cascade.graphics.font.rendering.state.FontRenderState
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.states.impl.rectangle.solid.SolidRectangleRenderState
-import foo.starred.cascade.graphics.font.rendering.state.FontRenderState
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.render.TextureSetup
 import org.joml.Matrix3x2fc

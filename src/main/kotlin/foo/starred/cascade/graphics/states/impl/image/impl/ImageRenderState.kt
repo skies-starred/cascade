@@ -5,9 +5,9 @@ import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
 import foo.starred.cascade.graphics.states.base.CascadeGuiElementRenderState
 import foo.starred.cascade.graphics.states.base.IRoundedGuiElementRenderState
-import foo.starred.cascade.graphics.states.pipeline.render.builder.CascadeRenderPipelineBuilder.Companion.cascadeRenderPipeline
-import foo.starred.cascade.graphics.states.pipeline.sampler.impl.CascadeSamplers
-import foo.starred.cascade.graphics.states.pipeline.vertex.impl.CascadeVertexFormats
+import foo.starred.cascade.internal.pipeline.render.builder.CascadeRenderPipelineBuilder.Companion.cascadeRenderPipeline
+import foo.starred.cascade.internal.pipeline.sampler.impl.CascadeSamplers
+import foo.starred.cascade.internal.pipeline.vertex.impl.CascadeVertexFormats
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.TextureSetup
 import org.joml.Matrix3x2fc
