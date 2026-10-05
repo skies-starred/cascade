@@ -2,3 +2,5 @@ accessWidener v2 official
 
 extendable class net/minecraft/client/gui/navigation/ScreenRectangle
 accessible class net/minecraft/client/gui/render/GuiRenderer$Draw
+accessible field net/minecraft/client/renderer/state/gui/GuiRenderState current Lnet/minecraft/client/renderer/state/gui/GuiRenderState$Node;
+accessible class net/minecraft/client/renderer/state/gui/GuiRenderState$Node

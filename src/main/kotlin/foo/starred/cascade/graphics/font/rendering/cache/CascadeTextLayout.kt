@@ -22,11 +22,11 @@ class CascadeTextLayout(
             val x1 = if (batch.shadow) batch.x1 + 0.5f else batch.x1
             val y1 = if (batch.shadow) batch.y1 + 0.5f else batch.y1
 
-            graphics.guiRenderState.addGlyphToCurrentLayer(FontRenderState(batch.pipeline, batch.texture, pose, batch.glyphs, batch.shadow, batch.x0, batch.y0, x1, y1, scissor))
+            FontRenderState(batch.pipeline, batch.texture, pose, batch.glyphs, batch.shadow, batch.x0, batch.y0, x1, y1, scissor).submit(graphics)
         }
 
         for (effect in effects) {
-            graphics.guiRenderState.addGlyphToCurrentLayer(SolidRectangleRenderState(pose, effect.x0, effect.y0, effect.x1, effect.y1, effect.color, scissor))
+            SolidRectangleRenderState(pose, effect.x0, effect.y0, effect.x1, effect.y1, effect.color, scissor).submit(graphics)
         }
     }
 

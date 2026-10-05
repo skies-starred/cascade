@@ -23,8 +23,9 @@ class TexturedRectangleRenderState(
     val v0: Float,
     val v1: Float,
     val color: CascadeGeometricColor,
-    val scissor: ScreenRectangle? = null
-) : CascadeGuiElementRenderState(pipeline, scissor) {
+    val scissor: ScreenRectangle? = null,
+    val bounds: ScreenRectangle? = null
+) : CascadeGuiElementRenderState(pipeline, scissor, bounds ?: bounds(min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1), pose, scissor)) {
     val x00 = min(x0, x1)
     val y00 = min(y0, y1)
     val x01 = max(x0, x1)
@@ -32,10 +33,6 @@ class TexturedRectangleRenderState(
 
     override fun textureSetup(): TextureSetup {
         return textureSetup
-    }
-
-    override fun bounds(): ScreenRectangle? {
-        return bounds(x00, y00, x01, y01, pose, _scissor)
     }
 
     override fun buildVertices(vertexConsumer: VertexConsumer) {
