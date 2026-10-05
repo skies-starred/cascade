@@ -4,7 +4,7 @@ import com.mojang.blaze3d.pipeline.TextureTarget
 import com.mojang.blaze3d.systems.RenderSystem
 
 //? if >= 26.2
-//import com.mojang.blaze3d.GpuFormat
+//import com.mojang.blaze3d.vertex.VertexFormatElement
 
 object CascadeRoundedScissorSetup {
     //? if >= 26.2
