@@ -34,10 +34,12 @@ data class CascadeGeometricColor(
         val BLACK = CascadeGeometricColor(-16777216)
         val TRANSPARENT = CascadeGeometricColor(0)
 
+        @Deprecated("Use constructor")
         fun of(color: Int): CascadeGeometricColor {
             return CascadeGeometricColor(color)
         }
 
+        @Deprecated("Use constructor")
         fun of(color: Color): CascadeGeometricColor {
             return CascadeGeometricColor(color.rgb)
         }
