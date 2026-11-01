@@ -14,13 +14,15 @@ in vec4 color0;
 flat in vec2 half0;
 //$ layout '3' 'flat in' >> vec
 flat in vec4 radius0;
+//$ layout '4' 'flat in' >> int
+flat in int outlined0;
 
 //$ layout '0' 'out' >> vec
 out vec4 fragColor;
 
 void main() {
     float distance0 = box(coord0, half0, radius0);
-    float alpha0 = antialias(distance0);
+    float alpha0 = outlined0 == 1 ? step(0.0, -distance0) : antialias(distance0);
 
     if (alpha0 < 0.001) discard;
 

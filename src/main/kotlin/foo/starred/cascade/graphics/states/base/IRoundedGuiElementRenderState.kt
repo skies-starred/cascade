@@ -16,13 +16,15 @@ interface IRoundedGuiElementRenderState {
         block(tl, tr, br, bl)
     }
 
-    fun VertexConsumer.quad( pose: Matrix3x2fc, x0: Float, y0: Float, x1: Float, y1: Float, color: CascadeGeometricColor, radius: CascadeGeometricRadius, block: VertexConsumer.(u: Float, v: Float) -> Unit = { _, _ -> }) {
+    fun VertexConsumer.quad(pose: Matrix3x2fc, x0: Float, y0: Float, x1: Float, y1: Float, color: CascadeGeometricColor, radius: CascadeGeometricRadius, outlined: Boolean = false, block: VertexConsumer.(u: Float, v: Float) -> Unit = { _, _ -> }) {
         val w0 = (x1 - x0) * 0.5f
         val h0 = (y1 - y0) * 0.5f
 
         radius.radii { tl, tr, br, bl ->
+            val tl0 = if (outlined) -(tl + 1) else tl
+
             fun vertex(x: Float, y: Float, u: Float, v: Float, color: Int) {
-                addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(tl, tr).setUv2(br, bl).block(u, v)
+                addVertexWith2DPose(pose, x, y).setColor(color).setUv(u, v).setUv1(tl0, tr).setUv2(br, bl).block(u, v)
             }
 
             vertex(x0, y0, -w0, -h0, color.tl)

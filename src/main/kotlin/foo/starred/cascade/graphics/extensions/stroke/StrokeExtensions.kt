@@ -26,7 +26,7 @@ fun GuiGraphicsExtractor.stroke(x1: Float, y1: Float, x2: Float, y2: Float, colo
     val width = if (rounded) length + thickness else length
     val radius = if (rounded) CascadeGeometricRadius(i1) else CascadeGeometricRadius.ZERO
 
-    roundedRectangle(x, -i1, width, thickness, color, radius, matrix, scissor)
+    roundedRectangle(x, -i1, width, thickness, color, radius, false, matrix, scissor)
 }
 
 fun GuiGraphicsExtractor.stroke(x1: Float, y1: Float, x2: Float, y2: Float, color: Int = -1, thickness: Float = 1f, rounded: Boolean = false, pose: Matrix3x2f? = null, scissor: ScreenRectangle? = null) {

@@ -18,11 +18,12 @@ class RoundedRectangleRenderState(
     val y1: Float,
     val color: CascadeGeometricColor,
     val radius: CascadeGeometricRadius,
+    val outlined: Boolean = false,
     val scissor: ScreenRectangle? = null,
     val bounds: ScreenRectangle? = bounds(x0, y0, x1, y1, pose, scissor)
 ) : CascadeGuiElementRenderState(PIPELINE, scissor, bounds), IRoundedGuiElementRenderState {
     override fun buildVertices(vertexConsumer: VertexConsumer) {
-        vertexConsumer.quad(pose, x0, y0, x1, y1, color, radius)
+        vertexConsumer.quad(pose, x0, y0, x1, y1, color, radius, outlined)
     }
 
     companion object {

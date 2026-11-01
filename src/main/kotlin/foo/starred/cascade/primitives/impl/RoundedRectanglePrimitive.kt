@@ -1,5 +1,6 @@
 package foo.starred.cascade.primitives.impl
 
+import foo.starred.cascade.effects.impl.OutlineEffect
 import foo.starred.cascade.graphics.extensions.rectangle.rounded.roundedRectangle
 import foo.starred.cascade.graphics.geometry.CascadeGeometricColor
 import foo.starred.cascade.graphics.geometry.CascadeGeometricRadius
@@ -16,7 +17,7 @@ open class RoundedRectanglePrimitive : IPrimitiveElement<RoundedRectanglePrimiti
     override var radius: CascadeGeometricRadius = CascadeGeometricRadius.ZERO
 
     override fun draw(graphics: GuiGraphicsExtractor) {
-        graphics.roundedRectangle(x, y, width, height, color, radius)
+        graphics.roundedRectangle(x, y, width, height, color, radius, self.effect<OutlineEffect>() != null)
     }
 
     companion object {
