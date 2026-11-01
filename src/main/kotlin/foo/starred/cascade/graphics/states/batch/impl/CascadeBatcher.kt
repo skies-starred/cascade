@@ -62,29 +62,32 @@ object CascadeBatcher {
         for (index in nodes.indices) {
             if (index < target) continue
 
-            val node = nodes[index]
-
-            if (overlap(node.textStates, x0, y0, x1, y1)) {
-                target = index + 1
-                continue
-            }
-
-            if (overlap(node.itemStates, x0, y0, x1, y1)) {
-                target = index + 1
-                continue
-            }
-
-            if (overlap(node.glyphStates, x0, y0, x1, y1)) {
-                target = index + 1
-                continue
-            }
-
-            if (overlap(node.picturesInPictureStates, x0, y0, x1, y1)) {
-                target = index + 1
-                continue
-            }
-
             val layer = layers[index]
+            val checked = layer.synced > 0 && (x1 <= layer.x0 || x0 >= layer.x1 || y1 <= layer.y0 || y0 >= layer.y1)
+
+            if (!checked) {
+                val node = nodes[index]
+                if (overlap(node.textStates, x0, y0, x1, y1)) {
+                    target = index + 1
+                    continue
+                }
+
+                if (overlap(node.itemStates, x0, y0, x1, y1)) {
+                    target = index + 1
+                    continue
+                }
+
+                if (overlap(node.glyphStates, x0, y0, x1, y1)) {
+                    target = index + 1
+                    continue
+                }
+
+                if (overlap(node.picturesInPictureStates, x0, y0, x1, y1)) {
+                    target = index + 1
+                    continue
+                }
+            }
+
             if (layer.matches(pipeline, texture, scissor)) {
                 continue
             }
@@ -93,14 +96,7 @@ object CascadeBatcher {
                 target = index + 1
             }
 
-            if (layer.synced > 0) {
-                if (x1 <= layer.x0) continue
-                if (x0 >= layer.x1) continue
-                if (y1 <= layer.y0) continue
-                if (y0 >= layer.y1) continue
-            }
-
-            if (conflict(node, x0, y0, x1, y1)) {
+            if (!checked && conflict(nodes[index], x0, y0, x1, y1)) {
                 target = index + 1
                 continue
             }
