@@ -44,6 +44,7 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
         }
 
         scene.render(graphics)
+        scene.overlays(graphics)
 
         if (bool) {
             graphics.pose().popMatrix()

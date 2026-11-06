@@ -26,6 +26,7 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveEx
 
     override val effects: CopyOnWriteArrayList<IEffect> = CopyOnWriteArrayList()
     override val children: CopyOnWriteArrayList<IPrimitiveElement<*>> = CopyOnWriteArrayList()
+    override val overlays: CopyOnWriteArrayList<IPrimitiveElement<*>> = CopyOnWriteArrayList()
     override val listeners: MutableMap<Class<out UIEvent>, MutableList<UIEvent.() -> Unit>> = mutableMapOf()
 
     override val root: IPrimitiveElement<*>

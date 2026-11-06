@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 interface IPrimitiveChildren<T> : IPrimitiveSelf<T> where T : IPrimitiveElement<T> {
     val children: CopyOnWriteArrayList<IPrimitiveElement<*>>
+    val overlays: CopyOnWriteArrayList<IPrimitiveElement<*>>
     val root: IPrimitiveElement<*>
     var parent: IPrimitiveElement<*>?
 

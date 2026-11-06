@@ -44,4 +44,18 @@ interface IPrimitiveRenderable<T> : IPrimitiveSelf<T> where T : IPrimitiveElemen
             c.render(graphics)
         }
     }
+
+    fun overlay(graphics: GuiGraphicsExtractor) {
+    }
+
+    fun overlays(graphics: GuiGraphicsExtractor) {
+        if (self.overlays.isEmpty()) return
+
+        graphics.guiRenderState.nextStratum()
+        for (overlay in self.overlays) {
+            if (!overlay.visible) continue
+
+            overlay.overlay(graphics)
+        }
+    }
 }
