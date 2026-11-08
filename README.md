@@ -22,12 +22,11 @@ repositories {
 }
 
 dependencies {
-    // if on 1.21.11 use modImplementation
     implementation("foo.starred:cascade:<version>+<minecraft>")
 }
 ```
 
-Latest cascade version: `2026.11.2` / Usually updated, check commits for latest ``bump(version): <version>`` commit if not!
+Latest cascade version: `2026.11.3` / Usually updated, check commits for latest ``bump(version): <version>`` commit if not!
 \
 Minecraft versions: `26.1`,  `26.2`, `26.3`
 \
