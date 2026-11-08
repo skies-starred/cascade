@@ -11,7 +11,7 @@ import net.minecraft.client.input.KeyEvent
 import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 
-open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolution: CascadeGeometricResolution = CascadeGeometricResolution.MINECRAFT) : Screen(Component.literal(title)) {
+open class CascadeScreen(title: String = "Cascade Screen [Basic]", var resolution: CascadeGeometricResolution = CascadeGeometricResolution.MINECRAFT) : Screen(Component.literal(title)) {
     val scene = ContainerPrimitive().apply {
         width = this@CascadeScreen.width.toFloat()
         height = this@CascadeScreen.height.toFloat()
@@ -26,6 +26,11 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
         }
 
         scene.layout()
+    }
+
+    override fun removed() {
+        scene.focused = null
+        super.removed()
     }
 
     final override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
@@ -54,23 +59,27 @@ open class CascadeScreen(title: String = "Cascade Screen [Athen]", var resolutio
     }
 
     final override fun mouseClicked(event: MouseButtonEvent, isDoubleClick: Boolean): Boolean {
-        val (mouseX, mouseY) = mouse(event.x(), event.y())
-        return scene.mousePress(mouseX, mouseY, event.button()) || super.mouseClicked(event, isDoubleClick)
+        val (x, y) = mouse(event.x(), event.y())
+
+        return scene.mousePress(x, y, event.button()) || super.mouseClicked(event, isDoubleClick)
     }
 
     final override fun mouseReleased(event: MouseButtonEvent): Boolean {
-        val (mouseX, mouseY) = mouse(event.x(), event.y())
-        return scene.mouseRelease(mouseX, mouseY, event.button())
+        val (x, y) = mouse(event.x(), event.y())
+
+        return scene.mouseRelease(x, y, event.button()) || super.mouseReleased(event)
     }
 
     final override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
-        val (mouseX, mouseY) = mouse(mouseX, mouseY)
-        return scene.mouseScroll(mouseX, mouseY, scrollY) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)
+        val (x, y) = mouse(mouseX, mouseY)
+
+        return scene.mouseScroll(x, y, scrollY) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)
     }
 
     final override fun mouseMoved(mouseX: Double, mouseY: Double) {
-        val (mouseX, mouseY) = mouse(mouseX, mouseY)
-        scene.mouseMove(mouseX, mouseY)
+        val (x, y) = mouse(mouseX, mouseY)
+
+        scene.mouseMove(x, y)
         super.mouseMoved(mouseX, mouseY)
     }
 

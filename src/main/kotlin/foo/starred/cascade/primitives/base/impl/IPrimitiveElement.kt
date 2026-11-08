@@ -3,6 +3,7 @@
 package foo.starred.cascade.primitives.base.impl
 
 import com.mojang.blaze3d.platform.cursor.CursorType
+import foo.starred.cascade.Cascade.client
 import foo.starred.cascade.animation.manager.AnimationManager
 import foo.starred.cascade.constraints.base.IPositionConstraint
 import foo.starred.cascade.constraints.base.ISizeConstraint
@@ -80,6 +81,14 @@ abstract class IPrimitiveElement<T : IPrimitiveElement<T>> : AbstractPrimitiveEx
 
             field0?.post(FocusEvent.Lose(field0))
             value?.post(FocusEvent.Gain(value))
+
+            val type0 = field0 is IPrimitiveTypable
+            val type1 = value is IPrimitiveTypable
+            if (type0 == type1) return
+
+            //~ if >= 26.2 'client.screen' -> 'client.gui.screen()'
+            val screen = client.screen ?: return
+            client.onTextInputFocusChange(screen, type1)
         }
 
     override var cursor: CursorType? = null
