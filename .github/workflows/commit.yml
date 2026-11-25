@@ -1,0 +1,23 @@
+name: Commit Notification
+on:
+  push:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify
+        env:
+          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+          COMMITS: ${{ toJson(github.event.commits) }}
+          REPO: ${{ github.repository }}
+        run: |
+          jq -n \
+            --arg thread "1574027599145869312" \
+            --arg repo "$REPO" \
+            --argjson commits "$COMMITS" \
+            '{thread: $thread, repo: $repo, commits: $commits}' \
+          | curl -X POST "https://data.starred.foo/builds/notify?type=commit" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: $NOTIFY_TOKEN" \
+            -d @-
